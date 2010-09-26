@@ -24,9 +24,10 @@
 /**
  * @namespace
  */
-namespace Zend\Mail\Protocol;
-use Zend\Validator\Hostname as HostnameValidator;
-use Zend\Validator;
+namespace Zend\Mail;
+
+use Zend\Validator\Hostname as HostnameValidator,
+    Zend\Validator;
 
 /**
  * Zend_Mail_Protocol_Abstract
@@ -59,8 +60,9 @@ abstract class AbstractProtocol
 
     /**
      * Maximum of the transaction log
+     * @var integer
      */
-    const MAXIMUM_LOG = 64;
+    protected $_maximumLog = 64;
 
 
     /**
@@ -134,7 +136,7 @@ abstract class AbstractProtocol
         $this->_validHost->addValidator(new HostnameValidator\Hostname(HostnameValidator\Hostname::ALLOW_ALL));
 
         if (!$this->_validHost->isValid($host)) {
-            throw new Exception(join(', ', $this->_validHost->getMessages()));
+            throw new Protocol\Exception(join(', ', $this->_validHost->getMessages()));
         }
 
         $this->_host = $host;
@@ -152,6 +154,28 @@ abstract class AbstractProtocol
         $this->_disconnect();
     }
 
+    /**
+     * Set the maximum log size 
+     * 
+     * @param integer $maximumLog Maximum log size
+     * @return void
+     */
+    public function setMaximumLog($maximumLog)
+    {
+        $this->_maximumLog = (int) $maximumLog;
+    }
+    
+    
+    /**
+     * Get the maximum log size 
+     * 
+     * @return int the maximum log size
+     */
+    public function getMaximumLog()
+    {
+        return $this->_maximumLog;
+    }
+    
 
     /**
      * Create a connection to the remote host
@@ -212,7 +236,7 @@ abstract class AbstractProtocol
      */
     protected function _addLog($value)
     {
-        if (count($this->_log) >= self::MAXIMUM_LOG) {
+        if ($this->_maximumLog >= 0 && count($this->_log) >= $this->_maximumLog) {
             array_shift($this->_log);
         }
 
@@ -240,11 +264,11 @@ abstract class AbstractProtocol
             if ($errorNum == 0) {
                 $errorStr = 'Could not open socket';
             }
-            throw new Exception($errorStr);
+            throw new Protocol\Exception($errorStr);
         }
 
         if (($result = stream_set_timeout($this->_socket, self::TIMEOUT_CONNECTION)) === false) {
-            throw new Exception('Could not set stream timeout');
+            throw new Protocol\Exception('Could not set stream timeout');
         }
 
         return $result;
@@ -274,7 +298,7 @@ abstract class AbstractProtocol
     protected function _send($request)
     {
         if (!is_resource($this->_socket)) {
-            throw new Exception('No connection has been established to ' . $this->_host);
+            throw new Protocol\Exception('No connection has been established to ' . $this->_host);
         }
 
         $this->_request = $request;
@@ -285,7 +309,7 @@ abstract class AbstractProtocol
         $this->_addLog($request . self::EOL);
 
         if ($result === false) {
-            throw new Exception('Could not send request to ' . $this->_host);
+            throw new Protocol\Exception('Could not send request to ' . $this->_host);
         }
 
         return $result;
@@ -302,7 +326,7 @@ abstract class AbstractProtocol
     protected function _receive($timeout = null)
     {
         if (!is_resource($this->_socket)) {
-            throw new Exception('No connection has been established to ' . $this->_host);
+            throw new Protocol\Exception('No connection has been established to ' . $this->_host);
         }
 
         // Adapters may wish to supply per-commend timeouts according to appropriate RFC
@@ -320,11 +344,11 @@ abstract class AbstractProtocol
         $info = stream_get_meta_data($this->_socket);
 
         if (!empty($info['timed_out'])) {
-            throw new Exception($this->_host . ' has timed out');
+            throw new Protocol\Exception($this->_host . ' has timed out');
         }
 
         if ($reponse === false) {
-            throw new Exception('Could not read from ' . $this->_host);
+            throw new Protocol\Exception('Could not read from ' . $this->_host);
         }
 
         return $reponse;
@@ -366,7 +390,7 @@ abstract class AbstractProtocol
         } while (strpos($more, '-') === 0); // The '-' message prefix indicates an information string instead of a response string.
 
         if ($errMsg !== '') {
-            throw new Exception($errMsg);
+            throw new Protocol\Exception($errMsg);
         }
 
         return $msg;
