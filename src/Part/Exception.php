@@ -14,44 +14,24 @@
  *
  * @category   Zend
  * @package    Zend_Mail
- * @subpackage Storage
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id$
  */
 
 /**
  * @namespace
  */
-namespace Zend\Mail;
+namespace Zend\Mail\Part;
+use Zend\Mail;
 
 /**
+ * @uses       \Zend\Exception
  * @category   Zend
  * @package    Zend_Mail
- * @subpackage Storage
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-interface MailMessage
+interface Exception extends Mail\Exception
 {
-    /**
-     * return toplines as found after headers
-     *
-     * @return string toplines
-     */
-    public function getTopLines();
-
-    /**
-     * check if flag is set
-     *
-     * @param mixed $flag a flag name, use constants defined in \Zend\Mail\Storage
-     * @return bool true if set, otherwise false
-     */
-    public function hasFlag($flag);
-
-    /**
-     * get all set flags
-     *
-     * @return array array with flags, key and value are the same for easy lookup
-     */
-    public function getFlags();
 }
