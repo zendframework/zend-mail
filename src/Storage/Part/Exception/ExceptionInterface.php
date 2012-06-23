@@ -17,12 +17,12 @@
  * @subpackage Storage
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id$
  */
 
-/**
- * @namespace
- */
-namespace Zend\Mail\Storage;
+namespace Zend\Mail\Storage\Part\Exception;
+
+use Zend\Mail\Storage\Exception\ExceptionInterface as StorageException;
 
 /**
  * @category   Zend
@@ -31,33 +31,6 @@ namespace Zend\Mail\Storage;
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-interface MailFolder
+interface ExceptionInterface extends StorageException
 {
-    /**
-     * get root folder or given folder
-     *
-     * @param string $rootFolder get folder structure for given folder, else root
-     * @return \Zend\Mail\Storage\MailFolder root or wanted folder
-     */
-    public function getFolders($rootFolder = null);
-
-    /**
-     * select given folder
-     *
-     * folder must be selectable!
-     *
-     * @param \Zend\Mail\Storage\MailFolder|string $globalName global name of folder or instance for subfolder
-     * @return null
-     * @throws \Zend\Mail\Storage\Exception
-     */
-    public function selectFolder($globalName);
-
-
-    /**
-     * get Zend_Mail_Storage_Folder instance for current folder
-     *
-     * @return \Zend\Mail\Storage\MailFolder instance of current folder
-     * @throws \Zend\Mail\Storage\Exception
-     */
-    public function getCurrentFolder();
 }

@@ -14,37 +14,25 @@
  *
  * @category   Zend
  * @package    Zend_Mail
- * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @version    $Id$
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-namespace ZendTest\Mail\Header;
+namespace Zend\Mail\Exception;
 
-use Zend\Mail\Header;
+use Zend\Mail\Exception;
 
 /**
- * This test is primarily to test that AbstractAddressList headers perform 
- * header folding and MIME encoding properly.
+ * Exception for Zend_Mail component.
  *
  * @category   Zend
  * @package    Zend_Mail
- * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @group      Zend_Mail
  */
-class ToTest extends \PHPUnit_Framework_TestCase
+class DomainException
+    extends \DomainException
+    implements ExceptionInterface
 {
-    public function testHeaderFoldingOccursProperly()
-    {
-        $header = new Header\To();
-        $list   = $header->getAddressList();
-        for ($i = 0; $i < 10; $i++) {
-            $list->add(uniqid() . '@zend.com');
-        }
-        $string = $header->getFieldValue();
-        $emails = explode("\r\n ", $string);
-        $this->assertEquals(10, count($emails));
-    }
 }

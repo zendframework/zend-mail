@@ -14,21 +14,22 @@
  *
  * @category   Zend
  * @package    Zend_Mail
+ * @subpackage Header
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-namespace Zend\Mail;
+namespace Zend\Mail\Header;
 
 /**
+ * Marker interface for unstructured headers.
+ *
  * @category   Zend
  * @package    Zend_Mail
+ * @subpackage Header
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-interface AddressDescription
+interface UnstructuredInterface extends HeaderInterface
 {
-    public function getEmail();
-    public function getName();
-    public function toString();
 }

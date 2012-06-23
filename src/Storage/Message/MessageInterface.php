@@ -14,37 +14,41 @@
  *
  * @category   Zend
  * @package    Zend_Mail
- * @subpackage UnitTests
+ * @subpackage Storage
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-namespace ZendTest\Mail\Header;
-
-use Zend\Mail\Header;
+namespace Zend\Mail\Storage\Message;
 
 /**
- * This test is primarily to test that AbstractAddressList headers perform 
- * header folding and MIME encoding properly.
- *
  * @category   Zend
  * @package    Zend_Mail
- * @subpackage UnitTests
+ * @subpackage Storage
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @group      Zend_Mail
  */
-class ToTest extends \PHPUnit_Framework_TestCase
+interface MessageInterface
 {
-    public function testHeaderFoldingOccursProperly()
-    {
-        $header = new Header\To();
-        $list   = $header->getAddressList();
-        for ($i = 0; $i < 10; $i++) {
-            $list->add(uniqid() . '@zend.com');
-        }
-        $string = $header->getFieldValue();
-        $emails = explode("\r\n ", $string);
-        $this->assertEquals(10, count($emails));
-    }
+    /**
+     * return toplines as found after headers
+     *
+     * @return string toplines
+     */
+    public function getTopLines();
+
+    /**
+     * check if flag is set
+     *
+     * @param mixed $flag a flag name, use constants defined in Zend\Mail\Storage
+     * @return bool true if set, otherwise false
+     */
+    public function hasFlag($flag);
+
+    /**
+     * get all set flags
+     *
+     * @return array array with flags, key and value are the same for easy lookup
+     */
+    public function getFlags();
 }
