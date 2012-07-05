@@ -15,20 +15,24 @@
  * @category   Zend
  * @package    Zend_Mail
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @version    $Id$
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-/**
- * @namespace
- */
-namespace Zend\Mail;
+namespace Zend\Mail\Exception;
+
+use Zend\Mail\Exception;
 
 /**
+ * Exception for Zend_Mail component.
+ *
  * @category   Zend
  * @package    Zend_Mail
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-interface Exception
+class DomainException
+    extends \DomainException
+    implements ExceptionInterface
 {
 }

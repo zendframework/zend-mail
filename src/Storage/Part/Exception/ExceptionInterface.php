@@ -14,29 +14,23 @@
  *
  * @category   Zend
  * @package    Zend_Mail
- * @subpackage Transport
+ * @subpackage Storage
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id$
  */
 
-namespace Zend\Mail;
+namespace Zend\Mail\Storage\Part\Exception;
+
+use Zend\Mail\Storage\Exception\ExceptionInterface as StorageException;
 
 /**
- * Interface for mail transports
- *
  * @category   Zend
  * @package    Zend_Mail
- * @subpackage Transport
+ * @subpackage Storage
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-interface Transport
+interface ExceptionInterface extends StorageException
 {
-    /**
-     * Send a mail message
-     * 
-     * @param  Message $message 
-     * @return void
-     */
-    public function send(Message $message);
 }

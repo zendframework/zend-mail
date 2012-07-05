@@ -14,33 +14,46 @@
  *
  * @category   Zend
  * @package    Zend_Mail
- * @subpackage Protocol
+ * @subpackage Storage
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-namespace Zend\Mail\Protocol;
-
-use Zend\Loader\PluginClassLoader;
+namespace Zend\Mail\Storage\Folder;
 
 /**
- * Plugin Class Loader implementation for SMTP protocol authentication extensions.
- *
  * @category   Zend
  * @package    Zend_Mail
- * @subpackage Protocol
+ * @subpackage Storage
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class SmtpLoader extends PluginClassLoader
+interface FolderInterface
 {
     /**
-     * @var array Pre-aliased authentication plugins
+     * get root folder or given folder
+     *
+     * @param string $rootFolder get folder structure for given folder, else root
+     * @return FolderInterface root or wanted folder
      */
-    protected $plugins = array(
-        'crammd5'          => 'Zend\Mail\Protocol\Smtp\Auth\Crammd5',
-        'login'            => 'Zend\Mail\Protocol\Smtp\Auth\Login',
-        'plain'            => 'Zend\Mail\Protocol\Smtp\Auth\Plain',
-        'smtp'             => 'Zend\Mail\Protocol\Smtp',
-    );
+    public function getFolders($rootFolder = null);
+
+    /**
+     * select given folder
+     *
+     * folder must be selectable!
+     *
+     * @param FolderInterface|string $globalName global name of folder or instance for subfolder
+     * @throws \Zend\Mail\Storage\Exception\ExceptionInterface
+     */
+    public function selectFolder($globalName);
+
+
+    /**
+     * get Zend\Mail\Storage\Folder instance for current folder
+     *
+     * @return FolderInterface instance of current folder
+     * @throws \Zend\Mail\Storage\Exception\ExceptionInterface
+     */
+    public function getCurrentFolder();
 }
