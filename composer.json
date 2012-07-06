@@ -28,7 +28,8 @@
     },
     "suggest": {
         "zendframework/zend-servicemanager": "Zend\\ServiceManager component",
-        "zendframework/zend-validator": "Zend\\Validator component"
+        "zendframework/zend-validator": "Zend\\Validator component",
+        "zendframework/zend-loader": "Zend\\Loader component"
     },
     "extra": {
         "branch-alias": {
