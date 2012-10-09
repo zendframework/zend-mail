@@ -9,7 +9,7 @@
     "homepage": "https://github.com/zendframework/zend-mail",
     "autoload": {
         "psr-4": {
-            "Zend\\Mail": "src/"
+            "Zend\\Mail\\": "src/"
         }
     },
     "require": {
