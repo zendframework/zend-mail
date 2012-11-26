@@ -1,22 +1,11 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework (http://framework.zend.com/)
  *
- * LICENSE
- *
- * This source file is subject to the new BSD license that is bundled
- * with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://framework.zend.com/license/new-bsd
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@zend.com so we can send you a copy immediately.
- *
- * @category   Zend
- * @package    Zend_Mail
- * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @link      http://github.com/zendframework/zf2 for the canonical source repository
+ * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @package   Zend_Mail
  */
 
 namespace ZendTest\Mail\Header;
@@ -27,8 +16,6 @@ use Zend\Mail\Header\ContentType;
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Mail
  */
 class ContentTypeTest extends \PHPUnit_Framework_TestCase
@@ -71,6 +58,35 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase
         $this->assertContains("Content-Type: application/x-unit-test;\r\n", $string);
         $this->assertContains(";\r\n charset=\"us-ascii\"", $string);
     }
-    
-}
 
+    public function testExtractsExtraInformationFromContentType()
+    {
+        $contentTypeHeader = ContentType::fromString(
+            'Content-Type: multipart/alternative; boundary="Apple-Mail=_1B852F10-F9C6-463D-AADD-CD503A5428DD"'
+        );
+        $params = $contentTypeHeader->getParameters();
+        $this->assertEquals($params,array('boundary' => 'Apple-Mail=_1B852F10-F9C6-463D-AADD-CD503A5428DD'));
+    }
+
+    /**
+     * @group #2728
+     *
+     * Tests setting different MIME types
+     */
+    public function testSetContentType()
+    {
+        $header = new ContentType();
+
+        $header->setType('application/vnd.ms-excel');
+        $this->assertEquals('Content-Type: application/vnd.ms-excel', $header->toString());
+
+        $header->setType('application/rss+xml');
+        $this->assertEquals('Content-Type: application/rss+xml', $header->toString());
+
+        $header->setType('video/mp4');
+        $this->assertEquals('Content-Type: video/mp4', $header->toString());
+
+        $header->setType('message/rfc822');
+        $this->assertEquals('Content-Type: message/rfc822', $header->toString());
+    }
+}

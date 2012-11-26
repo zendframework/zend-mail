@@ -1,22 +1,11 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework (http://framework.zend.com/)
  *
- * LICENSE
- *
- * This source file is subject to the new BSD license that is bundled
- * with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://framework.zend.com/license/new-bsd
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@zend.com so we can send you a copy immediately.
- *
- * @category   Zend
- * @package    Zend_Mail
- * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @link      http://github.com/zendframework/zf2 for the canonical source repository
+ * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @package   Zend_Mail
  */
 
 namespace ZendTest\Mail\Storage;
@@ -28,8 +17,6 @@ use Zend\Mail\Storage\Folder;
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Mail
  */
 class MaildirFolderTest extends \PHPUnit_Framework_TestCase
@@ -102,6 +89,9 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
                 if (!file_exists($this->_tmpdir . $dir . '/' . $subdir)) {
                     continue;
                 }
+                if (!is_dir($this->_tmpdir . $dir . '/' . $subdir)) {
+                    continue;
+                }
                 $dh = opendir($this->_tmpdir . $dir . '/' . $subdir);
                 while (($entry = readdir($dh)) !== false) {
                     $entry = $this->_tmpdir . $dir . '/' . $subdir . '/' . $entry;
@@ -113,7 +103,7 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
                 closedir($dh);
                 rmdir($this->_tmpdir . $dir . '/' . $subdir);
             }
-            if ($dir != '.') {
+            if ($dir != '.' && is_dir($this->_tmpdir . $dir)) {
                 rmdir($this->_tmpdir . $dir);
             }
         }
@@ -150,7 +140,7 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
 
     public function testChangeFolder()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Folder\Maildir($this->_params);
 
         $mail->selectFolder('subfolder.test');
@@ -168,7 +158,7 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
 
     public function testGlobalName()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Folder\Maildir($this->_params);
 
         $this->assertEquals($mail->getFolders()->subfolder->__toString(), 'subfolder');
@@ -176,7 +166,7 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
 
     public function testLocalName()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Folder\Maildir($this->_params);
 
         $this->assertEquals($mail->getFolders()->subfolder->key(), 'test');
@@ -184,7 +174,7 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
 
     public function testIterator()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Folder\Maildir($this->_params);
         $iterator = new \RecursiveIteratorIterator($mail->getFolders(), \RecursiveIteratorIterator::SELF_FIRST);
         // we search for this folder because we can't assume a order while iterating
@@ -207,7 +197,7 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
 
     public function testKeyLocalName()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Folder\Maildir($this->_params);
         $iterator = new \RecursiveIteratorIterator($mail->getFolders(), \RecursiveIteratorIterator::SELF_FIRST);
         // we search for this folder because we can't assume a order while iterating
@@ -230,7 +220,7 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
 
     public function testInboxEquals()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Folder\Maildir($this->_params);
         $iterator = new \RecursiveIteratorIterator($mail->getFolders('INBOX.subfolder'), \RecursiveIteratorIterator::SELF_FIRST);
         // we search for this folder because we can't assume a order while iterating
@@ -262,7 +252,7 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
 
     public function testCount()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Folder\Maildir($this->_params);
 
         $count = $mail->countMessages();
@@ -275,7 +265,7 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
 
     public function testSize()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Folder\Maildir($this->_params);
         $shouldSizes = array(1 => 397, 89, 694, 452, 497);
 
@@ -289,7 +279,7 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
 
     public function testFetchHeader()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Folder\Maildir($this->_params);
 
         $subject = $mail->getMessage(1)->subject;
@@ -302,7 +292,7 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
 
     public function testNotReadableFolder()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $stat = stat($this->_params['dirname'] . '.subfolder');
         chmod($this->_params['dirname'] . '.subfolder', 0);
         clearstatcache();

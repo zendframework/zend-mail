@@ -1,28 +1,16 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework (http://framework.zend.com/)
  *
- * LICENSE
- *
- * This source file is subject to the new BSD license that is bundled
- * with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://framework.zend.com/license/new-bsd
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@zend.com so we can send you a copy immediately.
- *
- * @category   Zend
- * @package    Zend_Mail
- * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @link      http://github.com/zendframework/zf2 for the canonical source repository
+ * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @package   Zend_Mail
  */
 
 namespace ZendTest\Mail\Storage;
 
 use Zend\Mail;
-use Zend\Mail\Exception as MailException;
 use Zend\Mail\Storage;
 use Zend\Mail\Storage\Writable;
 
@@ -30,8 +18,6 @@ use Zend\Mail\Storage\Writable;
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Mail
  */
 class MaildirWritableTest extends \PHPUnit_Framework_TestCase
@@ -128,7 +114,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateFolder()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Writable\Maildir($this->_params);
         $mail->createFolder('subfolder.test1');
         $mail->createFolder('test2', 'INBOX.subfolder');
@@ -148,7 +134,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
         $this->_subdirs[] = '.foo.bar';
     }
 
-    public function testCreateFolderEmtpyPart()
+    public function testCreateFolderEmptyPart()
     {
         $mail = new Writable\Maildir($this->_params);
         $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
@@ -171,7 +157,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateFolderExistingDir()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Writable\Maildir($this->_params);
         unset($mail->getFolders()->subfolder->test);
 
@@ -189,7 +175,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveFolderName()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Writable\Maildir($this->_params);
         $mail->removeFolder('INBOX.subfolder.test');
 
@@ -199,7 +185,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveFolderInstance()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Writable\Maildir($this->_params);
         $mail->removeFolder($mail->getFolders()->subfolder->test);
 
@@ -217,7 +203,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveSelectedFolder()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Writable\Maildir($this->_params);
         $mail->selectFolder('subfolder.test');
 
@@ -235,7 +221,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
     public function testRenameFolder()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Writable\Maildir($this->_params);
 
         $mail->renameFolder('INBOX.subfolder', 'INBOX.foo');
@@ -247,7 +233,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
     public function testRenameSelectedFolder()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Writable\Maildir($this->_params);
         $mail->selectFolder('subfolder.test');
 
@@ -282,7 +268,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
     public function testCopy()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Writable\Maildir($this->_params);
 
         $mail->selectFolder('subfolder.test');
@@ -440,7 +426,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
     public function testAppendMessage()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Writable\Maildir($this->_params);
         $mail->setQuota(array('size' => 3000, 'count' => 6, 'X' => 0));
         $this->assertFalse($mail->checkQuota(false, true));
@@ -471,7 +457,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveMessage()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Writable\Maildir($this->_params);
         $mail->setQuota(array('size' => 3000, 'count' => 5, 'X' => 0));
         $this->assertTrue($mail->checkQuota(false, true));
@@ -482,7 +468,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
     public function testCopyMessage()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Writable\Maildir($this->_params);
         $mail->setQuota(array('size' => 3000, 'count' => 6, 'X' => 0));
         $this->assertFalse($mail->checkQuota(false, true));
@@ -514,7 +500,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
     public function testMove()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Writable\Maildir($this->_params);
         $target = $mail->getFolders()->subfolder->test;
         $mail->selectFolder($target);
