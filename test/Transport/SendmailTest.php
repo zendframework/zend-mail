@@ -1,35 +1,22 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework (http://framework.zend.com/)
  *
- * LICENSE
- *
- * This source file is subject to the new BSD license that is bundled
- * with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://framework.zend.com/license/new-bsd
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@zend.com so we can send you a copy immediately.
- *
- * @category   Zend
- * @package    Zend_Mail
- * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @link      http://github.com/zendframework/zf2 for the canonical source repository
+ * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @package   Zend_Mail
  */
 
 namespace ZendTest\Mail\Transport;
 
-use Zend\Mail\Message,
-    Zend\Mail\Transport\Sendmail;
+use Zend\Mail\Message;
+use Zend\Mail\Transport\Sendmail;
 
 /**
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Mail
  */
 class SendmailTest extends \PHPUnit_Framework_TestCase
@@ -45,7 +32,7 @@ class SendmailTest extends \PHPUnit_Framework_TestCase
     {
         $this->transport = new Sendmail();
         $self = $this;
-        $this->transport->setCallable(function($to, $subject, $message, $additional_headers, $additional_parameters = null) use ($self) {
+        $this->transport->setCallable(function ($to, $subject, $message, $additional_headers, $additional_parameters = null) use ($self) {
             $self->to                    = $to;
             $self->subject               = $subject;
             $self->message               = $message;
@@ -77,7 +64,7 @@ class SendmailTest extends \PHPUnit_Framework_TestCase
                 ->setSender('ralph.schindler@zend.com', 'Ralph Schindler')
                 ->setSubject('Testing Zend\Mail\Transport\Sendmail')
                 ->setBody('This is only a test.');
-        $message->headers()->addHeaders(array(
+        $message->getHeaders()->addHeaders(array(
             'X-Foo-Bar' => 'Matthew',
         ));
         return $message;
@@ -102,7 +89,7 @@ class SendmailTest extends \PHPUnit_Framework_TestCase
         $this->assertContains("From: zf-devteam@zend.com,\r\n Matthew <matthew@zend.com>\r\n", $this->additional_headers);
         $this->assertContains("X-Foo-Bar: Matthew\r\n", $this->additional_headers);
         $this->assertContains("Sender: Ralph Schindler <ralph.schindler@zend.com>\r\n", $this->additional_headers);
-        $this->assertEquals('-R hdrs -r ralph.schindler@zend.com', $this->additional_parameters);
+        $this->assertEquals('-R hdrs -f ralph.schindler@zend.com', $this->additional_parameters);
     }
 
     public function testReceivesMailArtifactsOnWindowsSystems()
@@ -136,5 +123,13 @@ class SendmailTest extends \PHPUnit_Framework_TestCase
         $message->setBody("This is the first line.\n. This is the second");
         $this->transport->send($message);
         $this->assertContains("line.\n.. This", trim($this->message));
+    }
+
+    public function testAssertSubjectEncoded()
+    {
+        $message = $this->getMessage();
+        $message->setEncoding('UTF-8');
+        $this->transport->send($message);
+        $this->assertEquals('=?UTF-8?Q?Testing=20Zend\Mail\Transport\Sendmail?=', $this->subject);
     }
 }

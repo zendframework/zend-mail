@@ -1,22 +1,11 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework (http://framework.zend.com/)
  *
- * LICENSE
- *
- * This source file is subject to the new BSD license that is bundled
- * with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://framework.zend.com/license/new-bsd
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@zend.com so we can send you a copy immediately.
- *
- * @category   Zend
- * @package    Zend_Mail
- * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @link      http://github.com/zendframework/zf2 for the canonical source repository
+ * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @package   Zend_Mail
  */
 
 namespace ZendTest\Mail\Storage;
@@ -28,8 +17,6 @@ use Zend\Mail\Storage\Folder;
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Mail
  */
 class MaildirFolderTest extends \PHPUnit_Framework_TestCase
@@ -102,6 +89,9 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
                 if (!file_exists($this->_tmpdir . $dir . '/' . $subdir)) {
                     continue;
                 }
+                if (!is_dir($this->_tmpdir . $dir . '/' . $subdir)) {
+                    continue;
+                }
                 $dh = opendir($this->_tmpdir . $dir . '/' . $subdir);
                 while (($entry = readdir($dh)) !== false) {
                     $entry = $this->_tmpdir . $dir . '/' . $subdir . '/' . $entry;
@@ -113,7 +103,7 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
                 closedir($dh);
                 rmdir($this->_tmpdir . $dir . '/' . $subdir);
             }
-            if ($dir != '.') {
+            if ($dir != '.' && is_dir($this->_tmpdir . $dir)) {
                 rmdir($this->_tmpdir . $dir);
             }
         }
@@ -121,65 +111,39 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadOk()
     {
-        try {
-            $mail = new Folder\Maildir($this->_params);
-        } catch (\Exception $e) {
-            $this->fail('exception raised while loading Maildir folder');
-        }
+        new Folder\Maildir($this->_params);
     }
 
     public function testLoadConfig()
     {
-        try {
-            $mail = new Folder\Maildir(new Config\Config($this->_params));
-        } catch (\Exception $e) {
-            $this->fail('exception raised while loading Maildir folder');
-        }
+        new Folder\Maildir(new Config\Config($this->_params));
     }
 
     public function testNoParams()
     {
-        try {
-            $mail = new Folder\Maildir(array());
-        } catch (\Exception $e) {
-            return; // test ok
-        }
-
-        $this->fail('no exception raised with empty params');
+        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        new Folder\Maildir(array());
     }
 
     public function testLoadFailure()
     {
-        try {
-            $mail = new Folder\Maildir(array('dirname' => 'This/Folder/Does/Not/Exist'));
-        } catch (\Exception $e) {
-            return; // test ok
-        }
-
-        $this->fail('no exception raised while loading unknown dirname');
+        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        new Folder\Maildir(array('dirname' => 'This/Folder/Does/Not/Exist'));
     }
 
     public function testLoadUnkownFolder()
     {
         $this->_params['folder'] = 'UnknownFolder';
-        try {
-            $mail = new Folder\Maildir($this->_params);
-        } catch (\Exception $e) {
-            return; // test ok
-        }
-
-        $this->fail('no exception raised while loading unknown folder');
+        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        new Folder\Maildir($this->_params);
     }
 
     public function testChangeFolder()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Folder\Maildir($this->_params);
-        try {
-            $mail->selectFolder('subfolder.test');
-        } catch (\Exception $e) {
-            $this->fail('exception raised while selecting existing folder');
-        }
+
+        $mail->selectFolder('subfolder.test');
 
         $this->assertEquals($mail->getCurrentFolder(), 'subfolder.test');
     }
@@ -187,41 +151,30 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
     public function testUnknownFolder()
     {
         $mail = new Folder\Maildir($this->_params);
-        try {
-            $mail->selectFolder('/Unknown/Folder/');
-        } catch (\Exception $e) {
-            return; // test ok
-        }
 
-        $this->fail('no exception raised while selecting unknown folder');
+        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $mail->selectFolder('/Unknown/Folder/');
     }
 
     public function testGlobalName()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Folder\Maildir($this->_params);
-        try {
-            // explicit call of __toString() needed for PHP < 5.2
-            $this->assertEquals($mail->getFolders()->subfolder->__toString(), 'subfolder');
-        } catch (\Exception $e) {
-            $this->fail('exception raised while selecting existing folder and getting global name');
-        }
+
+        $this->assertEquals($mail->getFolders()->subfolder->__toString(), 'subfolder');
     }
 
     public function testLocalName()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Folder\Maildir($this->_params);
-        try {
-            $this->assertEquals($mail->getFolders()->subfolder->key(), 'test');
-        } catch (\Exception $e) {
-            $this->fail('exception raised while selecting existing folder and getting local name');
-        }
+
+        $this->assertEquals($mail->getFolders()->subfolder->key(), 'test');
     }
 
     public function testIterator()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Folder\Maildir($this->_params);
         $iterator = new \RecursiveIteratorIterator($mail->getFolders(), \RecursiveIteratorIterator::SELF_FIRST);
         // we search for this folder because we can't assume a order while iterating
@@ -244,7 +197,7 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
 
     public function testKeyLocalName()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Folder\Maildir($this->_params);
         $iterator = new \RecursiveIteratorIterator($mail->getFolders(), \RecursiveIteratorIterator::SELF_FIRST);
         // we search for this folder because we can't assume a order while iterating
@@ -267,7 +220,7 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
 
     public function testInboxEquals()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Folder\Maildir($this->_params);
         $iterator = new \RecursiveIteratorIterator($mail->getFolders('INBOX.subfolder'), \RecursiveIteratorIterator::SELF_FIRST);
         // we search for this folder because we can't assume a order while iterating
@@ -299,7 +252,7 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
 
     public function testCount()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Folder\Maildir($this->_params);
 
         $count = $mail->countMessages();
@@ -312,7 +265,7 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
 
     public function testSize()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Folder\Maildir($this->_params);
         $shouldSizes = array(1 => 397, 89, 694, 452, 497);
 
@@ -326,7 +279,7 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
 
     public function testFetchHeader()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $mail = new Folder\Maildir($this->_params);
 
         $subject = $mail->getMessage(1)->subject;
@@ -339,7 +292,7 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
 
     public function testNotReadableFolder()
     {
-    	$this->markTestIncomplete("Fail");
+        $this->markTestIncomplete("Fail");
         $stat = stat($this->_params['dirname'] . '.subfolder');
         chmod($this->_params['dirname'] . '.subfolder', 0);
         clearstatcache();
@@ -398,13 +351,8 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
         $root = $mail->getFolders();
         $root->foobar = new Folder('foobar', DIRECTORY_SEPARATOR . 'foobar');
 
-        try {
-            $mail->selectFolder('foobar');
-        } catch (\Exception $e) {
-            return; // ok
-        }
-
-        $this->fail('no error while getting invalid folder');
+        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $mail->selectFolder('foobar');
     }
 
     public function testGetVanishedFolder()
@@ -413,13 +361,8 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
         $root = $mail->getFolders();
         $root->foobar = new Folder('foobar', 'foobar');
 
-        try {
-            $mail->selectFolder('foobar');
-        } catch (\Exception $e) {
-            return; // ok
-        }
-
-        $this->fail('no error while getting vanished folder');
+        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $mail->selectFolder('foobar');
     }
 
     public function testGetNotSelectableFolder()
@@ -428,13 +371,8 @@ class MaildirFolderTest extends \PHPUnit_Framework_TestCase
         $root = $mail->getFolders();
         $root->foobar = new Folder('foobar', 'foobar', false);
 
-        try {
-            $mail->selectFolder('foobar');
-        } catch (\Exception $e) {
-            return; // ok
-        }
-
-        $this->fail('no error while getting not selectable folder');
+        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $mail->selectFolder('foobar');
     }
 
     public function testWithAdditionalFolder()
