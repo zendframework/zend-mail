@@ -10,42 +10,13 @@
 namespace ZendTest\Mail\Transport;
 
 use Zend\Mail\Message;
-use Zend\Mail\Transport\File;
-use Zend\Mail\Transport\FileOptions;
+use Zend\Mail\Transport\Null;
 
 /**
  * @group      Zend_Mail
  */
-class FileTest extends \PHPUnit_Framework_TestCase
+class NullTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
-    {
-        $this->tempDir = sys_get_temp_dir() . '/mail_file_transport';
-        if (!is_dir($this->tempDir)) {
-            mkdir($this->tempDir);
-        } else {
-            $this->cleanup($this->tempDir);
-        }
-
-        $fileOptions = new FileOptions(array(
-            'path' => $this->tempDir,
-        ));
-        $this->transport  = new File($fileOptions);
-    }
-
-    public function tearDown()
-    {
-        $this->cleanup($this->tempDir);
-        rmdir($this->tempDir);
-    }
-
-    protected function cleanup($dir)
-    {
-        foreach (glob($dir . '/*.*') as $file) {
-            unlink($file);
-        }
-    }
-
     public function getMessage()
     {
         $message = new Message();
@@ -68,12 +39,10 @@ class FileTest extends \PHPUnit_Framework_TestCase
     public function testReceivesMailArtifacts()
     {
         $message = $this->getMessage();
-        $this->transport->send($message);
+        $transport = new Null();
 
-        $this->assertNotNull($this->transport->getLastFile());
-        $file = $this->transport->getLastFile();
-        $test = file_get_contents($file);
+        $transport->send($message);
 
-        $this->assertEquals($message->toString(), $test);
+        $this->assertSame($message, $transport->getLastMessage());
     }
 }
