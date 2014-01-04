@@ -7,10 +7,13 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Zend\Mail\Header;
+namespace Zend\Mail\Transport\Exception;
 
-class Cc extends AbstractAddressList
+use Zend\Mail\Exception;
+
+/**
+ * Exception for Zend\Mail\Transport component.
+ */
+class DomainException extends Exception\DomainException implements ExceptionInterface
 {
-    protected $fieldName = 'Cc';
-    protected static $type = 'cc';
 }
