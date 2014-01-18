@@ -44,14 +44,6 @@ class File implements TransportInterface
     }
 
     /**
-     * @return FileOptions
-     */
-    public function getOptions()
-    {
-        return $this->options;
-    }
-
-    /**
      * Sets options
      *
      * @param  FileOptions $options

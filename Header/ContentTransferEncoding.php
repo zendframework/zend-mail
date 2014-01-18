@@ -94,9 +94,9 @@ class ContentTransferEncoding implements HeaderInterface
         // Per RFC 1521, the value of the header is not case sensitive
         $transferEncoding = strtolower($transferEncoding);
 
-        if (!in_array($transferEncoding, static::$allowedTransferEncodings)) {
+        if (!in_array($transferEncoding, self::$allowedTransferEncodings)) {
             throw new Exception\InvalidArgumentException(sprintf(
-                '%s expects one of "'. implode(', ', static::$allowedTransferEncodings) . '"; received "%s"',
+                '%s expects one of "'. implode(', ', self::$allowedTransferEncodings) . '"; received "%s"',
                 __METHOD__,
                 (string) $transferEncoding
             ));
