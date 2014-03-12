@@ -13,7 +13,7 @@
         }
     },
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.3.23",
         "zendframework/zend-crypt": "self.version",
         "zendframework/zend-loader": "self.version",
         "zendframework/zend-mime": "self.version",
@@ -22,6 +22,7 @@
     },
     "require-dev": {
         "zendframework/zend-servicemanager": "self.version",
+        "zendframework/zend-validator": "self.version",
         "fabpot/php-cs-fixer": "1.7.*",
         "satooshi/php-coveralls": "dev-master",
         "phpunit/PHPUnit": "~4.0"
