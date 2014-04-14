@@ -22,14 +22,12 @@
     },
     "require-dev": {
         "zendframework/zend-servicemanager": "self.version",
-        "zendframework/zend-validator": "self.version",
         "fabpot/php-cs-fixer": "1.7.*",
         "satooshi/php-coveralls": "dev-master",
         "phpunit/PHPUnit": "~4.0"
     },
     "suggest": {
-        "zendframework/zend-servicemanager": "Zend\\ServiceManager component",
-        "zendframework/zend-validator": "Zend\\Validator component"
+        "zendframework/zend-servicemanager": "Zend\\ServiceManager component"
     },
     "extra": {
         "branch-alias": {
