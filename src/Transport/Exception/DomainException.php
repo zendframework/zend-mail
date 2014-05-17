@@ -7,17 +7,13 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace ZendTest\Mail\TestAsset;
+namespace Zend\Mail\Transport\Exception;
 
-class StringSerializableObject
+use Zend\Mail\Exception;
+
+/**
+ * Exception for Zend\Mail\Transport component.
+ */
+class DomainException extends Exception\DomainException implements ExceptionInterface
 {
-    public function __construct($message)
-    {
-        $this->message = $message;
-    }
-
-    public function __toString()
-    {
-        return $this->message;
-    }
 }
