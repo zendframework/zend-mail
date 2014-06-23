@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -21,21 +21,17 @@ class Date implements HeaderInterface
 
     public static function fromString($headerLine)
     {
-        list($name, $value) = GenericHeader::splitHeaderLine($headerLine);
+        list($name, $value) = explode(': ', $headerLine, 2);
 
         // check to ensure proper header type for this factory
         if (strtolower($name) !== 'date') {
             throw new Exception\InvalidArgumentException('Invalid header line for Date string');
         }
 
-        $header = new static($value);
+        $header = new static();
+        $header->value= $value;
 
         return $header;
-    }
-
-    public function __construct($value)
-    {
-        $this->value = $value;
     }
 
     public function getFieldName()

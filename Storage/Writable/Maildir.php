@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -426,7 +426,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
     /**
      * append a new message to mail storage
      *
-     * @param   string|resource                            $message message as string or stream resource
+     * @param   string|stream                              $message message as string or stream resource
      * @param   null|string|\Zend\Mail\Storage\Folder      $folder  folder for new message, else current folder is taken
      * @param   null|array                                 $flags   set flags for new message, else a default set is used
      * @param   bool                                       $recent  handle this mail as if recent flag has been set,
