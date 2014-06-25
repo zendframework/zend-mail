@@ -12,8 +12,8 @@ namespace Zend\Mail\Transport\Exception;
 use Zend\Mail\Exception;
 
 /**
- * Exception for Zend\Mail component.
+ * Exception for Zend\Mail\Transport component.
  */
-class RuntimeException extends Exception\RuntimeException implements
-    ExceptionInterface
-{}
+class DomainException extends Exception\DomainException implements ExceptionInterface
+{
+}
