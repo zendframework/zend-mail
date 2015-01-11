@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -36,6 +36,7 @@ class Pop3
      */
     protected $timestamp;
 
+
     /**
      * Public constructor
      *
@@ -50,6 +51,7 @@ class Pop3
         }
     }
 
+
     /**
      * Public destructor
      */
@@ -57,6 +59,7 @@ class Pop3
     {
         $this->logout();
     }
+
 
     /**
      * Open connection to POP3 server
@@ -122,6 +125,7 @@ class Pop3
         return $welcome;
     }
 
+
     /**
      * Send a request
      *
@@ -137,6 +141,7 @@ class Pop3
             throw new Exception\RuntimeException('send failed - connection closed?', 0, $error);
         }
     }
+
 
     /**
      * read a response
@@ -181,6 +186,7 @@ class Pop3
         return $message;
     }
 
+
     /**
      * Send request and get response
      *
@@ -195,6 +201,7 @@ class Pop3
         $this->sendRequest($request);
         return $this->readResponse($multiline);
     }
+
 
     /**
      * End communication with POP3 server (also closes socket)
@@ -365,6 +372,7 @@ class Pop3
         return $result;
     }
 
+
     /**
      * Make a RETR call for retrieving a full message with headers and body
      *
@@ -385,6 +393,7 @@ class Pop3
         $this->request('NOOP');
     }
 
+
     /**
      * Make a DELE count to remove a message
      *
@@ -394,6 +403,7 @@ class Pop3
     {
         $this->request("DELE $msgno");
     }
+
 
     /**
      * Make RSET call, which rollbacks delete requests
