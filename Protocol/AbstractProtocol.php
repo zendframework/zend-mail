@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -23,6 +23,7 @@ abstract class AbstractProtocol
      */
     const EOL = "\r\n";
 
+
     /**
      * Default timeout in seconds for initiating session
      */
@@ -34,11 +35,13 @@ abstract class AbstractProtocol
      */
     protected $maximumLog = 64;
 
+
     /**
      * Hostname or IP address of remote server
      * @var string
      */
     protected $host;
+
 
     /**
      * Port number of connection
@@ -46,11 +49,13 @@ abstract class AbstractProtocol
      */
     protected $port;
 
+
     /**
      * Instance of Zend\Validator\ValidatorChain to check hostnames
      * @var \Zend\Validator\ValidatorChain
      */
     protected $validHost;
+
 
     /**
      * Socket connection resource
@@ -58,11 +63,13 @@ abstract class AbstractProtocol
      */
     protected $socket;
 
+
     /**
      * Last request sent to server
      * @var string
      */
     protected $request;
+
 
     /**
      * Array of server responses to last request
@@ -70,11 +77,13 @@ abstract class AbstractProtocol
      */
     protected $response;
 
+
     /**
      * Log of mail requests and server responses for a session
      * @var array
      */
     private $log = array();
+
 
     /**
      * Constructor.
@@ -96,6 +105,7 @@ abstract class AbstractProtocol
         $this->port = $port;
     }
 
+
     /**
      * Class destructor to cleanup open resources
      *
@@ -115,6 +125,7 @@ abstract class AbstractProtocol
         $this->maximumLog = (int) $maximumLog;
     }
 
+
     /**
      * Get the maximum log size
      *
@@ -125,12 +136,14 @@ abstract class AbstractProtocol
         return $this->maximumLog;
     }
 
+
     /**
      * Create a connection to the remote host
      *
      * Concrete adapters for this class will implement their own unique connect scripts, using the _connect() method to create the socket resource.
      */
     abstract public function connect();
+
 
     /**
      * Retrieve the last client request
@@ -142,6 +155,7 @@ abstract class AbstractProtocol
         return $this->request;
     }
 
+
     /**
      * Retrieve the last server response
      *
@@ -152,6 +166,7 @@ abstract class AbstractProtocol
         return $this->response;
     }
 
+
     /**
      * Retrieve the transaction log
      *
@@ -161,6 +176,7 @@ abstract class AbstractProtocol
     {
         return implode('', $this->log);
     }
+
 
     /**
      * Reset the transaction log
@@ -216,6 +232,7 @@ abstract class AbstractProtocol
         return $result;
     }
 
+
     /**
      * Disconnect from remote host and free resource
      *
@@ -226,6 +243,7 @@ abstract class AbstractProtocol
             fclose($this->socket);
         }
     }
+
 
     /**
      * Send the given request followed by a LINEEND to the server.
@@ -254,6 +272,7 @@ abstract class AbstractProtocol
         return $result;
     }
 
+
     /**
      * Get a line from the stream.
      *
@@ -269,7 +288,7 @@ abstract class AbstractProtocol
 
         // Adapters may wish to supply per-commend timeouts according to appropriate RFC
         if ($timeout !== null) {
-            stream_set_timeout($this->socket, $timeout);
+           stream_set_timeout($this->socket, $timeout);
         }
 
         // Retrieve response
@@ -291,6 +310,7 @@ abstract class AbstractProtocol
 
         return $response;
     }
+
 
     /**
      * Parse server response for successful codes
@@ -321,6 +341,7 @@ abstract class AbstractProtocol
             } elseif ($cmd === null || !in_array($cmd, $code)) {
                 $errMsg =  $msg;
             }
+
         } while (strpos($more, '-') === 0); // The '-' message prefix indicates an information string instead of a response string.
 
         if ($errMsg !== '') {
