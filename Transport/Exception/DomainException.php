@@ -7,12 +7,13 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Zend\Mail\Exception;
+namespace Zend\Mail\Transport\Exception;
+
+use Zend\Mail\Exception;
 
 /**
- * Exception for Zend\Mail component.
+ * Exception for Zend\Mail\Transport component.
  */
-class BadMethodCallException extends \BadMethodCallException implements
-    ExceptionInterface
+class DomainException extends Exception\DomainException implements ExceptionInterface
 {
 }
