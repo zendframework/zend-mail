@@ -113,13 +113,13 @@ class GenericHeaderTest extends TestCase
 
             // Encoding cases
             'ASCII charset' => array('azAZ09-_', 'azAZ09-_', 'ASCII'),
-            'UTF-8 charset' => array('ázÁZ09-_', '=?UTF-8?Q?=C3=A1z=C3=81Z09-=5F?=', 'UTF-8'),
+            'UTF-8 charset' => array('ázÁZ09-_', '=?UTF-8?B?w6F6w4FaMDktXw==?=', 'UTF-8'),
 
             // CRLF @group ZF2015-04 cases
-            'newline' => array("xxx yyy\n", '=?UTF-8?Q?xxx=20yyy=0A?=', 'UTF-8'),
-            'cr-lf' => array("xxx yyy\r\n", '=?UTF-8?Q?xxx=20yyy=0D=0A?=', 'UTF-8'),
-            'cr-lf-wsp' => array("xxx yyy\r\n\r\n", '=?UTF-8?Q?xxx=20yyy=0D=0A=0D=0A?=', 'UTF-8'),
-            'multiline' => array("xxx\r\ny\r\nyy", '=?UTF-8?Q?xxx=0D=0Ay=0D=0Ayy?=', 'UTF-8'),
+            'newline' => array("xxx yyy\n", '=?UTF-8?B?eHh4IHl5eQo=?=', 'UTF-8'),
+            'cr-lf' => array("xxx yyy\r\n", '=?UTF-8?B?eHh4IHl5eQ0K?=', 'UTF-8'),
+            'cr-lf-wsp' => array("xxx yyy\r\n\r\n", '=?UTF-8?B?eHh4IHl5eQ0KDQo=?=', 'UTF-8'),
+            'multiline' => array("xxx\r\ny\r\nyy", '=?UTF-8?B?eHh4DQp5DQp5eQ==?=', 'UTF-8'),
         );
     }
 
@@ -128,7 +128,7 @@ class GenericHeaderTest extends TestCase
      */
     public function testCastingToStringHandlesContinuationsProperly()
     {
-        $encoded = '=?UTF-8?Q?foo=0D=0A=20bar?=';
+        $encoded = '=?UTF-8?B?Zm9vDQogYmFy?=';
         $raw = "foo\r\n bar";
 
         $header = new GenericHeader('Foo');
