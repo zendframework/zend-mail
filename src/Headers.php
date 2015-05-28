@@ -58,58 +58,49 @@ class Headers implements Countable, Iterator
      * will be lazy loaded)
      *
      * @param  string $string
-     * @param  string $EOL EOL string; defaults to {@link EOL}
+     * @param  string $EOL DEPRECATED
      * @throws Exception\RuntimeException
      * @return Headers
      */
-    public static function fromString($string, $EOL = self::EOL)
+    public static function fromString($string, $EOL = null)
     {
         $headers     = new static();
         $currentLine = '';
         $emptyLine   = 0;
 
         // iterate the header lines, some might be continuations
-        $lines = explode($EOL, $string);
-        $total = count($lines);
-        for ($i = 0; $i < $total; $i += 1) {
-            $line = $lines[$i];
-
+        foreach (preg_split('/\R/', $string) as $line) {
             // Empty line indicates end of headers
             // EXCEPT if there are more lines, in which case, there's a possible error condition
             if (preg_match('/^\s*$/', $line)) {
-                $emptyLine += 1;
+                $emptyLine++;
                 if ($emptyLine > 2) {
-                    throw new Exception\RuntimeException('Malformed header detected');
+                    throw new Exception\RuntimeException('Malformed header detected, too many empty lines');
                 }
                 continue;
             }
-
             if ($emptyLine > 0) {
-                throw new Exception\RuntimeException('Malformed header detected');
+                throw new Exception\RuntimeException('Malformed header detected, too many empty lines');
             }
 
             // check if a header name is present
-            if (preg_match('/^[\x21-\x39\x3B-\x7E]+:.*$/', $line)) {
+            if (preg_match('/^[!-9;-~]+:/', $line)) {
                 if ($currentLine) {
                     // a header name was present, then store the current complete line
                     $headers->addHeaderLine($currentLine);
                 }
                 $currentLine = trim($line);
-                continue;
-            }
-
-            // continuation: append to current line
-            // recover the whitespace that break the line (unfolding, rfc2822#section-2.2.3)
-            if (preg_match('/^\s+.*$/', $line)) {
+            } elseif (preg_match('/^\s+[^\s]/', $line)) {
+                // continuation: append to current line
+                // recover the whitespace that break the line (unfolding, rfc2822#section-2.2.3)
                 $currentLine .= ' ' . trim($line);
-                continue;
+            } else {
+                // Line does not match header format!
+                throw new Exception\RuntimeException(sprintf(
+                    'Line "%s"does not match header format!',
+                    $line
+                ));
             }
-
-            // Line does not match header format!
-            throw new Exception\RuntimeException(sprintf(
-                'Line "%s"does not match header format!',
-                $line
-            ));
         }
         if ($currentLine) {
             $headers->addHeaderLine($currentLine);
