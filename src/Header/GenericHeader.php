@@ -93,20 +93,14 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
      */
     public function setFieldName($fieldName)
     {
-        if (!is_string($fieldName) || empty($fieldName)) {
-            throw new Exception\InvalidArgumentException('Header name must be a string');
-        }
-
-        // Pre-filter to normalize valid characters, change underscore to dash
-        $fieldName = str_replace(' ', '-', ucwords(str_replace(array('_', '-'), ' ', $fieldName)));
-
         if (! HeaderName::isValid($fieldName)) {
             throw new Exception\InvalidArgumentException(
                 'Header name must be composed of printable US-ASCII characters, except colon.'
             );
         }
+        // change underscore to dash
+        $this->fieldName = ucwords(str_replace('_', '-', $fieldName));
 
-        $this->fieldName = $fieldName;
         return $this;
     }
 
