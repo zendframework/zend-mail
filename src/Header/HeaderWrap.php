@@ -103,9 +103,7 @@ abstract class HeaderWrap
      */
     public static function mimeDecodeValue($value)
     {
-        $decodedValue = iconv_mime_decode($value, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, 'UTF-8');
-
-        return $decodedValue;
+        return iconv_mime_decode($value, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, 'UTF-8');
     }
 
     /**
