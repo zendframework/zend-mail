@@ -90,7 +90,7 @@ abstract class HeaderWrap
      */
     public static function mimeEncodeValue($value, $encoding, $lineLength = 998)
     {
-        return Mime::encodeQuotedPrintableHeader($value, $encoding, $lineLength, Headers::EOL);
+        return Mime::encodeBase64Header($value, $encoding, $lineLength, Headers::EOL);
     }
 
     /**
