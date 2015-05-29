@@ -34,13 +34,13 @@ class Subject implements UnstructuredInterface
     public static function fromString($headerLine)
     {
         list($name, $value) = GenericHeader::splitHeaderLine($headerLine);
-        $value = HeaderWrap::mimeDecodeValue($value);
 
         // check to ensure proper header type for this factory
         if (strtolower($name) !== 'subject') {
             throw new Exception\InvalidArgumentException('Invalid header line for Subject string');
         }
 
+        $value = HeaderWrap::mimeDecodeValue($value);
         $header = new static();
         $header->setSubject($value);
 
