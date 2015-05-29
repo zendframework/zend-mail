@@ -779,4 +779,43 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('multipart/alternative', $contentType->getFieldValue());
         $this->assertContains($multipartContent->getMime()->boundary(), $contentType->getFieldValue());
     }
+
+    public function getUglyHeaderMail()
+    {
+        return <<<EOD
+To: =?utf-8?B?QUFBLCB0ZXN0IHdpdGggw6nDoCTDuQ==?= <aaaa@bbbb.com>,,
+ foo@example.com,
+To: bar@example.com
+Cc: 
+Subject: ugly headers
+Date: Sun, 01 Jan 2000 00:00:00 +0000
+From: baz@example.com
+ContENTtype: text/plain
+Message-ID: <aaaaa@mail.example.com>
+
+We should support:
+Duplicated mail headers (see To)
+Too many commas in headers (see To)
+Comma in encoded word (see To)
+Empty mail headers (see Cc)
+Malformatted headers (see ContENTtype)
+EOD;
+    }
+
+    public function testParseUglyHeaderMail()
+    {
+        $message1 = Message::fromString($this->getUglyHeaderMail());
+        $this->assertEquals(3, $message1->getTo()->count(), "There is 3 email addresses in the two 'To' headers");
+        $this->assertEquals(0, $message1->getCc()->count(), "There is no email address in the empty 'Cc' header");
+        $this->assertEquals("text/plain", $message1->getHeaders()->get('Content-Type')->getFieldValue());
+    }
+
+    public function testStableParsing()
+    {
+        $message1 = Message::fromString($this->getUglyHeaderMail());
+        $raw1 = $message1->toString();
+        $message2 = Message::fromString($raw1);
+        $raw2 = $message2->toString();
+        $this->assertEquals($raw1, $raw2, "Parsing isn't stable, we should be able to parse Message->toString() output and get same result");
+    }
 }
