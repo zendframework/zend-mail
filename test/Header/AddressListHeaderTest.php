@@ -169,4 +169,46 @@ class AddressListHeaderTest extends \PHPUnit_Framework_TestCase
         $address = $list->get('first@last.zend.com');
         $this->assertEquals('Last, First', $address->getName());
     }
+
+    public function getStringEmptyHeaders()
+    {
+        return array(
+            'cc'       => array('Cc:', 'Zend\Mail\Header\Cc'),
+            'bcc'      => array('Bcc:', 'Zend\Mail\Header\Bcc'),
+            'from'     => array('From:', 'Zend\Mail\Header\From'),
+            'reply-to' => array('Reply-To:', 'Zend\Mail\Header\ReplyTo'),
+            'to'       => array('To:', 'Zend\Mail\Header\To'),
+        );
+    }
+
+    /**
+     * @dataProvider getStringEmptyHeaders
+     */
+    public function testAllowEmptyHeader($headerLine, $class) {
+        $callback = sprintf('%s::fromString', $class);
+        $header   = call_user_func($callback, $headerLine);
+        $this->assertInstanceOf($class, $header);
+        $list = $header->getAddressList();
+        $this->assertEquals(0, count($list));
+    }
+
+    public function testEncodedCommaInHeader() {
+        $header = \Zend\Mail\Header\To::fromString("To: =?utf-8?B?QUFBLCB0ZXN0IHdpdGggw6nDoCTDuQ==?= <aaaa@bbbb.com>, cc@dd.com");
+        $this->assertInstanceOf('Zend\Mail\Header\To', $header);
+        $list = $header->getAddressList();
+        $this->assertEquals(2, count($list));
+        $this->assertTrue($list->has('aaaa@bbbb.com'));
+        $this->assertTrue($list->has('cc@dd.com'));
+        $address = $list->get('aaaa@bbbb.com');
+        $this->assertEquals('AAA, test with éà$ù', $address->getName());
+    }
+
+    public function testTooManyCommaInHeader() {
+        $header = \Zend\Mail\Header\To::fromString("To: <aaaa@bbbb.com>, ,cc@dd.com,");
+        $this->assertInstanceOf('Zend\Mail\Header\To', $header);
+        $list = $header->getAddressList();
+        $this->assertEquals(2, count($list));
+        $this->assertTrue($list->has('aaaa@bbbb.com'));
+        $this->assertTrue($list->has('cc@dd.com'));
+    }
 }
