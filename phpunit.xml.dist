@@ -28,7 +28,7 @@
              functionality works as expected. Such tests include those for
              Zend\Soap and Zend\Session, which require that headers not be sent
              in order to work. -->
-        <const name="TESTS_ZEND_OB_ENABLED" value="false" />
+        <env name="TESTS_ZEND_OB_ENABLED" value="false" />
 
         <!-- Zend\Mail\Storage tests
 
@@ -42,35 +42,35 @@
 
              TESTS_ZEND_MAIL_TEMPDIR is used for testing write operations in
              local storages. If not set (== null) tempnam() is used. -->
-        <const name="TESTS_ZEND_MAIL_SERVER_TESTDIR" value="" />
-        <const name="TESTS_ZEND_MAIL_SERVER_FORMAT" value="mbox" />
-        <const name="TESTS_ZEND_MAIL_TEMPDIR" value="" />
+        <env name="TESTS_ZEND_MAIL_SERVER_TESTDIR" value="" />
+        <env name="TESTS_ZEND_MAIL_SERVER_FORMAT" value="mbox" />
+        <env name="TESTS_ZEND_MAIL_TEMPDIR" value="" />
 
         <!-- Zend\Mail\Storage\Pop3 / Zend\Mail\Transport\Pop3
 
              IMPORTANT: you need to copy tests/Zend/Mail/_files/test.mbox to
              your mail if you haven't set TESTS_ZEND_MAIL_SERVER_TESTDIR -->
-        <const name="TESTS_ZEND_MAIL_POP3_ENABLED" value="false" />
-        <const name="TESTS_ZEND_MAIL_POP3_HOST" value="localhost" />
-        <const name="TESTS_ZEND_MAIL_POP3_USER" value="test" />
-        <const name="TESTS_ZEND_MAIL_POP3_PASSWORD" value="" />
-        <const name="TESTS_ZEND_MAIL_POP3_SSL" value="true" />
-        <const name="TESTS_ZEND_MAIL_POP3_TLS" value="true" />
-        <const name="TESTS_ZEND_MAIL_POP3_WRONG_PORT" value="80" />
-        <const name="TESTS_ZEND_MAIL_POP3_INVALID_PORT" value="3141" />
+        <env name="TESTS_ZEND_MAIL_POP3_ENABLED" value="false" />
+        <env name="TESTS_ZEND_MAIL_POP3_HOST" value="localhost" />
+        <env name="TESTS_ZEND_MAIL_POP3_USER" value="test" />
+        <env name="TESTS_ZEND_MAIL_POP3_PASSWORD" value="" />
+        <env name="TESTS_ZEND_MAIL_POP3_SSL" value="true" />
+        <env name="TESTS_ZEND_MAIL_POP3_TLS" value="true" />
+        <env name="TESTS_ZEND_MAIL_POP3_WRONG_PORT" value="80" />
+        <env name="TESTS_ZEND_MAIL_POP3_INVALID_PORT" value="3141" />
 
         <!-- Zend\Mail\Storage\Imap / Zend\Mail\Transport\Imap
 
              IMPORTANT: you need to copy tests/Zend/Mail/_files/test.mbox to
              your mail if you haven't set TESTS_ZEND_MAIL_SERVER_TESTDIR -->
-        <const name="TESTS_ZEND_MAIL_IMAP_ENABLED" value="false" />
-        <const name="TESTS_ZEND_MAIL_IMAP_HOST" value="localhost" />
-        <const name="TESTS_ZEND_MAIL_IMAP_USER" value="test" />
-        <const name="TESTS_ZEND_MAIL_IMAP_PASSWORD" value="" />
-        <const name="TESTS_ZEND_MAIL_IMAP_SSL" value="true" />
-        <const name="TESTS_ZEND_MAIL_IMAP_TLS" value="true" />
-        <const name="TESTS_ZEND_MAIL_IMAP_WRONG_PORT" value="80" />
-        <const name="TESTS_ZEND_MAIL_IMAP_INVALID_PORT" value="3141" />
+        <env name="TESTS_ZEND_MAIL_IMAP_ENABLED" value="false" />
+        <env name="TESTS_ZEND_MAIL_IMAP_HOST" value="localhost" />
+        <env name="TESTS_ZEND_MAIL_IMAP_USER" value="test" />
+        <env name="TESTS_ZEND_MAIL_IMAP_PASSWORD" value="" />
+        <env name="TESTS_ZEND_MAIL_IMAP_SSL" value="true" />
+        <env name="TESTS_ZEND_MAIL_IMAP_TLS" value="true" />
+        <env name="TESTS_ZEND_MAIL_IMAP_WRONG_PORT" value="80" />
+        <env name="TESTS_ZEND_MAIL_IMAP_INVALID_PORT" value="3141" />
 
         <!-- Zend\Mail\Storage\Maildir test
 
@@ -78,13 +78,13 @@
              test/_files/test.maildir/cur/ and remove the tar for this test to
              work. That's because the messages files have a colon in the
              filename and that's a forbidden character on Windows. -->
-        <const name="TESTS_ZEND_MAIL_MAILDIR_ENABLED" value="false" />
+        <env name="TESTS_ZEND_MAIL_MAILDIR_ENABLED" value="false" />
 
-        <const name="TESTS_ZEND_MAIL_SMTP_ENABLED" value="false" />
-        <const name="TESTS_ZEND_MAIL_SMTP_HOST" value="localhost" />
-        <const name="TESTS_ZEND_MAIL_SMTP_PORT" value="25" />
-        <const name="TESTS_ZEND_MAIL_SMTP_USER" value="testuser" />
-        <const name="TESTS_ZEND_MAIL_SMTP_PASSWORD" value="testpassword" />
-        <const name="TESTS_ZEND_MAIL_SMTP_AUTH" value="false" />
+        <env name="TESTS_ZEND_MAIL_SMTP_ENABLED" value="false" />
+        <env name="TESTS_ZEND_MAIL_SMTP_HOST" value="localhost" />
+        <env name="TESTS_ZEND_MAIL_SMTP_PORT" value="25" />
+        <env name="TESTS_ZEND_MAIL_SMTP_USER" value="testuser" />
+        <env name="TESTS_ZEND_MAIL_SMTP_PASSWORD" value="testpassword" />
+        <env name="TESTS_ZEND_MAIL_SMTP_AUTH" value="false" />
     </php>
 </phpunit>
