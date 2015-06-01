@@ -273,16 +273,19 @@ class Smtp extends AbstractProtocol
         $this->_send('DATA');
         $this->_expect(354, 120); // Timeout set for 2 minutes as per RFC 2821 4.5.3.2
 
-        // Ensure newlines are CRLF (\r\n)
-        $data = str_replace("\n", "\r\n", str_replace("\r", '', $data));
 
-        foreach (explode(self::EOL, $data) as $line) {
-            if (strpos($line, '.') === 0) {
+        $line = strtok($data, "\n");
+        while ($line !== false) {
+            $line = rtrim($line, "\r");
+            if (isset($line[0]) && $line[0] === '.') {
                 // Escape lines prefixed with a '.'
                 $line = '.' . $line;
             }
             $this->_send($line);
+            $line = strtok("\n");
         }
+        //release memory
+        strtok('', '');
 
         $this->_send('.');
         $this->_expect(250, 600); // Timeout set for 10 minutes as per RFC 2821 4.5.3.2
