@@ -139,7 +139,7 @@ class SenderTest extends \PHPUnit_Framework_TestCase
                 'foo@bar',
                 'ázÁZ09',
                 'ázÁZ09 <foo@bar>',
-                '=?UTF-8?Q?=C3=A1z=C3=81Z09?= <foo@bar>',
+                '=?UTF-8?B?w6F6w4FaMDk=?= <foo@bar>',
                 'UTF-8'
             ),
         );

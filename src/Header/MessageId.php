@@ -19,13 +19,13 @@ class MessageId implements HeaderInterface
     public static function fromString($headerLine)
     {
         list($name, $value) = GenericHeader::splitHeaderLine($headerLine);
-        $value = HeaderWrap::mimeDecodeValue($value);
 
         // check to ensure proper header type for this factory
-        if (strtolower($name) !== 'message-id') {
+        if (strtolower(str_replace(array('_', '-'), '', $name)) !== 'messageid') {
             throw new Exception\InvalidArgumentException('Invalid header line for Message-ID string');
         }
 
+        $value = HeaderWrap::mimeDecodeValue($value);
         $header = new static();
         $header->setId($value);
 

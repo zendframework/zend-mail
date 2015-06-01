@@ -41,13 +41,13 @@ class ContentTransferEncoding implements HeaderInterface
     public static function fromString($headerLine)
     {
         list($name, $value) = GenericHeader::splitHeaderLine($headerLine);
-        $value = HeaderWrap::mimeDecodeValue($value);
 
         // check to ensure proper header type for this factory
-        if (strtolower($name) !== 'content-transfer-encoding') {
+        if (strtolower(str_replace(array('_', '-'), '', $name)) !== 'contenttransferencoding') {
             throw new Exception\InvalidArgumentException('Invalid header line for Content-Transfer-Encoding string');
         }
 
+        $value = HeaderWrap::mimeDecodeValue($value);
         $header = new static();
         $header->setTransferEncoding($value);
 

@@ -24,13 +24,13 @@ class Received implements HeaderInterface, MultipleHeadersInterface
     public static function fromString($headerLine)
     {
         list($name, $value) = GenericHeader::splitHeaderLine($headerLine);
-        $value = HeaderWrap::mimeDecodeValue($value);
 
         // check to ensure proper header type for this factory
         if (strtolower($name) !== 'received') {
             throw new Exception\InvalidArgumentException('Invalid header line for Received string');
         }
 
+        $value = HeaderWrap::mimeDecodeValue($value);
         $header = new static($value);
 
         return $header;

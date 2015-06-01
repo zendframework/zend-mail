@@ -27,15 +27,10 @@ final class HeaderName
      */
     public static function filter($name)
     {
-        $result = '';
-        $tot    = strlen($name);
-        for ($i = 0; $i < $tot; $i += 1) {
-            $ord = ord($name[$i]);
-            if ($ord > 32 && $ord < 127 && $ord !== 58) {
-                $result .= $name[$i];
-            }
-        }
-        return $result;
+        if (empty($name) || !is_string($name))
+            return '';
+
+        return preg_replace('%[^!-9;-~]%', '', $name);
     }
 
     /**
@@ -46,14 +41,10 @@ final class HeaderName
      */
     public static function isValid($name)
     {
-        $tot = strlen($name);
-        for ($i = 0; $i < $tot; $i += 1) {
-            $ord = ord($name[$i]);
-            if ($ord < 33 || $ord > 126 || $ord === 58) {
-                return false;
-            }
-        }
-        return true;
+        if (empty($name) || !is_string($name))
+            return false;
+
+        return (bool)preg_match('%^[!-9;-~]+$%', $name);
     }
 
     /**

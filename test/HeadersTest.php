@@ -381,6 +381,7 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
         $headers = new Mail\Headers();
         $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException');
         $headers->addHeaderLine('Fake', "foo-bar\r\n\r\nevilContent");
+        $headers->forceLoading();
     }
 
     /**
@@ -412,6 +413,7 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
         $headers = new Mail\Headers();
         $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException');
         $headers->addHeaders(array('Fake' => "foo-bar\r\n\r\nevilContent"));
+        $headers->forceLoading();
     }
 
     /**

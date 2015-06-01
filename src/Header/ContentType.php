@@ -26,13 +26,13 @@ class ContentType implements HeaderInterface
     public static function fromString($headerLine)
     {
         list($name, $value) = GenericHeader::splitHeaderLine($headerLine);
-        $value = HeaderWrap::mimeDecodeValue($value);
 
         // check to ensure proper header type for this factory
-        if (strtolower($name) !== 'content-type') {
+        if (strtolower(str_replace(array('_', '-'), '', $name)) !== 'contenttype') {
             throw new Exception\InvalidArgumentException('Invalid header line for Content-Type string');
         }
 
+        $value = HeaderWrap::mimeDecodeValue($value);
         $value  = str_replace(Headers::FOLDING, ' ', $value);
         $values = preg_split('#\s*;\s*#', $value);
 
