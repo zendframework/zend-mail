@@ -92,14 +92,12 @@ abstract class AbstractAddressList implements HeaderInterface
                 continue;
             }
 
-            if (false !== strstr($name, ',')) {
-                $name = sprintf('"%s"', $name);
-            }
-
             if ($format === HeaderInterface::FORMAT_ENCODED
                 && 'ASCII' !== $encoding
             ) {
                 $name = HeaderWrap::mimeEncodeValue($name, $encoding);
+            } elseif (false !== strstr($name, ',')) {
+                $name = sprintf('"%s"', $name);
             }
 
             $emails[] = sprintf('%s <%s>', $name, $email);
