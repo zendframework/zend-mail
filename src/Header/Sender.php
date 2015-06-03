@@ -39,25 +39,23 @@ class Sender implements HeaderInterface
 
         // check to ensure proper header type for this factory
         if (strtolower($name) !== 'sender') {
-            throw new Exception\InvalidArgumentException('Invalid header line for Sender string');
+            throw new Exception\InvalidArgumentException('Invalid header name for Sender string');
         }
 
-        $header      = new static();
-        $senderName  = '';
-        $senderEmail = '';
+        $header     = new static();
+        $hasMatches = preg_match('/^(?:(?P<name>.+)\s)?(?(name)<|<?)(?P<email>[^\s]+?)(?(name)>|>?)$/', $value, $matches);
 
-        // Check for address, and set if found
-        if (preg_match('/^(?P<name>.*?)<(?P<email>[^>]+)>$/', $value, $matches)) {
-            $senderName = trim($matches['name']);
-            if (empty($senderName)) {
-                $senderName = null;
-            }
-            $senderEmail = $matches['email'];
-        } else {
-            $senderEmail = $value;
+        if ($hasMatches !== 1) {
+            throw new Exception\InvalidArgumentException('Invalid header value for Sender string');
         }
 
-        $header->setAddress($senderEmail, $senderName);
+        $senderName = trim($matches['name']);
+
+        if (empty($senderName)) {
+            $senderName = null;
+        }
+
+        $header->setAddress($matches['email'], $senderName);
 
         return $header;
     }
