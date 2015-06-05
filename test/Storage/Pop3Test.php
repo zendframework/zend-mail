@@ -26,9 +26,9 @@ class Pop3Test extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Zend_Mail POP3 tests are not enabled');
         }
 
-        $this->_params = array('host'     => getenv('TESTS_ZEND_MAIL_POP3_HOST'),
+        $this->_params = ['host'     => getenv('TESTS_ZEND_MAIL_POP3_HOST'),
                                'user'     => getenv('TESTS_ZEND_MAIL_POP3_USER'),
-                               'password' => getenv('TESTS_ZEND_MAIL_POP3_PASSWORD'));
+                               'password' => getenv('TESTS_ZEND_MAIL_POP3_PASSWORD')];
 
         if (getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR') && getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR')) {
             if (!file_exists(getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR') . DIRECTORY_SEPARATOR . 'inbox')
@@ -104,7 +104,7 @@ class Pop3Test extends \PHPUnit_Framework_TestCase
     public function testNoParams()
     {
         $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
-        new Storage\Pop3(array());
+        new Storage\Pop3([]);
     }
 
     public function testConnectSSL()
@@ -184,7 +184,7 @@ class Pop3Test extends \PHPUnit_Framework_TestCase
     public function testSize()
     {
         $mail = new Storage\Pop3($this->_params);
-        $shouldSizes = array(1 => 397, 89, 694, 452, 497, 101, 139);
+        $shouldSizes = [1 => 397, 89, 694, 452, 497, 101, 139];
 
 
         $sizes = $mail->getSize();
