@@ -147,9 +147,16 @@ class SenderTest extends \PHPUnit_Framework_TestCase
 
     public function validSenderHeaderDataProvider()
     {
-        return array_map(function ($parameters) {
+        return array_merge(array_map(function ($parameters) {
             return array_slice($parameters, 2);
-        }, $this->validSenderDataProvider());
+        }, $this->validSenderDataProvider()), [
+            // Per RFC 2822, 3.4 and 3.6.2, "Sender: foo@bar" is valid.
+            'Unbracketed email' => [
+                '<foo@bar>',
+                'foo@bar',
+                'ASCII'
+            ]
+        ]);
     }
 
     public function invalidSenderDataProvider()
