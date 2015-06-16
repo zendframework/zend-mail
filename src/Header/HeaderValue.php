@@ -36,6 +36,7 @@ final class HeaderValue
             $ord = ord($value[$i]);
             if (($ord < 32 || $ord > 126)
                 && $ord !== 13
+                && $ord !== 9
             ) {
                 continue;
             }
@@ -77,6 +78,7 @@ final class HeaderValue
             $ord = ord($value[$i]);
             if (($ord < 32 || $ord > 126)
                 && $ord !== 13
+                && $ord !== 9
             ) {
                 return false;
             }
