@@ -424,4 +424,22 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
         $headers->addHeaders(['Fake' => ["foo-bar\r\n\r\nevilContent"]]);
         $headers->forceLoading();
     }
+    
+    public function testCanConvertNonASCIIHeaderToStringAfterAddingHeaderToMessage()
+    {
+        //non ASCII characters
+        $str = 'òàù';
+        $header = new \Zend\Mail\Header\GenericHeader();
+        $message = new \Zend\Mail\Message();
+        $headers = new \Zend\Mail\Headers();
+        
+        $header->setFieldName('X-Test');
+        $header->setFieldValue($str);
+        $headers->addHeader($header);
+        $message->setHeaders($headers);
+        $headers->setEncoding('UTF-8');
+        
+		$this->assertTrue(is_string($header->toString()), 'Can call Header::toString()');
+    }
+
 }
