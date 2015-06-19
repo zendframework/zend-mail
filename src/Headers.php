@@ -152,7 +152,7 @@ class Headers implements Countable, Iterator
     {
         $this->encoding = $encoding;
         foreach ($this as $header) {
-            $header->getEncoding();
+            ($encoding === 'ASCII') ? $header->getEncoding() : $header->setEncoding($encoding);
         }
         return $this;
     }
