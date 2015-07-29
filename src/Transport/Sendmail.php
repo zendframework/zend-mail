@@ -221,7 +221,7 @@ class Sendmail implements TransportInterface
         $headers = clone $message->getHeaders();
         $headers->removeHeader('Subject');
 
-        // On *nix platforms, strip the "to" header as wll
+        // On *nix platforms, strip the "to" header as well
         if (!$this->isWindowsOs()) {
             $headers->removeHeader('To');
         }
