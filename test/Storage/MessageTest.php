@@ -39,41 +39,19 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $this->fail('no exception raised while loading unknown file');
     }
 
-    public function testIsMultipart()
+    /**
+     * @dataProvider filesProvider
+     */
+    public function testParseFile($params)
     {
-        $message = new Message(['file' => $this->_file]);
+        $message = new Message($params);
 
-        $this->assertTrue($message->isMultipart());
+        $this->assertTrue($message->isMultipart(), 'isMultipart() value not match');
+        $this->assertEquals($message->subject, 'multipart', 'subject value not match');
+        $this->assertEquals('Peter Müller <peter-mueller@example.com>', $message->from, 'from value not match');
+        $this->assertEquals(['multipart'], $message->getHeader('subject', 'array'), 'getHeader() value not match');
     }
 
-    public function testGetHeader()
-    {
-        $message = new Message(['file' => $this->_file]);
-
-        $this->assertEquals($message->subject, 'multipart');
-    }
-
-    public function testGetDecodedHeader()
-    {
-        $message = new Message(['file' => $this->_file]);
-
-        $this->assertEquals('Peter Müller <peter-mueller@example.com>', $message->from);
-    }
-
-    public function testGetHeaderAsArray()
-    {
-        $message = new Message(['file' => $this->_file]);
-
-        $this->assertEquals($message->getHeader('subject', 'array'), ['multipart']);
-    }
-
-    public function testGetHeaderFromOpenFile()
-    {
-        $fh = fopen($this->_file, 'r');
-        $message = new Message(['file' => $fh]);
-
-        $this->assertEquals($message->subject, 'multipart');
-    }
 
     public function testGetFirstPart()
     {
@@ -427,5 +405,17 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $raw = file_get_contents($this->_file);
         $raw = "From foo@example.com  Sun Jan 01 00:00:00 2000\n" . $raw;
         $message = new Message(['raw' => $raw, 'strict' => true]);
+    }
+
+    public function filesProvider()
+    {
+        $filePath = __DIR__ . '/../_files/mail.txt';
+
+        return [
+            // Description => [params]
+            'resource' => [['file' => fopen($filePath, 'r')]],
+            'file path' => [['file' => $filePath]],
+            'raw' => [['raw' => file_get_contents($filePath)]],
+        ];
     }
 }
