@@ -410,12 +410,14 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     public function filesProvider()
     {
         $filePath = __DIR__ . '/../_files/mail.txt';
+        $fileBlankLineOnTop = __DIR__ . '/../_files/mail_blank_top_line.txt';
 
         return [
             // Description => [params]
             'resource' => [['file' => fopen($filePath, 'r')]],
             'file path' => [['file' => $filePath]],
             'raw' => [['raw' => file_get_contents($filePath)]],
+            'file with blank line on top' => [['file' => $fileBlankLineOnTop]],
         ];
     }
 }
