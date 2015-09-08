@@ -12,6 +12,7 @@ namespace ZendTest\Mail\Header;
 use Zend\Mail\Header\ContentType;
 use Zend\Mail\Header\Exception\InvalidArgumentException;
 use Zend\Mail\Header\HeaderInterface;
+use Zend\Mail\Header\UnstructuredInterface;
 
 /**
  * @group      Zend_Mail
@@ -22,6 +23,7 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase
     {
         $header = new ContentType();
 
+        $this->assertInstanceOf(UnstructuredInterface::class, $header);
         $this->assertInstanceOf(HeaderInterface::class, $header);
     }
 
@@ -139,7 +141,6 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase
 
             // @group ZF2015-04
             'invalid name' => ["b\r\na\rr\n", 'baz', $invalidArgumentException, 'parameter name'],
-            'invalid value' => ['foo', "\nbar\r\nbaz\r", $invalidArgumentException, 'parameter value'],
         ];
         // @codingStandardsIgnoreEnd
     }
