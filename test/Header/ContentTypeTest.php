@@ -113,6 +113,9 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase
         $foldingHeaderLine = "Content-Type: foo/baz;\r\n charset=\"us-ascii\"";
         $foldingFieldValue = "foo/baz;\r\n charset=\"us-ascii\"";
 
+        $encodedHeaderLine = "Content-Type: foo/baz;\r\n name=\"=?UTF-8?Q?=C3=93?=\"";
+        $encodedFieldValue = "foo/baz;\r\n name=\"Ó\"";
+
         // @codingStandardsIgnoreStart
         return [
             // Description => [$type, $parameters, $fieldValue, toString()]
@@ -121,6 +124,7 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase
             'foo/a+b'   => ['foo/a+b'  , [], 'foo/a+b'  , 'Content-Type: foo/a+b'],
             'foo/baz'   => ['foo/baz'  , [], 'foo/baz'  , 'Content-Type: foo/baz'],
             'parameter use header folding' => ['foo/baz'  , ['charset' => 'us-ascii'], $foldingFieldValue, $foldingHeaderLine],
+            'encoded characters' => ['foo/baz'  , ['name' => 'Ó'], $encodedFieldValue, $encodedHeaderLine],
         ];
         // @codingStandardsIgnoreEnd
     }
