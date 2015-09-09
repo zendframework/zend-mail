@@ -6,7 +6,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#12](https://github.com/zendframework/zend-mail/pull/12) adds support for
+  simple comments in address lists.
 
 ### Deprecated
 
