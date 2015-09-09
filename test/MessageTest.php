@@ -806,4 +806,29 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('multipart/alternative', $contentType->getFieldValue());
         $this->assertContains($multipartContent->getMime()->boundary(), $contentType->getFieldValue());
     }
+
+    /**
+     * @group 19
+     */
+    public function testCanParseMultipartReport()
+    {
+        $raw = file_get_contents(__DIR__ . '/_files/zend-mail-19.txt');
+        $message = Message::fromString($raw);
+        $this->assertInstanceOf(Message::class, $message);
+
+        $this->assertInternalType('string', $message->getBody());
+        $headers = $message->getHeaders();
+        $this->assertCount(8, $headers);
+        $this->assertTrue($headers->has('Date'));
+        $this->assertTrue($headers->has('From'));
+        $this->assertTrue($headers->has('Message-Id'));
+        $this->assertTrue($headers->has('To'));
+        $this->assertTrue($headers->has('MIME-Version'));
+        $this->assertTrue($headers->has('Content-Type'));
+        $this->assertTrue($headers->has('Subject'));
+        $this->assertTrue($headers->has('Auto-Submitted'));
+
+        $contentType = $headers->get('Content-Type');
+        $this->assertEquals('multipart/report', $contentType->getType());
+    }
 }
