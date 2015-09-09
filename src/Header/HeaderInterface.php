@@ -29,7 +29,7 @@ interface HeaderInterface
      * Factory to generate a header object from a string
      *
      * @param string $headerLine
-     * @return self
+     * @return static
      * @throws Exception\InvalidArgumentException If the header does not match with RFC 2822 definition.
      * @see http://tools.ietf.org/html/rfc2822#section-2.2
      */
@@ -54,7 +54,7 @@ interface HeaderInterface
      * Set header encoding
      *
      * @param  string $encoding
-     * @return self
+     * @return $this
      */
     public function setEncoding($encoding);
 
