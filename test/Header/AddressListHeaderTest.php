@@ -146,6 +146,26 @@ class AddressListHeaderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider getHeadersWithComments
+     */
+    public function testDeserializationFromStringWithComments($value)
+    {
+        $header = From::fromString($value);
+        $list = $header->getAddressList();
+        $this->assertEquals(1, count($list));
+        $this->assertTrue($list->has('user@example.com'));
+    }
+
+    public function getHeadersWithComments()
+    {
+        return [
+            ['From: user@example.com (Comment)'],
+            ['From: user@example.com (Comm\\)ent)'],
+            ['From: (Comment\\\\)user@example.com(Another)'],
+        ];
+    }
+
+    /**
      * @group 3789
      * @dataProvider getStringHeadersWithNoWhitespaceSeparator
      */
