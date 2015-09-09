@@ -42,16 +42,38 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider filesProvider
      */
-    public function testParseFile($params)
+    public function testIsMultipart($params)
     {
         $message = new Message($params);
-
-        $this->assertTrue($message->isMultipart(), 'isMultipart() value not match');
-        $this->assertEquals($message->subject, 'multipart', 'subject value not match');
-        $this->assertEquals('Peter Müller <peter-mueller@example.com>', $message->from, 'from value not match');
-        $this->assertEquals(['multipart'], $message->getHeader('subject', 'array'), 'getHeader() value not match');
+        $this->assertTrue($message->isMultipart());
     }
 
+    /**
+     * @dataProvider filesProvider
+     */
+    public function testGetHeader($params)
+    {
+        $message = new Message($params);
+        $this->assertEquals($message->subject, 'multipart');
+    }
+
+    /**
+     * @dataProvider filesProvider
+     */
+    public function testGetDecodedHeader($params)
+    {
+        $message = new Message($params);
+        $this->assertEquals('Peter Müller <peter-mueller@example.com>', $message->from);
+    }
+
+    /**
+     * @dataProvider filesProvider
+     */
+    public function testGetHeaderAsArray($params)
+    {
+        $message = new Message($params);
+        $this->assertEquals(['multipart'], $message->getHeader('subject', 'array'), 'getHeader() value not match');
+    }
 
     public function testGetFirstPart()
     {
@@ -414,9 +436,9 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
         return [
             // Description => [params]
-            'resource' => [['file' => fopen($filePath, 'r')]],
-            'file path' => [['file' => $filePath]],
-            'raw' => [['raw' => file_get_contents($filePath)]],
+            'resource'                    => [['file' => fopen($filePath, 'r')]],
+            'file path'                   => [['file' => $filePath]],
+            'raw'                         => [['raw'  => file_get_contents($filePath)]],
             'file with blank line on top' => [['file' => $fileBlankLineOnTop]],
         ];
     }
