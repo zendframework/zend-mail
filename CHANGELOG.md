@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#12](https://github.com/zendframework/zend-mail/pull/12) adds support for
   simple comments in address lists.
+- [#13](https://github.com/zendframework/zend-mail/pull/13) adds support for
+  groups in address lists.
 
 ### Deprecated
 

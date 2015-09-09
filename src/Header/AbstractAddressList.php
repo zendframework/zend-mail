@@ -58,6 +58,7 @@ abstract class AbstractAddressList implements HeaderInterface
         }
         // split value on ","
         $fieldValue = str_replace(Headers::FOLDING, ' ', $fieldValue);
+        $fieldValue = preg_replace('/[^:]+:([^;]*);/', '$1,', $fieldValue);
         $values     = str_getcsv($fieldValue, ',');
         array_walk(
             $values,
@@ -66,6 +67,7 @@ abstract class AbstractAddressList implements HeaderInterface
                 $value = self::stripComments($value);
             }
         );
+        $values = array_filter($values);
 
         $addressList = $header->getAddressList();
         foreach ($values as $address) {
