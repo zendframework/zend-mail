@@ -189,4 +189,25 @@ class AddressListHeaderTest extends \PHPUnit_Framework_TestCase
         $address = $list->get('first@last.zend.com');
         $this->assertEquals('Last, First', $address->getName());
     }
+
+    /**
+     * @dataProvider getAddressListsWithGroup
+     */
+    public function testAddressListWithGroup($input, $count, $sample)
+    {
+        $header = To::fromString($input);
+        $list = $header->getAddressList();
+        $this->assertEquals($count, count($list));
+        if ($count > 0) {
+            $this->assertTrue($list->has($sample));
+        }
+    }
+
+    public function getAddressListsWithGroup()
+    {
+        return [
+            ['To: undisclosed-recipients:;', 0, null],
+            ['To: friends: john@example.com; enemies: john@example.net, bart@example.net;', 3, 'john@example.net'],
+        ];
+    }
 }
