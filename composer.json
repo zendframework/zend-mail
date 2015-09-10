@@ -14,17 +14,18 @@
     },
     "require": {
         "php": ">=5.3.23",
-        "zendframework/zend-crypt": "self.version",
-        "zendframework/zend-loader": "self.version",
-        "zendframework/zend-mime": "self.version",
-        "zendframework/zend-stdlib": "self.version",
-        "zendframework/zend-validator": "self.version"
+        "zendframework/zend-crypt": "~2.4.0",
+        "zendframework/zend-loader": "~2.4.0",
+        "zendframework/zend-mime": "~2.4.0",
+        "zendframework/zend-stdlib": "~2.4.0",
+        "zendframework/zend-validator": "~2.4.0"
     },
     "require-dev": {
-        "zendframework/zend-servicemanager": "self.version",
+        "zendframework/zend-servicemanager": "~2.4.0",
         "fabpot/php-cs-fixer": "1.7.*",
         "satooshi/php-coveralls": "dev-master",
-        "phpunit/PHPUnit": "~4.0"
+        "phpunit/PHPUnit": "~4.0",
+        "zendframework/zend-config": "~2.4.0"
     },
     "suggest": {
         "zendframework/zend-servicemanager": "Zend\\ServiceManager component"
