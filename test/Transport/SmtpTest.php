@@ -33,6 +33,11 @@ class SmtpTest extends \PHPUnit_Framework_TestCase
         $this->transport->setConnection($this->connection);
     }
 
+    public function tearDown()
+    {
+        $this->connection->setRaiseExpectExceptonOnNextQuit(false);
+    }
+
     public function getMessage()
     {
         $message = new Message();
@@ -232,5 +237,28 @@ class SmtpTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->connection->hasSession());
         $this->transport->send($this->getMessage());
         $this->assertTrue($this->connection->hasSession());
+    }
+
+    public function testHandleReuseTimeLimit()
+    {
+        $message = $this->getMessage();
+        $options = new SmtpOptions([
+            'reuse_time_limit' => 0,
+        ]);
+        $transport = new Smtp($options);
+        $transport->setConnection($this->connection);
+        $transport->send($message);
+        $this->connection->setRaiseExpectExceptonOnNextQuit(true);
+        $transport->send($message);
+        $this->assertTrue($this->connection->calledQuit);
+    }
+
+    public function testDefaultReuseTimeLimitIsUnlimited()
+    {
+        $message = $this->getMessage();
+        $this->transport->send($message);
+        $this->connection->setRaiseExpectExceptonOnNextQuit(true);
+        $this->transport->send($message);
+        $this->assertFalse($this->connection->calledQuit);
     }
 }

@@ -344,13 +344,18 @@ class Smtp extends AbstractProtocol
     /**
      * Issues the QUIT command and clears the current session
      *
+     * @param  bool $completeQuit Whether or not do a complete QUIT or ignore possible errors like reuse timeout
      */
-    public function quit()
+    public function quit($completeQuit = true)
     {
         if ($this->sess) {
             $this->auth = false;
-            $this->_send('QUIT');
-            $this->_expect(221, 300); // Timeout set for 5 minutes as per RFC 2821 4.5.3.2
+
+            if ($completeQuit) {
+                $this->_send('QUIT');
+                $this->_expect(221, 300); // Timeout set for 5 minutes as per RFC 2821 4.5.3.2
+            }
+
             $this->_stopSession();
         }
     }

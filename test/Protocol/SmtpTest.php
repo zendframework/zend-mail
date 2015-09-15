@@ -101,4 +101,14 @@ class SmtpTest extends \PHPUnit_Framework_TestCase
         $this->connection->disconnect();
         $this->assertFalse($this->connection->getAuth());
     }
+
+    public function testStartTime()
+    {
+        $yesterday = (time() - 86400);
+        $this->assertNull($this->connection->getStartTime());
+        $this->connection->connect();
+        $this->assertGreaterThan($yesterday, $this->connection->getStartTime());
+        $this->connection->disconnect();
+        $this->assertNull($this->connection->getStartTime());
+    }
 }

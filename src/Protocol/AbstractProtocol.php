@@ -59,6 +59,12 @@ abstract class AbstractProtocol
     protected $socket;
 
     /**
+     * Socket connection start time
+     * @var int
+     */
+    protected $startTime;
+
+    /**
      * Last request sent to server
      * @var string
      */
@@ -131,6 +137,16 @@ abstract class AbstractProtocol
      * Concrete adapters for this class will implement their own unique connect scripts, using the _connect() method to create the socket resource.
      */
     abstract public function connect();
+
+    /**
+     * Retrieve the time the socket has started
+     *
+     * @return string
+     */
+    public function getStartTime()
+    {
+        return $this->startTime;
+    }
 
     /**
      * Retrieve the last client request
@@ -213,7 +229,18 @@ abstract class AbstractProtocol
             throw new Exception\RuntimeException('Could not set stream timeout');
         }
 
+        $this->_startTime();
+
         return $result;
+    }
+
+    /**
+     * Mark the socket connection start time
+     *
+     */
+    protected function _startTime()
+    {
+        $this->startTime = time();
     }
 
     /**
@@ -225,6 +252,8 @@ abstract class AbstractProtocol
         if (is_resource($this->socket)) {
             fclose($this->socket);
         }
+
+        $this->startTime = null;
     }
 
     /**
