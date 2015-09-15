@@ -239,6 +239,9 @@ class SmtpTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->connection->hasSession());
     }
 
+    /*
+     * @see https://github.com/zendframework/zend-mail/pull/27
+     */
     public function testHandleReuseTimeLimit()
     {
         $message = $this->getMessage();
