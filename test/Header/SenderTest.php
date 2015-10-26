@@ -209,45 +209,56 @@ class SenderTest extends \PHPUnit_Framework_TestCase
      * @param string $headerString
      * @param string $expectedName
      * @param string $expectedEmail
-     * @param string $expectedException
      *
-     * @dataProvider headerLinesProvider
+     * @dataProvider validHeaderLinesProvider
      */
-    public function testFromString($headerString, $expectedName, $expectedEmail, $expectedException = null)
+    public function testFromStringWithValidInput($headerString, $expectedName, $expectedEmail)
     {
-        if ($expectedException) {
-            $this->setExpectedException($expectedException);
-        }
-
         $header = Header\Sender::fromString($headerString);
-
-
-        if ($expectedException) {
-            return;
-        }
 
         $this->assertSame($expectedName, $header->getAddress()->getName());
         $this->assertSame($expectedEmail, $header->getAddress()->getEmail());
     }
 
-    public function headerLinesProvider()
+    public function validHeaderLinesProvider()
+    {
+
+        return [
+            // [ header line, expected sender name, expected email address ]
+            ['Sender: foo@bar', null, 'foo@bar'],
+            ['Sender: <foo@bar>', null, 'foo@bar'],
+            ['Sender:    foo@bar', null, 'foo@bar'],
+            ['Sender: name <foo@bar>', 'name', 'foo@bar'],
+            ['Sender: <weird name> <foo@bar>', '<weird name>', 'foo@bar'],
+            ['Sender: moar words <foo@bar>', 'moar words', 'foo@bar'],
+            ['Sender: =?UTF-8?Q?=C3=A1z=C3=81Z09?= <foo@bar>', 'ázÁZ09', 'foo@bar'],
+        ];
+    }
+
+    /**
+     * @param string $headerString
+     * @param string $expectedException
+     * @param string $expectedMessagePart
+     *
+     * @dataProvider invalidHeaderLinesProvider
+     */
+    public function testFromStringWithInvalidInput($headerString, $expectedException, $expectedMessagePart = '')
+    {
+        $this->setExpectedException($expectedException, $expectedMessagePart);
+
+        Header\Sender::fromString($headerString);
+    }
+
+    public function invalidHeaderLinesProvider()
     {
         $mailInvalidArgumentException = 'Zend\Mail\Exception\InvalidArgumentException';
         $headerInvalidArgumentException = 'Zend\Mail\Header\Exception\InvalidArgumentException';
 
-        return array(
-            // [ header line, expected sender name, expected email address, expected exception class ]
-            array( 'Sender: foo@bar', null, 'foo@bar'),
-            array( 'Sender: <foo@bar>', null, 'foo@bar'),
-            array( 'Sender:    foo@bar', null, 'foo@bar'),
-            array( 'Sender: name <foo@bar>', 'name', 'foo@bar' ),
-            array( 'Sender: <weird name> <foo@bar>', '<weird name>', 'foo@bar' ),
-            array( 'Sender: moar words <foo@bar>', 'moar words', 'foo@bar' ),
-            array( 'Sender: foo', null, null, $mailInvalidArgumentException ),
-            array( 'Sender: foo<foo>', null, null, $mailInvalidArgumentException ),
-            array( 'Sender: foo foo', null, null, $headerInvalidArgumentException ),
-            array( 'Sender: <foo> foo', null, null, $headerInvalidArgumentException ),
-            array( 'Sender: =?UTF-8?Q?=C3=A1z=C3=81Z09?= <foo@bar>', 'ázÁZ09', 'foo@bar' ),
-        );
+        return [
+            ['Sender: foo', $mailInvalidArgumentException],
+            ['Sender: foo<foo>', $mailInvalidArgumentException],
+            ['Sender: foo foo', $headerInvalidArgumentException],
+            ['Sender: <foo> foo', $headerInvalidArgumentException],
+        ];
     }
 }
