@@ -11,6 +11,8 @@ namespace ZendTest\Mail\Header;
 
 use Zend\Mail\Address;
 use Zend\Mail\Header;
+use Zend\Mail\Exception;
+
 
 /**
  * @group      Zend_Mail
@@ -251,8 +253,8 @@ class SenderTest extends \PHPUnit_Framework_TestCase
 
     public function invalidHeaderLinesProvider()
     {
-        $mailInvalidArgumentException = 'Zend\Mail\Exception\InvalidArgumentException';
-        $headerInvalidArgumentException = 'Zend\Mail\Header\Exception\InvalidArgumentException';
+        $mailInvalidArgumentException = Exception\InvalidArgumentException::class;
+        $headerInvalidArgumentException = Header\Exception\InvalidArgumentException::class;
 
         return [
             ['Sender: foo', $mailInvalidArgumentException],
