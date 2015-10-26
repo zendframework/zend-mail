@@ -43,6 +43,12 @@ class Sender implements HeaderInterface
         }
 
         $header     = new static();
+
+        /**
+         * matches the header value so that the email must be enclosed by < > when a name is present
+         * 'name' and 'email' capture groups correspond respectively to 'display-name' and 'addr-spec' in the ABNF
+         * @see https://tools.ietf.org/html/rfc5322#section-3.4
+         */
         $hasMatches = preg_match('/^(?:(?P<name>.+)\s)?(?(name)<|<?)(?P<email>[^\s]+?)(?(name)>|>?)$/', $value, $matches);
 
         if ($hasMatches !== 1) {
