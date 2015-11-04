@@ -15,6 +15,7 @@ use Zend\Mail\Transport\FileOptions;
 
 /**
  * @group      Zend_Mail
+ * @covers Zend\Mail\Transport\File<extended>
  */
 class FileTest extends \PHPUnit_Framework_TestCase
 {

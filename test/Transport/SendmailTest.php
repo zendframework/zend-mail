@@ -14,6 +14,7 @@ use Zend\Mail\Transport\Sendmail;
 
 /**
  * @group      Zend_Mail
+ * @covers Zend\Mail\Transport\Sendmail<extended>
  */
 class SendmailTest extends \PHPUnit_Framework_TestCase
 {

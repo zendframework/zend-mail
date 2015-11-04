@@ -13,6 +13,7 @@ use Zend\Mail\Header\ContentTransferEncoding;
 
 /**
  * @group      Zend_Mail
+ * @covers Zend\Mail\Header\ContentTransferEncoding<extended>
  */
 class ContentTransferEncodingTest extends \PHPUnit_Framework_TestCase
 {

@@ -14,6 +14,7 @@ use Zend\Mail\AddressList;
 
 /**
  * @group      Zend_Mail
+ * @covers Zend\Mail\AddressList<extended>
  */
 class AddressListTest extends \PHPUnit_Framework_TestCase
 {

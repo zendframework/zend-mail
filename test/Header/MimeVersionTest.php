@@ -13,6 +13,7 @@ use Zend\Mail\Header;
 
 /**
  * @group      Zend_Mail
+ * @covers Zend\Mail\Header\MimeVersion<extended>
  */
 class MimeVersionTest extends \PHPUnit_Framework_TestCase
 {

@@ -16,6 +16,7 @@ use Zend\Mail\Header;
  * header folding and MIME encoding properly.
  *
  * @group      Zend_Mail
+ * @covers Zend\Mail\Header\To<extended>
  */
 class ToTest extends \PHPUnit_Framework_TestCase
 {

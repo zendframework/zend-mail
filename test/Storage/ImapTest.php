@@ -13,6 +13,9 @@ use Zend\Config;
 use Zend\Mail\Protocol;
 use Zend\Mail\Storage;
 
+/**
+ * @covers Zend\Mail\Storage\Imap<extended>
+ */
 class ImapTest extends \PHPUnit_Framework_TestCase
 {
     protected $params;

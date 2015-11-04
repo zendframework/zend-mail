@@ -13,6 +13,7 @@ use Zend\Mail\MessageFactory;
 
 /**
  * @group      Zend_Mail
+ * @covers Zend\Mail\MessageFactory<extended>
  */
 class MessageFactoryTest extends \PHPUnit_Framework_TestCase
 {

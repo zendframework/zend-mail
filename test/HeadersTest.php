@@ -14,6 +14,7 @@ use Zend\Mail\Header;
 
 /**
  * @group      Zend_Mail
+ * @covers Zend\Mail\Headers<extended>
  */
 class HeadersTest extends \PHPUnit_Framework_TestCase
 {

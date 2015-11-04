@@ -13,6 +13,7 @@ use Zend\Mail\Transport\FileOptions;
 
 /**
  * @group      Zend_Mail
+ * @covers Zend\Mail\Transport\FileOptions<extended>
  */
 class FileOptionsTest extends \PHPUnit_Framework_TestCase
 {
