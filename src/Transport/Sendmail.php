@@ -12,7 +12,6 @@ namespace Zend\Mail\Transport;
 use Traversable;
 use Zend\Mail;
 use Zend\Mail\Address\AddressInterface;
-use Zend\Mail\Transport\Exception;
 use Zend\Mail\Header\HeaderInterface;
 
 /**
