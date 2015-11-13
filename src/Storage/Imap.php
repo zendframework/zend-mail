@@ -372,13 +372,28 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
      * @throws Exception\RuntimeException
      * @throws Protocol\Exception\RuntimeException
      */
-    public function selectFolder($globalName)
+    public function selectFolder($globalName, $examine = false)
     {
         $this->currentFolder = $globalName;
-        if (!$this->protocol->select($this->currentFolder)) {
+        $method = ($examine ? 'examine' : 'select');
+        if (!$this->protocol->$method($this->currentFolder)) {
             $this->currentFolder = '';
             throw new Exception\RuntimeException('cannot change folder, maybe it does not exist');
         }
+    }
+
+    /**
+     * examine given folder
+     *
+     * folder must be selectable!
+     *
+     * @param  Folder|string $globalName global name of folder or instance for subfolder
+     * @throws Exception\RuntimeException
+     * @throws Protocol\Exception\RuntimeException
+     */
+    public function examineFolder($globalName)
+    {
+        $this->selectFolder($globalName, true);
     }
 
     /**
