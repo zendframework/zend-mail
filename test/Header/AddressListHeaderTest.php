@@ -67,7 +67,7 @@ class AddressListHeaderTest extends \PHPUnit_Framework_TestCase
     public function testFieldValueIsCreatedFromAddressList()
     {
         $header = new To();
-        $list = $header->getAddressList();
+        $list   = $header->getAddressList();
         $this->populateAddressList($list);
         $expected = $this->getExpectedFieldValue();
         $this->assertEquals($expected, $header->getFieldValue());
@@ -101,11 +101,11 @@ class AddressListHeaderTest extends \PHPUnit_Framework_TestCase
     {
         $value = $this->getExpectedFieldValue();
         return [
-            'cc' => ['Cc: ' . $value, 'Zend\Mail\Header\Cc'],
-            'bcc' => ['Bcc: ' . $value, 'Zend\Mail\Header\Bcc'],
-            'from' => ['From: ' . $value, 'Zend\Mail\Header\From'],
+            'cc'       => ['Cc: ' . $value, 'Zend\Mail\Header\Cc'],
+            'bcc'      => ['Bcc: ' . $value, 'Zend\Mail\Header\Bcc'],
+            'from'     => ['From: ' . $value, 'Zend\Mail\Header\From'],
             'reply-to' => ['Reply-To: ' . $value, 'Zend\Mail\Header\ReplyTo'],
-            'to' => ['To: ' . $value, 'Zend\Mail\Header\To'],
+            'to'       => ['To: ' . $value, 'Zend\Mail\Header\To'],
         ];
     }
 
@@ -115,7 +115,7 @@ class AddressListHeaderTest extends \PHPUnit_Framework_TestCase
     public function testDeserializationFromString($headerLine, $class)
     {
         $callback = sprintf('%s::fromString', $class);
-        $header = call_user_func($callback, $headerLine);
+        $header   = call_user_func($callback, $headerLine);
         $this->assertInstanceOf($class, $header);
         $list = $header->getAddressList();
         $this->assertEquals(4, count($list));
@@ -137,11 +137,11 @@ class AddressListHeaderTest extends \PHPUnit_Framework_TestCase
     {
         $value = $this->getExpectedFieldValue();
         return [
-            'cc' => ['Cc:' . $value, 'Zend\Mail\Header\Cc'],
-            'bcc' => ['Bcc:' . $value, 'Zend\Mail\Header\Bcc'],
-            'from' => ['From:' . $value, 'Zend\Mail\Header\From'],
+            'cc'       => ['Cc:' . $value, 'Zend\Mail\Header\Cc'],
+            'bcc'      => ['Bcc:' . $value, 'Zend\Mail\Header\Bcc'],
+            'from'     => ['From:' . $value, 'Zend\Mail\Header\From'],
             'reply-to' => ['Reply-To:' . $value, 'Zend\Mail\Header\ReplyTo'],
-            'to' => ['To:' . $value, 'Zend\Mail\Header\To'],
+            'to'       => ['To:' . $value, 'Zend\Mail\Header\To'],
         ];
     }
 
@@ -172,7 +172,7 @@ class AddressListHeaderTest extends \PHPUnit_Framework_TestCase
     public function testAllowsNoWhitespaceBetweenHeaderAndValue($headerLine, $class)
     {
         $callback = sprintf('%s::fromString', $class);
-        $header = call_user_func($callback, $headerLine);
+        $header   = call_user_func($callback, $headerLine);
         $this->assertInstanceOf($class, $header);
         $list = $header->getAddressList();
         $this->assertEquals(4, count($list));
