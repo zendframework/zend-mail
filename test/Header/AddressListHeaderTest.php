@@ -214,23 +214,34 @@ class AddressListHeaderTest extends \PHPUnit_Framework_TestCase
     public function specialCharHeaderProvider()
     {
         return [
-            ["To: =?UTF-8?B?dGVzdCxsYWJlbA==?= <john@example.com>, john2@example.com", ['john@example.com' => 'test,label', 'john2@example.com'], 'UTF-8'],
-            ['To: "TEST\",QUOTE" <john@example.com>, john2@example.com', ['john@example.com' => 'TEST",QUOTE', 'john2@example.com'], 'ASCII']
+            [
+                "To: =?UTF-8?B?dGVzdCxsYWJlbA==?= <john@example.com>, john2@example.com",
+                ['john@example.com' => 'test,label', 'john2@example.com' => null],
+                'UTF-8'
+            ],
+            [
+                'To: "TEST\",QUOTE" <john@example.com>, john2@example.com',
+                ['john@example.com' => 'TEST",QUOTE', 'john2@example.com' => null],
+                'ASCII'
+            ]
         ];
     }
 
     /**
-     * @param string $headerLine
-     * @param array $expected
-     * @param string $encoding
      * @dataProvider specialCharHeaderProvider
      */
     public function testDeserializationFromSpecialCharString($headerLine, $expected, $encoding)
     {
         $header = To::fromString($headerLine);
-        $to = new To();
-        $to->getAddressList()->addMany($expected);
-        $to->setEncoding($encoding);
-        $this->assertEquals($to, $header);
+        
+        $expectedTo = new To();
+        $addressList = $expectedTo->getAddressList();
+        $addressList->addMany($expected);
+        $expectedTo->setEncoding($encoding);
+        $this->assertEquals($expectedTo, $header);
+        foreach ($expected as $k => $v) {
+            $this->assertTrue($addressList->has($k));
+            $this->assertEquals($addressList->get($k)->getName(), $v);
+        }
     }
 }
