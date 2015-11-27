@@ -67,7 +67,7 @@ class AddressListHeaderTest extends \PHPUnit_Framework_TestCase
     public function testFieldValueIsCreatedFromAddressList()
     {
         $header = new To();
-        $list   = $header->getAddressList();
+        $list = $header->getAddressList();
         $this->populateAddressList($list);
         $expected = $this->getExpectedFieldValue();
         $this->assertEquals($expected, $header->getFieldValue());
@@ -101,11 +101,11 @@ class AddressListHeaderTest extends \PHPUnit_Framework_TestCase
     {
         $value = $this->getExpectedFieldValue();
         return [
-            'cc'       => ['Cc: ' . $value, 'Zend\Mail\Header\Cc'],
-            'bcc'      => ['Bcc: ' . $value, 'Zend\Mail\Header\Bcc'],
-            'from'     => ['From: ' . $value, 'Zend\Mail\Header\From'],
+            'cc' => ['Cc: ' . $value, 'Zend\Mail\Header\Cc'],
+            'bcc' => ['Bcc: ' . $value, 'Zend\Mail\Header\Bcc'],
+            'from' => ['From: ' . $value, 'Zend\Mail\Header\From'],
             'reply-to' => ['Reply-To: ' . $value, 'Zend\Mail\Header\ReplyTo'],
-            'to'       => ['To: ' . $value, 'Zend\Mail\Header\To'],
+            'to' => ['To: ' . $value, 'Zend\Mail\Header\To'],
         ];
     }
 
@@ -115,7 +115,7 @@ class AddressListHeaderTest extends \PHPUnit_Framework_TestCase
     public function testDeserializationFromString($headerLine, $class)
     {
         $callback = sprintf('%s::fromString', $class);
-        $header   = call_user_func($callback, $headerLine);
+        $header = call_user_func($callback, $headerLine);
         $this->assertInstanceOf($class, $header);
         $list = $header->getAddressList();
         $this->assertEquals(4, count($list));
@@ -137,11 +137,11 @@ class AddressListHeaderTest extends \PHPUnit_Framework_TestCase
     {
         $value = $this->getExpectedFieldValue();
         return [
-            'cc'       => ['Cc:' . $value, 'Zend\Mail\Header\Cc'],
-            'bcc'      => ['Bcc:' . $value, 'Zend\Mail\Header\Bcc'],
-            'from'     => ['From:' . $value, 'Zend\Mail\Header\From'],
+            'cc' => ['Cc:' . $value, 'Zend\Mail\Header\Cc'],
+            'bcc' => ['Bcc:' . $value, 'Zend\Mail\Header\Bcc'],
+            'from' => ['From:' . $value, 'Zend\Mail\Header\From'],
             'reply-to' => ['Reply-To:' . $value, 'Zend\Mail\Header\ReplyTo'],
-            'to'       => ['To:' . $value, 'Zend\Mail\Header\To'],
+            'to' => ['To:' . $value, 'Zend\Mail\Header\To'],
         ];
     }
 
@@ -172,7 +172,7 @@ class AddressListHeaderTest extends \PHPUnit_Framework_TestCase
     public function testAllowsNoWhitespaceBetweenHeaderAndValue($headerLine, $class)
     {
         $callback = sprintf('%s::fromString', $class);
-        $header   = call_user_func($callback, $headerLine);
+        $header = call_user_func($callback, $headerLine);
         $this->assertInstanceOf($class, $header);
         $list = $header->getAddressList();
         $this->assertEquals(4, count($list));
@@ -209,5 +209,28 @@ class AddressListHeaderTest extends \PHPUnit_Framework_TestCase
             ['To: undisclosed-recipients:;', 0, null],
             ['To: friends: john@example.com; enemies: john@example.net, bart@example.net;', 3, 'john@example.net'],
         ];
+    }
+
+    public function specialCharHeaderProvider()
+    {
+        return [
+            ["To: =?UTF-8?B?dGVzdCxsYWJlbA==?= <john@example.com>, john2@example.com", ['john@example.com' => 'test,label', 'john2@example.com'], 'UTF-8'],
+            ['To: "TEST\",QUOTE" <john@example.com>, john2@example.com', ['john@example.com' => 'TEST",QUOTE', 'john2@example.com'], 'ASCII']
+        ];
+    }
+
+    /**
+     * @param string $headerLine
+     * @param array $expected
+     * @param string $encoding
+     * @dataProvider specialCharHeaderProvider
+     */
+    public function testDeserializationFromSpecialCharString($headerLine, $expected, $encoding)
+    {
+        $header = To::fromString($headerLine);
+        $to = new To();
+        $to->getAddressList()->addMany($expected);
+        $to->setEncoding($encoding);
+        $this->assertEquals($to, $header);
     }
 }
