@@ -210,4 +210,38 @@ class AddressListHeaderTest extends \PHPUnit_Framework_TestCase
             ['To: friends: john@example.com; enemies: john@example.net, bart@example.net;', 3, 'john@example.net'],
         ];
     }
+
+    public function specialCharHeaderProvider()
+    {
+        return [
+            [
+                "To: =?UTF-8?B?dGVzdCxsYWJlbA==?= <john@example.com>, john2@example.com",
+                ['john@example.com' => 'test,label', 'john2@example.com' => null],
+                'UTF-8'
+            ],
+            [
+                'To: "TEST\",QUOTE" <john@example.com>, john2@example.com',
+                ['john@example.com' => 'TEST",QUOTE', 'john2@example.com' => null],
+                'ASCII'
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider specialCharHeaderProvider
+     */
+    public function testDeserializationFromSpecialCharString($headerLine, $expected, $encoding)
+    {
+        $header = To::fromString($headerLine);
+        
+        $expectedTo = new To();
+        $addressList = $expectedTo->getAddressList();
+        $addressList->addMany($expected);
+        $expectedTo->setEncoding($encoding);
+        $this->assertEquals($expectedTo, $header);
+        foreach ($expected as $k => $v) {
+            $this->assertTrue($addressList->has($k));
+            $this->assertEquals($addressList->get($k)->getName(), $v);
+        }
+    }
 }
