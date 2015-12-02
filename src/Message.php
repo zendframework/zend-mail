@@ -551,7 +551,7 @@ class Message
         $message = new static();
         $headers = null;
         $content = null;
-        Mime\Decode::splitMessage($rawMessage, $headers, $content);
+        Mime\Decode::splitMessage($rawMessage, $headers, $content, Headers::EOL);
         if ($headers->has('mime-version')) {
             // todo - restore body to mime\message
         }
