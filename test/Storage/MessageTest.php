@@ -120,7 +120,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     public function testMultipleHeader()
     {
         $raw = file_get_contents($this->_file);
-        $raw = "sUBject: test\nSubJect: test2\n" . $raw;
+        $raw = "sUBject: test\r\nSubJect: test2\r\n" . $raw;
         $message = new Message(['raw' => $raw]);
 
         $this->assertEquals('test' . Mime\Mime::LINEEND . 'test2' . Mime\Mime::LINEEND . 'multipart',
