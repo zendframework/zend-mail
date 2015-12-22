@@ -52,7 +52,9 @@ class ContentType implements UnstructuredInterface
         $values = array_filter($values);
 
         foreach ($values as $keyValuePair) {
-            list($key, $value) = explode('=', $keyValuePair, 2);
+            $parts = explode('=', $keyValuePair, 2);
+            $key = $parts[0];
+            $value = (count($parts) > 1) ? $parts[1] : "";
             $value = trim($value, "'\" \t\n\r\0\x0B");
             $header->addParameter($key, $value);
         }
