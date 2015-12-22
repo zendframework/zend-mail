@@ -27,7 +27,11 @@ class Address implements Address\AddressInterface
      */
     public function __construct($email, $name = null)
     {
-        $emailAddressValidator = new EmailAddressValidator(Hostname::ALLOW_LOCAL);
+        $emailAddressValidator = new EmailAddressValidator([
+            'allow' => Hostname::ALLOW_LOCAL,
+            'strict' => false
+        ]);
+
         if (! is_string($email) || empty($email)) {
             throw new Exception\InvalidArgumentException('Email must be a valid email address');
         }
