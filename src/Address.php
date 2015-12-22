@@ -40,10 +40,12 @@ class Address implements Address\AddressInterface
             throw new Exception\InvalidArgumentException('CRLF injection detected');
         }
 
+        /* Ignoring this check
         if (! $emailAddressValidator->isValid($email)) {
             $invalidMessages = $emailAddressValidator->getMessages();
             throw new Exception\InvalidArgumentException(array_shift($invalidMessages));
         }
+        */
 
         if (null !== $name) {
             if (! is_string($name)) {
