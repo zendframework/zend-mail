@@ -1,5 +1,5 @@
 {
-    "name": "mikegioia/zend-mail",
+    "name": "particlebits/zend-mail",
     "description": "provides generalized functionality to compose and send both text and MIME-compliant multipart e-mail messages",
     "license": "BSD-3-Clause",
     "keywords": [
@@ -15,14 +15,14 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/mikegioia/zend-mime"
+            "url": "https://github.com/particlebits/zend-mime"
         }
     ],
     "require": {
         "php": ">=5.5",
         "zendframework/zend-crypt": "~2.5",
         "zendframework/zend-loader": "~2.5",
-        "mikegioia/zend-mime": "~2.5",
+        "particlebits/zend-mime": "~2.5",
         "zendframework/zend-stdlib": "~2.5",
         "zendframework/zend-validator": "~2.5"
     },
