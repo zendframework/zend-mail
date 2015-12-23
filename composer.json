@@ -35,8 +35,6 @@
     "suggest": {
         "zendframework/zend-servicemanager": "Zend\\ServiceManager component"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "extra": {
         "branch-alias": {
             "dev-master": "2.5-dev",
