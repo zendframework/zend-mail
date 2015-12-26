@@ -108,12 +108,15 @@ class ContentType implements UnstructuredInterface
      * Set the content type
      *
      * @param  string $type
+     * @param  bool $throwExceptionOnInvalid
      * @throws Exception\InvalidArgumentException
      * @return ContentType
      */
-    public function setType($type)
+    public function setType($type, $throwExceptionOnInvalid = false)
     {
-        if (!preg_match('/^[a-z-]+\/[a-z0-9.+-]+$/i', $type)) {
+        if (!preg_match('/^[a-z-]+\/[a-z0-9.+-]+$/i', $type)
+            && $throwExceptionOnInvalid === true )
+        {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects a value in the format "type/subtype"; received "%s"',
                 __METHOD__,
