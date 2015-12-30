@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend/)
  *
  * @link      http://github/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend)
+ * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend)
  * @license   http://framework.zend/license/new-bsd New BSD License
  */
 
