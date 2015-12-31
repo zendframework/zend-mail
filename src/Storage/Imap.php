@@ -101,14 +101,20 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
     /**
      * Fetch a message
      *
-     * @param int $id number of message
+     * @param int  $id number of message
+     * @param bool $peek true leaves the message unread
      * @return \Zend\Mail\Storage\Message
      * @throws \Zend\Mail\Protocol\Exception\RuntimeException
      */
-    public function getMessage($id)
+    public function getMessage($id, $peek = true)
     {
-        $data = $this->protocol->fetch(['FLAGS', 'RFC822.HEADER'], $id);
-        $header = $data['RFC822.HEADER'];
+        //$data = $this->protocol->fetch(['FLAGS', 'RFC822.HEADER'], $id);
+        $data = ($peek)
+            ? $this->protocol->fetch(['FLAGS', 'BODY.PEEK[HEADER]'], $id)
+            : $this->protocol->fetch(['FLAGS', 'RFC822.HEADER'], $id);
+        $header = ($peek)
+            ? $data['BODY[HEADER]']
+            : $data['RFC822.HEADER'];
 
         $flags = [];
         foreach ($data['FLAGS'] as $flag) {
@@ -145,18 +151,21 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
      *
      * @param  int               $id   number of message
      * @param  null|array|string $part path to part or null for message content
+     * @param  bool              $peek true leaves the message unread
      * @return string raw content
      * @throws \Zend\Mail\Protocol\Exception\RuntimeException
      * @throws Exception\RuntimeException
      */
-    public function getRawContent($id, $part = null)
+    public function getRawContent($id, $part = null, $peek = true)
     {
         if ($part !== null) {
             // TODO: implement
             throw new Exception\RuntimeException('not implemented');
         }
 
-        return $this->protocol->fetch('RFC822.TEXT', $id);
+        return ($peek)
+            ? $this->protocol->fetch('BODY.PEEK[TEXT]', $id)
+            : $this->protocol->fetch('RFC822.TEXT', $id);
     }
 
     /**

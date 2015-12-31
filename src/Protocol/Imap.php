@@ -551,6 +551,9 @@ class Imap
         $tag = null;  // define $tag variable before first use
         $this->sendRequest('FETCH', [$set, $itemList], $tag);
 
+        // remove any peek lines since the response doesn't return this
+        $items[0] = str_replace('.PEEK', '', $items[0]);
+
         $result = [];
         $tokens = null; // define $tokens variable before first use
         while (!$this->readLine($tokens, $tag)) {
