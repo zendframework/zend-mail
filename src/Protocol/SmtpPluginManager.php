@@ -9,13 +9,15 @@
 
 namespace Zend\Mail\Protocol;
 
+use Interop\Container\ContainerInterface;
+
 /**
  * Plugin manager implementation for SMTP extensions.
  *
  * Enforces that SMTP extensions retrieved are instances of Smtp. Additionally,
  * it registers a number of default extensions available.
  */
-class SmtpPluginManager
+class SmtpPluginManager implements ContainerInterface
 {
     /**
      * Default set of plugins
