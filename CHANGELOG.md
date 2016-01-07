@@ -18,7 +18,12 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#47](https://github.com/zendframework/zend-mail/pull/47) updates the
+  component to remove the (soft) dependency on zend-servicemanager, by
+  altering the `SmtpPluginManager` to implement container-interop's
+  `ContainerInterface` instead of extending from `AbstractPluginManager`.
+  Usage remains the same, though developers who were adding services
+  to the plugin manager will need to instead extend it now.
 
 ## 2.5.3 - TBD
 
