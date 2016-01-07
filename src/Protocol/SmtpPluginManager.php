@@ -9,7 +9,7 @@
 
 namespace Zend\Mail\Protocol;
 
-use Zend\ServiceManager\AbstractPluginManager;
+use Interop\Container\ContainerInterface;
 
 /**
  * Plugin manager implementation for SMTP extensions.
@@ -17,14 +17,14 @@ use Zend\ServiceManager\AbstractPluginManager;
  * Enforces that SMTP extensions retrieved are instances of Smtp. Additionally,
  * it registers a number of default extensions available.
  */
-class SmtpPluginManager extends AbstractPluginManager
+class SmtpPluginManager implements ContainerInterface
 {
     /**
-     * Default set of extensions
+     * Default set of plugins
      *
      * @var array
      */
-    protected $invokableClasses = [
+    protected $plugins = [
         'crammd5' => 'Zend\Mail\Protocol\Smtp\Auth\Crammd5',
         'login'   => 'Zend\Mail\Protocol\Smtp\Auth\Login',
         'plain'   => 'Zend\Mail\Protocol\Smtp\Auth\Plain',
@@ -32,25 +32,25 @@ class SmtpPluginManager extends AbstractPluginManager
     ];
 
     /**
-     * Validate the plugin
+     * Do we have the plugin?
      *
-     * Checks that the extension loaded is an instance of Smtp.
-     *
-     * @param  mixed $plugin
-     * @return void
-     * @throws Exception\InvalidArgumentException if invalid
+     * @param  string $id
+     * @return bool
      */
-    public function validatePlugin($plugin)
+    public function has($id)
     {
-        if ($plugin instanceof Smtp) {
-            // we're okay
-            return;
-        }
-
-        throw new Exception\InvalidArgumentException(sprintf(
-            'Plugin of type %s is invalid; must extend %s\Smtp',
-            (is_object($plugin) ? get_class($plugin) : gettype($plugin)),
-            __NAMESPACE__
-        ));
+        return array_key_exists($id, $this->plugins);
+    }
+    /**
+     * Retrieve the smtp plugin
+     *
+     * @param  string $id
+     * @param  array $options
+     * @return AbstractProtocol
+     */
+    public function get($id, array $options = null)
+    {
+        $class = $this->plugins[$id];
+        return new $class($options);
     }
 }
