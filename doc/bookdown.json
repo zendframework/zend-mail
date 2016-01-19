@@ -1,0 +1,11 @@
+{
+    "title": "Zend\\Mail",
+    "target": "html/",
+    "content": [
+        "book/zend.mail.introduction.md",
+        "book/zend.mail.message.md",
+        "book/zend.mail.transport.md",
+        "book/zend.mail.smtp.options.md",
+        "book/zend.mail.file.options.md"
+    ]
+}
