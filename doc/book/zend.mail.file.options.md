@@ -24,12 +24,12 @@ $transport->setOptions($options);
 
 ## Configuration Options
 
-**path**  
+### path
 The path under which mail files will be written.
 
 <!-- -->
 
-**callback**  
+### callback
 A PHP callable to be invoked in order to generate a unique name for a message file. By default, the
 following is used:
 
@@ -45,7 +45,7 @@ function (Zend\Mail\FileTransport $transport) {
 functionality from that class; this includes property overloading. Additionally, the following
 explicit setters and getters are provided.
 
-**setPath**  
+### setPath
 `setPath(string $path)`
 
 Set the path under which mail files will be written.
@@ -54,7 +54,7 @@ Implements fluent interface.
 
 <!-- -->
 
-**getPath**  
+### getPath
 `getPath()`
 
 Get the path under which mail files will be written.
@@ -63,7 +63,7 @@ Returns string
 
 <!-- -->
 
-**setCallback**  
+### setCallback
 `setCallback(Callable $callback)`
 
 Set the callback used to generate unique filenames for messages.
@@ -72,7 +72,7 @@ Implements fluent interface.
 
 <!-- -->
 
-**getCallback**  
+### getCallback
 `getCallback()`
 
 Get the callback used to generate unique filenames for messages.
@@ -81,7 +81,7 @@ Returns PHP callable argument.
 
 <!-- -->
 
-**\_\_construct**  
+### \_\_construct
 `__construct(null|array|Traversable $config)`
 
 Initialize the object. Allows passing a PHP array or `Traversable` object with which to populate the
