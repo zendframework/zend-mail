@@ -9,6 +9,7 @@
 
 namespace ZendTest\Mail\Header;
 
+use Zend\Mail\Header\GenericHeader;
 use Zend\Mail\Header\HeaderWrap;
 
 /**
@@ -69,5 +70,25 @@ class HeaderWrapTest extends \PHPUnit_Framework_TestCase
         $decoded = HeaderWrap::mimeDecodeValue($encoded);
 
         $this->assertEquals($expected, $decoded);
+    }
+
+    /**
+     * Test that fails with HeaderWrap::canBeEncoded at lowest level:
+     *   iconv_mime_encode(): Unknown error (7)
+     *
+     * which can be triggered as:
+     *   $header = new GenericHeader($name, $value);
+     */
+    public function testCanBeEncoded()
+    {
+        $name = 'Subject';
+        $value = "[#77675] New Issue:xxxxxxxxx xxxxxxx xxxxxxxx xxxxxxxxxxxxx xxxxxxxxxx xxxxxxxx, tähtaeg xx.xx, xxxx";
+        $encoded = "Subject: =?UTF-8?Q?[#77675]=20New=20Issue:xxxxxxxxx=20xxxxxxx=20xxxxxxxx=20?=\r\n =?UTF-8?Q?xxxxxxxxxxxxx=20xxxxxxxxxx=20xxxxxxxx,=20t=C3=A4htaeg=20xx.xx,=20xxxx?=";
+        $res = HeaderWrap::canBeEncoded($value);
+        $this->assertTrue($res);
+
+        $header = new GenericHeader($name, $value);
+        $res = $header->toString();
+        $this->assertEquals($encoded, $res);
     }
 }
