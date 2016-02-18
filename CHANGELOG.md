@@ -27,24 +27,6 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#70](https://github.com/zendframework/zend-mail/pull/70) updates dependencies
   to stable, forwards-compatible versions, and removes unused dependencies.
 
-## 2.5.3 - TBD
-
-### Added
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- Nothing.
-
 ## 2.5.2 - 2015-09-10
 
 ### Added
