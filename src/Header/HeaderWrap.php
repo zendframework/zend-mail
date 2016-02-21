@@ -116,7 +116,9 @@ abstract class HeaderWrap
      */
     public static function canBeEncoded($value)
     {
-        $encoded = iconv_mime_encode('x-test', $value, ['scheme' => 'Q']);
+        // Check if this is a base64 string or if it's quoted-printable
+        $encoded = @iconv_mime_encode('x-test', $value, ['scheme' => 'B'])
+            || @iconv_mime_encode('x-test', $value, ['scheme' => 'Q']);
 
         return (false !== $encoded);
     }
