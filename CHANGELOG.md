@@ -20,7 +20,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - Nothing.
 
-## 2.6.1 - TBD
+## 2.6.1 - 2016-02-24
 
 ### Added
 
@@ -36,7 +36,11 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#72](https://github.com/zendframework/zend-mail/pull/72) re-implements
+  `SmtpPluginManager` as a zend-servicemanager `AbstractPluginManager`, after
+  reports that making it standalone broke important extensibility use cases
+  (specifically, replacing existing plugins and/or providing additional plugins
+  could only be managed with significant code changes).
 
 ## 2.6.0 - 2016-02-18
 
