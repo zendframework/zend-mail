@@ -12,7 +12,7 @@ namespace ZendTest\Mail\Protocol;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Mail\Protocol\Smtp;
 use Zend\Mail\Protocol\SmtpPluginManager;
-use Zend\Mail\Protocol\Smtp\Exception\InvalidArgumentException;
+use Zend\Mail\Protocol\Exception\InvalidArgumentException;
 use Zend\ServiceManager\ServiceManager;
 use Zend\ServiceManager\Test\CommonPluginManagerTrait;
 
