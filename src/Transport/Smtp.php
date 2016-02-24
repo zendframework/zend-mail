@@ -14,6 +14,7 @@ use Zend\Mail\Headers;
 use Zend\Mail\Message;
 use Zend\Mail\Protocol;
 use Zend\Mail\Protocol\Exception as ProtocolException;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * SMTP connection object
@@ -123,7 +124,7 @@ class Smtp implements TransportInterface
     public function getPluginManager()
     {
         if (null === $this->plugins) {
-            $this->setPluginManager(new Protocol\SmtpPluginManager());
+            $this->setPluginManager(new Protocol\SmtpPluginManager(new ServiceManager()));
         }
         return $this->plugins;
     }
