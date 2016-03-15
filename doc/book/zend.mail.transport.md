@@ -123,8 +123,8 @@ Users pulling their `Null` transport instance from the transport factory
 Configuration options are per transport. Please follow the links below for transport-specific
 options.
 
-- \[SMTP Transport Options\](zend.mail.smtp-options)
-- \[File Transport Options\](zend.mail.file-options)
+- [SMTP Transport Options](zend.mail.smtp.options.md)
+- [File Transport Options](zend.mail.file.options.md)
 
 ## Available Methods
 
@@ -137,4 +137,4 @@ Returns void
 
 ## Examples
 
-Please see the \[Quick Start section\](zend.mail.transport.quick-start) for examples.
+Please see the [Quick Start section](zend.mail.transport.md) for examples.

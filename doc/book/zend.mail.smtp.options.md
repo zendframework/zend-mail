@@ -231,4 +231,4 @@ Instantiate the class, and optionally configure it with values provided.
 
 ## Examples
 
-Please see the \[Quick Start\](zend.mail.smtp-options.quick-start) for examples.
+Please see the [Quick Start](zend.mail.smtp.options.md) for examples.

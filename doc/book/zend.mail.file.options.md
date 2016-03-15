@@ -89,4 +89,4 @@ instance.
 
 ## Examples
 
-Please see the \[Quick Start\](zend.mail.file-options.quick-start) for examples.
+Please see the [Quick Start](zend.mail.file.options.md) for examples.
