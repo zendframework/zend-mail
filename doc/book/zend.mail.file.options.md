@@ -27,8 +27,6 @@ $transport->setOptions($options);
 **path**  
 The path under which mail files will be written.
 
-<!-- -->
-
 **callback**  
 A PHP callable to be invoked in order to generate a unique name for a message file. By default, the
 following is used:
@@ -52,16 +50,12 @@ Set the path under which mail files will be written.
 
 Implements fluent interface.
 
-<!-- -->
-
 **getPath**  
 `getPath()`
 
 Get the path under which mail files will be written.
 
 Returns string
-
-<!-- -->
 
 **setCallback**  
 `setCallback(Callable $callback)`
@@ -70,16 +64,12 @@ Set the callback used to generate unique filenames for messages.
 
 Implements fluent interface.
 
-<!-- -->
-
 **getCallback**  
 `getCallback()`
 
 Get the callback used to generate unique filenames for messages.
 
 Returns PHP callable argument.
-
-<!-- -->
 
 **\_\_construct**  
 `__construct(null|array|Traversable $config)`

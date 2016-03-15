@@ -110,17 +110,11 @@ $transport->setOptions($options);
 **name**  
 Name of the SMTP host; defaults to "localhost".
 
-<!-- -->
-
 **host**  
 Remote hostname or IP address; defaults to "127.0.0.1".
 
-<!-- -->
-
 **port**  
 Port on which the remote host is listening; defaults to "25".
-
-<!-- -->
 
 **connection\_class**  
 Fully-qualified classname or short name resolvable via `Zend\Mail\Protocol\SmtpLoader`. Typically,
@@ -128,8 +122,6 @@ this will be one of "smtp", "plain", "login", or "crammd5", and defaults to "smt
 
 Typically, the connection class should extend the `Zend\Mail\Protocol\AbstractProtocol` class, and
 specifically the SMTP variant.
-
-<!-- -->
 
 **connection\_config**  
 Optional associative array of parameters to pass to the connection class
@@ -145,8 +137,6 @@ port 587 for TLS or "ssl" =&gt; "ssl" and port 465 for SSL.
 
 Returns the string name of the local client hostname.
 
-<!-- -->
-
 **setName**  
 `setName(string $name)`
 
@@ -154,14 +144,10 @@ Set the string name of the local client hostname.
 
 Implements a fluent interface.
 
-<!-- -->
-
 **getConnectionClass**  
 `getConnectionClass()`
 
 Returns a string indicating the connection class name to use.
-
-<!-- -->
 
 **setConnectionClass**  
 `setConnectionClass(string $connectionClass)`
@@ -170,16 +156,12 @@ Set the connection class to use.
 
 Implements a fluent interface.
 
-<!-- -->
-
 **getConnectionConfig**  
 `getConnectionConfig()`
 
 Get configuration for the connection class.
 
 Returns array.
-
-<!-- -->
 
 **setConnectionConfig**  
 `setConnectionConfig(array $config)`
@@ -189,15 +171,11 @@ connection class, this will be an associative array with the keys "username" and
 
 Implements a fluent interface.
 
-<!-- -->
-
 **getHost**  
 `getHost()`
 
 Returns a string indicating the IP address or host name of the SMTP server via which to send
 messages.
-
-<!-- -->
 
 **setHost**  
 `setHost(string $host)`
@@ -206,14 +184,10 @@ Set the SMTP host name or IP address.
 
 Implements a fluent interface.
 
-<!-- -->
-
 **getPort**  
 `getPort()`
 
 Retrieve the integer port on which the SMTP host is listening.
-
-<!-- -->
 
 **setPort**  
 `setPort(int $port)`
@@ -221,8 +195,6 @@ Retrieve the integer port on which the SMTP host is listening.
 Set the port on which the SMTP host is listening.
 
 Implements a fluent interface.
-
-<!-- -->
 
 **\_\_construct**  
 `__construct(null|array|Traversable $config)`
