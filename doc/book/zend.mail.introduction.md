@@ -25,7 +25,7 @@ $transport = new Mail\Transport\Sendmail();
 $transport->send($mail);
 ```
 
-> ## Note
+> ### Note
 #### Minimum definitions
 In order to send an email using `Zend\Mail` you have to specify at least one recipient as well as a
 message body. Please note that each Transport may require additional parameters to be set.
@@ -69,12 +69,12 @@ $transport = new Mail\Transport\Sendmail('-freturn_to_me@example.com');
 $transport->send($mail);
 ```
 
-> ## Note
+> ### Note
 #### Safe mode restrictions
 Supplying additional parameters to the transport will cause the [mail()](http://php.net/mail)
 function to fail if *PHP* is running in safe mode.
 
-> ## Note
+> ### Note
 #### Choosing your transport wisely
 Although the sendmail transport is the transport that requires only minimal configuration, it may
 not be suitable for your production environment. This is because emails sent using the sendmail
@@ -83,7 +83,7 @@ transport will be more often delivered to SPAM-boxes. This can partly be remedie
 an overall good reputation. Additionally, techniques such as SPF and DKIM may be employed to ensure
 even more email messages are delivered as should.
 
-> ## Warning
+> ### Warning
 #### Sendmail Transport and Windows
 As the *PHP* manual states the `mail()` function has different behaviour on Windows and on \*nix
 based systems. Using the Sendmail Transport on Windows will not work in combination with `addBcc()`.
