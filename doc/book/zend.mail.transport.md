@@ -48,15 +48,17 @@ $message->addTo('matthew@zend.com')
 
 // Setup SMTP transport using LOGIN authentication
 $transport = new SmtpTransport();
-$options   = new SmtpOptions(array(
-    'name'              => 'localhost.localdomain',
-    'host'              => '127.0.0.1',
-    'connection_class'  => 'login',
-    'connection_config' => array(
-        'username' => 'user',
-        'password' => 'pass',
-    ),
-));
+$options   = new SmtpOptions(
+    [
+        'name'              => 'localhost.localdomain',
+        'host'              => '127.0.0.1',
+        'connection_class'  => 'login',
+        'connection_config' => [
+            'username' => 'user',
+            'password' => 'pass',
+        ],
+    ]
+);
 $transport->setOptions($options);
 $transport->send($message);
 ```
@@ -76,12 +78,14 @@ $message->addTo('matthew@zend.com')
 
 // Setup File transport
 $transport = new FileTransport();
-$options   = new FileOptions(array(
-    'path'              => 'data/mail/',
-    'callback'  => function (FileTransport $transport) {
-        return 'Message_' . microtime(true) . '_' . mt_rand() . '.txt';
-    },
-));
+$options   = new FileOptions(
+    [
+        'path'     => 'data/mail/',
+        'callback' => function (FileTransport $transport) {
+            return 'Message_' . microtime(true) . '_' . mt_rand() . '.txt';
+        },
+    ]
+);
 $transport->setOptions($options);
 $transport->send($message);
 ```

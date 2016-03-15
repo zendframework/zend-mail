@@ -29,23 +29,23 @@ Once you have your `Message` instance, you can start adding content or headers. 
 mail is from, who it's addressed to, a subject, and some content:
 
 ```php
-$message->addFrom("matthew@zend.com", "Matthew Weier O'Phinney")
-        ->addTo("foobar@example.com")
-        ->setSubject("Sending an email from Zend\Mail!");
-$message->setBody("This is the message body.");
+$message->addFrom('matthew@zend.com', "Matthew Weier O'Phinney")
+        ->addTo('foobar@example.com')
+        ->setSubject('Sending an email from Zend\Mail!');
+$message->setBody('This is the message body.');
 ```
 
 You can also add recipients to carbon-copy ("Cc:") or blind carbon-copy ("Bcc:").
 
 ```php
-$message->addCc("ralph.schindler@zend.com")
-        ->addBcc("enrico.z@zend.com");
+$message->addCc('ralph.schindler@zend.com')
+        ->addBcc('enrico.z@zend.com');
 ```
 
 If you want to specify an alternate address to which replies may be sent, that can be done, too.
 
 ```php
-$message->addReplyTo("matthew@weierophinney.net", "Matthew");
+$message->addReplyTo('matthew@weierophinney.net', 'Matthew');
 ```
 
 Interestingly, RFC822 allows for multiple "From:" addresses. When you do this, the first one will be
@@ -57,9 +57,9 @@ used as the sender, **unless** you specify a "Sender:" header. The `Message` cla
  * From: Ralph Schindler <ralph.schindler@zend.com>, Enrico Zimuel <enrico.z@zend.com>
  * Sender: Matthew Weier O'Phinney <matthew@zend.com></matthew>
  */
-$message->addFrom("ralph.schindler@zend.com", "Ralph Schindler")
-        ->addFrom("enrico.z@zend.com", "Enrico Zimuel")
-        ->setSender("matthew@zend.com", "Matthew Weier O'Phinney");
+$message->addFrom('ralph.schindler@zend.com', 'Ralph Schindler')
+        ->addFrom('enrico.z@zend.com", 'Enrico Zimuel')
+        ->setSender('matthew@zend.com', "Matthew Weier O'Phinney");
 ```
 
 By default, the `Message` class assumes ASCII encoding for your email. If you wish to use another
@@ -67,7 +67,7 @@ encoding, you can do so; setting this will ensure all headers and body content a
 using quoted-printable encoding.
 
 ```php
-$message->setEncoding("UTF-8");
+$message->setEncoding('UTF-8');
 ```
 
 If you wish to set other headers, you can do that as well.
@@ -93,17 +93,23 @@ use Zend\Mail\Message;
 use Zend\Mime\Message as MimeMessage;
 use Zend\Mime\Part as MimePart;
 
-$text = new MimePart($textContent);
-$text->type = "text/plain";
+$text       = new MimePart($textContent);
+$text->type = 'text/plain';
 
-$html = new MimePart($htmlMarkup);
-$html->type = "text/html";
+$html       = new MimePart($htmlMarkup);
+$html->type = 'text/html';
 
-$image = new MimePart(fopen($pathToImage, 'r'));
-$image->type = "image/jpeg";
+$image       = new MimePart(fopen($pathToImage, 'r'));
+$image->type = 'image/jpeg';
 
 $body = new MimeMessage();
-$body->setParts(array($text, $html, $image));
+$body->setParts(
+    [
+        $text,
+        $html,
+        $image,
+    ]
+);
 
 $message = new Message();
 $message->setBody($body);
@@ -134,7 +140,7 @@ foreach ($message->getFrom() as $address) {
 
 // Sender
 $address = $message->getSender();
-if(!is_null($address)) {
+if (!is_null($address)) {
    printf("%s: %s\n", $address->getEmail(), $address->getName());
 }
 

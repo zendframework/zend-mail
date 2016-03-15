@@ -13,12 +13,14 @@ use Zend\Mail\Transport\FileOptions;
 
 // Setup File transport
 $transport = new FileTransport();
-$options   = new FileOptions(array(
-    'path'              => 'data/mail/',
-    'callback'  => function (FileTransport $transport) {
-        return 'Message_' . microtime(true) . '_' . mt_rand() . '.txt';
-    },
-));
+$options   = new FileOptions(
+    [
+        'path'     => 'data/mail/',
+        'callback' => function (FileTransport $transport) {
+            return 'Message_' . microtime(true) . '_' . mt_rand() . '.txt';
+        },
+    ]
+);
 $transport->setOptions($options);
 ```
 

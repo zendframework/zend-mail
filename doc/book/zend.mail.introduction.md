@@ -17,7 +17,7 @@ use Zend\Mail;
 
 $mail = new Mail\Message();
 $mail->setBody('This is the text of the email.');
-$mail->setFrom('Freeaqingme@example.org', 'Sender\'s name');
+$mail->setFrom('Freeaqingme@example.org', "Sender's name");
 $mail->addTo('Matthew@example.com', 'Name of recipient');
 $mail->setSubject('TestSubject');
 

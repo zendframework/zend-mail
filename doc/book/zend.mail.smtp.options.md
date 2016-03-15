@@ -15,11 +15,13 @@ use Zend\Mail\Transport\SmtpOptions;
 
 // Setup SMTP transport
 $transport = new SmtpTransport();
-$options   = new SmtpOptions(array(
-    'name' => 'localhost.localdomain',
-    'host' => '127.0.0.1',
-    'port' => 25,
-));
+$options   = new SmtpOptions(
+    [
+        'name' => 'localhost.localdomain',
+        'host' => '127.0.0.1',
+        'port' => 25,
+    ]
+);
 $transport->setOptions($options);
 ```
 
@@ -31,15 +33,17 @@ use Zend\Mail\Transport\SmtpOptions;
 
 // Setup SMTP transport using PLAIN authentication
 $transport = new SmtpTransport();
-$options   = new SmtpOptions(array(
-    'name'              => 'localhost.localdomain',
-    'host'              => '127.0.0.1',
-    'connection_class'  => 'plain',
-    'connection_config' => array(
-        'username' => 'user',
-        'password' => 'pass',
-    ),
-));
+$options   = new SmtpOptions(
+    [
+        'name'              => 'localhost.localdomain',
+        'host'              => '127.0.0.1',
+        'connection_class'  => 'plain',
+        'connection_config' => [
+            'username' => 'user',
+            'password' => 'pass',
+        ],
+    ]
+);
 $transport->setOptions($options);
 ```
 
@@ -51,15 +55,17 @@ use Zend\Mail\Transport\SmtpOptions;
 
 // Setup SMTP transport using LOGIN authentication
 $transport = new SmtpTransport();
-$options   = new SmtpOptions(array(
-    'name'              => 'localhost.localdomain',
-    'host'              => '127.0.0.1',
-    'connection_class'  => 'login',
-    'connection_config' => array(
-        'username' => 'user',
-        'password' => 'pass',
-    ),
-));
+$options   = new SmtpOptions(
+    [
+        'name'              => 'localhost.localdomain',
+        'host'              => '127.0.0.1',
+        'connection_class'  => 'login',
+        'connection_config' => [
+            'username' => 'user',
+            'password' => 'pass',
+        ],
+    ]
+);
 $transport->setOptions($options);
 ```
 
@@ -71,15 +77,17 @@ use Zend\Mail\Transport\SmtpOptions;
 
 // Setup SMTP transport using CRAM-MD5 authentication
 $transport = new SmtpTransport();
-$options   = new SmtpOptions(array(
-    'name'              => 'localhost.localdomain',
-    'host'              => '127.0.0.1',
-    'connection_class'  => 'crammd5',
-    'connection_config' => array(
-        'username' => 'user',
-        'password' => 'pass',
-    ),
-));
+$options   = new SmtpOptions(
+    [
+        'name'              => 'localhost.localdomain',
+        'host'              => '127.0.0.1',
+        'connection_class'  => 'crammd5',
+        'connection_config' => [
+            'username' => 'user',
+            'password' => 'pass',
+        ],
+    ]
+);
 $transport->setOptions($options);
 ```
 
@@ -91,17 +99,20 @@ use Zend\Mail\Transport\SmtpOptions;
 
 // Setup SMTP transport using PLAIN authentication over TLS
 $transport = new SmtpTransport();
-$options   = new SmtpOptions(array(
-    'name'              => 'example.com',
-    'host'              => '127.0.0.1',
-    'port'              => 587, // Notice port change for TLS is 587
-    'connection_class'  => 'plain',
-    'connection_config' => array(
-        'username' => 'user',
-        'password' => 'pass',
-        'ssl'      => 'tls',
-    ),
-));
+$options   = new SmtpOptions(
+    [
+        'name'              => 'example.com',
+        'host'              => '127.0.0.1',
+        'port'              => 587,
+        // Notice port change for TLS is 587
+        'connection_class'  => 'plain',
+        'connection_config' => [
+            'username' => 'user',
+            'password' => 'pass',
+            'ssl'      => 'tls',
+        ],
+    ]
+);
 $transport->setOptions($options);
 ```
 
