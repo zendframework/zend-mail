@@ -7,7 +7,7 @@ The `Message` class encapsulates a single email message as described in RFCs
 basically as a value object for setting mail headers and content.
 
 If desired, multi-part email messages may also be created. This is as trivial as creating the
-message body using the [Zend\\Mime](https://github.com/zendframework/zend-mimee) component, assigning it to 
+message body using the [Zend\\Mime](https://github.com/zendframework/zend-mime) component, assigning it to 
 the mail message body.
 
 The `Message` class is simply a value object. It is not capable of sending or storing itself; for
