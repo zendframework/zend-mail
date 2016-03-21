@@ -11,7 +11,18 @@ namespace Zend\Mail\Address;
 
 interface AddressInterface
 {
+    /**
+     * @return string
+     */
     public function getEmail();
+
+    /**
+     * @return string
+     */
     public function getName();
+
+    /**
+     * @return string
+     */
     public function toString();
 }
