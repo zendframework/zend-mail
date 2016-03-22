@@ -52,7 +52,7 @@ before_install:
   - composer require --dev --no-update "zendframework/zend-servicemanager:$SERVICE_MANAGER_VERSION"
 
 install:
-  - travis_retry composer install --no-interaction --ignore-platform-reqs
+  - travis_retry composer install --no-interaction
 
 script:
   - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then ./vendor/bin/phpunit --coverage-clover clover.xml ; fi
