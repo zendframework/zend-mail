@@ -10,6 +10,7 @@
 namespace ZendTest\Mail\TestAsset;
 
 use Zend\Mail\Protocol\Smtp;
+use Zend\Mail\Protocol\Exception;
 
 /**
  * Test spy to use when testing SMTP protocol
@@ -20,10 +21,13 @@ class SmtpProtocolSpy extends Smtp
     protected $connect = false;
     protected $mail;
     protected $rcptTest = array();
+    protected $lastSendRequest;
+    protected $raiseExpectExceptonOnNextQuit = false;
 
     public function connect()
     {
         $this->connect = true;
+        $this->_startTime();
 
         return true;
     }
@@ -34,26 +38,18 @@ class SmtpProtocolSpy extends Smtp
         parent::disconnect();
     }
 
-    public function helo($serverName = '127.0.0.1')
-    {
-        parent::helo($serverName);
-    }
-
-    public function quit()
+    public function quit($completeQuit = true)
     {
         $this->calledQuit = true;
-        parent::quit();
+        parent::quit($completeQuit);
+
+        $this->raiseExpectExceptonOnNextQuit = false;
     }
 
     public function rset()
     {
         parent::rset();
         $this->rcptTest = array();
-    }
-
-    public function mail($from)
-    {
-        parent::mail($from);
     }
 
     public function rcpt($to)
@@ -65,12 +61,18 @@ class SmtpProtocolSpy extends Smtp
 
     protected function _send($request)
     {
+        $this->lastSendRequest = $request;
+
         // Save request to internal log
         $this->_addLog($request . self::EOL);
     }
 
     protected function _expect($code, $timeout = null)
     {
+        if ($this->raiseExpectExceptonOnNextQuit && strpos($this->lastSendRequest, 'QUIT') === 0) {
+            throw new Exception\RuntimeException($this->lastSendRequest);
+        }
+
         return '';
     }
 
@@ -146,6 +148,19 @@ class SmtpProtocolSpy extends Smtp
     public function setSessionStatus($status)
     {
         $this->sess = (bool) $status;
+
+        return $this;
+    }
+
+    /**
+     * Set Session Status
+     *
+     * @param  bool $status
+     * @return self
+     */
+    public function setRaiseExpectExceptonOnNextQuit($raiseExpectExceptonOnNextQuit)
+    {
+        $this->raiseExpectExceptonOnNextQuit = (bool) $raiseExpectExceptonOnNextQuit;
 
         return $this;
     }

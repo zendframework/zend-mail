@@ -225,6 +225,17 @@ class Smtp implements TransportInterface
     {
         // If sending multiple messages per session use existing adapter
         $connection = $this->getConnection();
+        $options = $this->getOptions();
+        $reuseTimeLimit = $options->getReuseTimeLimit();
+
+        if (($connection instanceof Protocol\Smtp)
+            && $reuseTimeLimit >= 0
+            && $connection->getStartTime()
+            && ((time() - $connection->getStartTime()) >= $reuseTimeLimit)
+        ) {
+            $connection->quit(false);
+            $connection->disconnect();
+        }
 
         if (!($connection instanceof Protocol\Smtp) || !$connection->hasSession()) {
             $connection = $this->connect();

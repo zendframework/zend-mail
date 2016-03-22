@@ -42,6 +42,11 @@ class SmtpOptions extends AbstractOptions
     protected $port = 25;
 
     /**
+     * @var int
+     */
+    protected $reuseTimeLimit = -1;
+
+    /**
      * Return the local client hostname
      *
      * @return string
@@ -176,6 +181,36 @@ class SmtpOptions extends AbstractOptions
             ));
         }
         $this->port = $port;
+        return $this;
+    }
+
+    /**
+     * Get the reuse time limit the SMTP server has
+     *
+     * @return int
+     */
+    public function getReuseTimeLimit()
+    {
+        return $this->reuseTimeLimit;
+    }
+
+    /**
+     * Set the reuse time limit the SMTP server has
+     *
+     * @param  int $reuseTimeLimit
+     * @throws \Zend\Mail\Exception\InvalidArgumentException
+     * @return SmtpOptions
+     */
+    public function setReuseTimeLimit($reuseTimeLimit)
+    {
+        $reuseTimeLimit = (int) $reuseTimeLimit;
+        if ($reuseTimeLimit < -1) {
+            throw new Exception\InvalidArgumentException(sprintf(
+                'Reuse time limit must be greater than or equal to -1; received "%d"',
+                $reuseTimeLimit
+            ));
+        }
+        $this->reuseTimeLimit = $reuseTimeLimit;
         return $this;
     }
 }
