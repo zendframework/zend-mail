@@ -107,7 +107,7 @@ class Headers implements Countable, Iterator
 
             // Line does not match header format!
             throw new Exception\RuntimeException(sprintf(
-                'Line "%s"does not match header format!',
+                'Line "%s" does not match header format!',
                 $line
             ));
         }
