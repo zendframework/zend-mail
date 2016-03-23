@@ -313,7 +313,7 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
      * @test that toArray can take format parameter
      * @link https://github.com/zendframework/zend-mail/pull/61
      */
-    public function testToArrayFormat()
+    public function testToArrayFormatRaw()
     {
         $raw_subject = '=?ISO-8859-2?Q?PD=3A_My=3A_Go=B3?= =?ISO-8859-2?Q?blahblah?=';
         $headers = new Mail\Headers();
@@ -325,6 +325,18 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
             'Subject' => 'PD: My: Gołblahblah',
         ];
         $this->assertEquals($expected, $array);
+    }
+
+    /**
+     * @test that toArray can take format parameter
+     * @link https://github.com/zendframework/zend-mail/pull/61
+     */
+    public function testToArrayFormatEncoded()
+    {
+        $raw_subject = '=?ISO-8859-2?Q?PD=3A_My=3A_Go=B3?= =?ISO-8859-2?Q?blahblah?=';
+        $headers = new Mail\Headers();
+        $subject = Header\Subject::fromString("Subject: $raw_subject");
+        $headers->addHeader($subject);
 
         // encoded
         $array = $headers->toArray(Header\HeaderInterface::FORMAT_ENCODED);
