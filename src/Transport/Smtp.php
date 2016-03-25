@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -14,6 +14,7 @@ use Zend\Mail\Headers;
 use Zend\Mail\Message;
 use Zend\Mail\Protocol;
 use Zend\Mail\Protocol\Exception as ProtocolException;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * SMTP connection object
@@ -123,7 +124,7 @@ class Smtp implements TransportInterface
     public function getPluginManager()
     {
         if (null === $this->plugins) {
-            $this->setPluginManager(new Protocol\SmtpPluginManager());
+            $this->setPluginManager(new Protocol\SmtpPluginManager(new ServiceManager()));
         }
         return $this->plugins;
     }

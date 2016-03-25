@@ -2,7 +2,47 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.6.0 - TBD
+## 2.6.2 - TBD
+
+### Added
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
+## 2.6.1 - 2016-02-24
+
+### Added
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#72](https://github.com/zendframework/zend-mail/pull/72) re-implements
+  `SmtpPluginManager` as a zend-servicemanager `AbstractPluginManager`, after
+  reports that making it standalone broke important extensibility use cases
+  (specifically, replacing existing plugins and/or providing additional plugins
+  could only be managed with significant code changes).
+
+## 2.6.0 - 2016-02-18
 
 ### Added
 
@@ -24,24 +64,8 @@ All notable changes to this project will be documented in this file, in reverse 
   `ContainerInterface` instead of extending from `AbstractPluginManager`.
   Usage remains the same, though developers who were adding services
   to the plugin manager will need to instead extend it now.
-
-## 2.5.3 - TBD
-
-### Added
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- Nothing.
+- [#70](https://github.com/zendframework/zend-mail/pull/70) updates dependencies
+  to stable, forwards-compatible versions, and removes unused dependencies.
 
 ## 2.5.2 - 2015-09-10
 

@@ -3,13 +3,15 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
 namespace Zend\Mail\Protocol;
 
-use Interop\Container\ContainerInterface;
+use Zend\ServiceManager\AbstractPluginManager;
+use Zend\ServiceManager\Factory\InvokableFactory;
+use Zend\ServiceManager\Exception\InvalidServiceException;
 
 /**
  * Plugin manager implementation for SMTP extensions.
@@ -17,40 +19,85 @@ use Interop\Container\ContainerInterface;
  * Enforces that SMTP extensions retrieved are instances of Smtp. Additionally,
  * it registers a number of default extensions available.
  */
-class SmtpPluginManager implements ContainerInterface
+class SmtpPluginManager extends AbstractPluginManager
 {
     /**
-     * Default set of plugins
-     *
-     * @var array
+     * Service aliases
      */
-    protected $plugins = [
-        'crammd5' => 'Zend\Mail\Protocol\Smtp\Auth\Crammd5',
-        'login'   => 'Zend\Mail\Protocol\Smtp\Auth\Login',
-        'plain'   => 'Zend\Mail\Protocol\Smtp\Auth\Plain',
-        'smtp'    => 'Zend\Mail\Protocol\Smtp',
+    protected $aliases = [
+        'crammd5' => Smtp\Auth\Crammd5::class,
+        'cramMd5' => Smtp\Auth\Crammd5::class,
+        'CramMd5' => Smtp\Auth\Crammd5::class,
+        'cramMD5' => Smtp\Auth\Crammd5::class,
+        'CramMD5' => Smtp\Auth\Crammd5::class,
+        'login'   => Smtp\Auth\Login::class,
+        'Login'   => Smtp\Auth\Login::class,
+        'plain'   => Smtp\Auth\Plain::class,
+        'Plain'   => Smtp\Auth\Plain::class,
+        'smtp'    => Smtp::class,
+        'Smtp'    => Smtp::class,
+        'SMTP'    => Smtp::class,
     ];
 
     /**
-     * Do we have the plugin?
+     * Service factories
      *
-     * @param  string $id
-     * @return bool
+     * @var array
      */
-    public function has($id)
-    {
-        return array_key_exists($id, $this->plugins);
-    }
+    protected $factories = [
+        Smtp\Auth\Crammd5::class => InvokableFactory::class,
+        Smtp\Auth\Login::class   => InvokableFactory::class,
+        Smtp\Auth\Plain::class   => InvokableFactory::class,
+        Smtp::class              => InvokableFactory::class,
+
+        // v2 normalized service names
+
+        'zendmailprotocolsmtpauthcrammd5' => InvokableFactory::class,
+        'zendmailprotocolsmtpauthlogin'   => InvokableFactory::class,
+        'zendmailprotocolsmtpauthplain'   => InvokableFactory::class,
+        'zendmailprotocolsmtp'              => InvokableFactory::class,
+    ];
+
     /**
-     * Retrieve the smtp plugin
+     * Plugins must be an instance of the Smtp class
      *
-     * @param  string $id
-     * @param  array $options
-     * @return AbstractProtocol
+     * @var string
      */
-    public function get($id, array $options = null)
+    protected $instanceOf = Smtp::class;
+
+    /**
+     * Validate a retrieved plugin instance (v3).
+     *
+     * @param object $plugin
+     * @throws InvalidServiceException
+     */
+    public function validate($plugin)
     {
-        $class = $this->plugins[$id];
-        return new $class($options);
+        if (! $plugin instanceof $this->instanceOf) {
+            throw new InvalidServiceException(sprintf(
+                'Plugin of type %s is invalid; must extend %s',
+                (is_object($plugin) ? get_class($plugin) : gettype($plugin)),
+                Smtp::class
+            ));
+        }
+    }
+
+    /**
+     * Validate a retrieved plugin instance (v2).
+     *
+     * @param object $plugin
+     * @throws Exception\InvalidArgumentException
+     */
+    public function validatePlugin($plugin)
+    {
+        try {
+            $this->validate($plugin);
+        } catch (InvalidServiceException $e) {
+            throw new Exception\InvalidArgumentException(
+                $e->getMessage(),
+                $e->getCode(),
+                $e
+            );
+        }
     }
 }
