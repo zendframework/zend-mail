@@ -430,10 +430,11 @@ class Headers implements Countable, Iterator
     /**
      * Return the headers container as an array
      *
-     * @todo determine how to produce single line headers, if they are supported
+     * @param  bool $format Return the values in Mime::Encoded or in Raw format
      * @return array
+     * @todo determine how to produce single line headers, if they are supported
      */
-    public function toArray()
+    public function toArray($format = Header\HeaderInterface::FORMAT_RAW)
     {
         $headers = [];
         /* @var $header Header\HeaderInterface */
@@ -443,9 +444,9 @@ class Headers implements Countable, Iterator
                 if (!isset($headers[$name])) {
                     $headers[$name] = [];
                 }
-                $headers[$name][] = $header->getFieldValue();
+                $headers[$name][] = $header->getFieldValue($format);
             } else {
-                $headers[$header->getFieldName()] = $header->getFieldValue();
+                $headers[$header->getFieldName()] = $header->getFieldValue($format);
             }
         }
         return $headers;
