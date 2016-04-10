@@ -697,4 +697,11 @@ class ImapTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($mail->countMessages([Storage::FLAG_SEEN, Storage::FLAG_FLAGGED]), 0);
         $this->assertEquals($mail->countMessages(Storage::FLAG_FLAGGED), 0);
     }
+
+    public function testDelimiter()
+    {
+        $mail = new Storage\Imap($this->params);
+        $delimiter = $mail->delimiter();
+        $this->assertEquals(strlen($delimiter), 1);
+    }
 }
