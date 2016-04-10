@@ -646,6 +646,18 @@ class ImapTest extends \PHPUnit_Framework_TestCase
         $protocol->fetch('UID', 99);
     }
 
+    public function testFetchByUid()
+    {
+        $protocol = new Protocol\Imap($this->params['host']);
+        $protocol->login($this->params['user'], $this->params['password']);
+        $protocol->select('INBOX');
+
+        $result = $protocol->fetch(['UID', 'FLAGS'], 1);
+        $uid = $result['UID'];
+        $message = $protocol->fetch(['UID', 'FLAGS'], $uid, null, true);
+        $this->assertEquals($uid, $message['UID']);
+    }
+
     public function testStore()
     {
         $protocol = new Protocol\Imap($this->params['host']);
