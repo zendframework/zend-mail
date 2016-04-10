@@ -64,6 +64,16 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
     ];
 
     /**
+     * Return access to protocol class
+     *
+     * @return null|\Zend\Mail\Protocol\Imap
+     */
+    public function getProtocol()
+    {
+        return $this->protocol;
+    }
+
+    /**
      * Count messages all messages in current box
      *
      * @param null $flags

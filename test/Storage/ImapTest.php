@@ -516,6 +516,27 @@ class ImapTest extends \PHPUnit_Framework_TestCase
         $mail->appendMessage('');
     }
 
+    public function testAppendWithDate()
+    {
+        $mail = new Storage\Imap($this->params);
+        $count = $mail->countMessages();
+        $date = date('d-M-Y H:i:s O', strtotime('12/27/2015'));
+
+        $message = '';
+        $message .= "From: me@example.org\r\n";
+        $message .= "To: you@example.org\r\n";
+        $message .= "Subject: append test\r\n";
+        $message .= "\r\n";
+        $message .= "This is a test\r\n";
+        $mail->appendMessage($message, null, null, $date);
+
+        $data = $mail->getProtocol()->fetch(['RFC822.HEADER', 'INTERNALDATE'], $count + 1);
+        $internaldate = $data['INTERNALDATE'];
+
+        $this->assertEquals($count + 1, $mail->countMessages());
+        $this->assertEquals(strtotime($date), strtotime($internaldate));
+    }
+
     public function testCopy()
     {
         $mail = new Storage\Imap($this->params);
