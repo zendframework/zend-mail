@@ -13,25 +13,24 @@ use Zend\Mail\Transport\FileOptions;
 
 // Setup File transport
 $transport = new FileTransport();
-$options   = new FileOptions(
-    [
-        'path'     => 'data/mail/',
-        'callback' => function (FileTransport $transport) {
-            return 'Message_' . microtime(true) . '_' . mt_rand() . '.txt';
-        },
-    ]
-);
+$options   = new FileOptions([
+    'path'     => 'data/mail/',
+    'callback' => function (FileTransport $transport) {
+        return 'Message_' . microtime(true) . '_' . mt_rand() . '.txt';
+    },
+]);
 $transport->setOptions($options);
 ```
 
 ## Configuration Options
 
 ### path
+
 The path under which mail files will be written.
 
-<!-- -->
 
 ### callback
+
 A PHP callable to be invoked in order to generate a unique name for a message file. By default, the
 following is used:
 
