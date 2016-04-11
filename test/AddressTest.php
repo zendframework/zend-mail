@@ -11,6 +11,9 @@ namespace ZendTest\Mail;
 
 use Zend\Mail\Address;
 
+/**
+ * @covers Zend\Mail\Address<extended>
+ */
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
     public function testDoesNotRequireNameForInstantiation()

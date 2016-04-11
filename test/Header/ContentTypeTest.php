@@ -16,6 +16,7 @@ use Zend\Mail\Header\UnstructuredInterface;
 
 /**
  * @group      Zend_Mail
+ * @covers Zend\Mail\Header\ContentType<extended>
  */
 class ContentTypeTest extends \PHPUnit_Framework_TestCase
 {

@@ -16,6 +16,7 @@ use ZendTest\Mail\TestAsset\SmtpProtocolSpy;
 
 /**
  * @group      Zend_Mail
+ * @covers Zend\Mail\Protocol\Smtp<extended>
  */
 class SmtpTest extends \PHPUnit_Framework_TestCase
 {
