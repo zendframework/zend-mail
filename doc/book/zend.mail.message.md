@@ -162,7 +162,7 @@ The `Message` class has no configuration options, and is instead a value object.
 
 ## Available Methods
 
-**isValid**  
+### isValid
 `isValid()`
 
 Is the message valid?
@@ -173,7 +173,7 @@ Returns bool
 
 <!-- -->
 
-**setEncoding**  
+### setEncoding
 `setEncoding(string $encoding)`
 
 Set the message encoding.
@@ -182,7 +182,7 @@ Implements a fluent interface.
 
 <!-- -->
 
-**getEncoding**  
+### getEncoding
 `getEncoding()`
 
 Get the message encoding.
@@ -191,7 +191,7 @@ Returns string.
 
 <!-- -->
 
-**setHeaders**  
+### setHeaders
 `setHeaders(Zend\Mail\Headers $headers)`
 
 Compose headers.
@@ -200,7 +200,7 @@ Implements a fluent interface.
 
 <!-- -->
 
-**getHeaders**  
+### getHeaders
 `getHeaders()`
 
 Access headers collection.
@@ -211,7 +211,7 @@ Returns a Zend\\Mail\\Headers instance.
 
 <!-- -->
 
-**setFrom**  
+### setFrom
 `setFrom(string|AddressDescription|array|Zend\Mail\AddressList|Traversable $emailOrAddressList,
 string|null $name)`
 
@@ -221,7 +221,7 @@ Implements a fluent interface.
 
 <!-- -->
 
-**addFrom**  
+### addFrom
 `addFrom(string|Zend\Mail\Address|array|Zend\Mail\AddressList|Traversable $emailOrAddressOrList,
 string|null $name)`
 
@@ -231,7 +231,7 @@ Implements a fluent interface.
 
 <!-- -->
 
-**getFrom**  
+### getFrom
 `From()`
 
 Retrieve list of From senders
@@ -240,7 +240,7 @@ Returns Zend\\Mail\\AddressList instance.
 
 <!-- -->
 
-**setTo**  
+### setTo
 `setTo(string|AddressDescription|array|Zend\Mail\AddressList|Traversable $emailOrAddressList,
 null|string $name)`
 
@@ -250,7 +250,7 @@ Implements a fluent interface.
 
 <!-- -->
 
-**addTo**  
+### addTo
 `addTo(string|AddressDescription|array|Zend\Mail\AddressList|Traversable $emailOrAddressOrList,
 null|string $name)`
 
@@ -262,7 +262,7 @@ Implements a fluent interface.
 
 <!-- -->
 
-**to**  
+### to
 `to()`
 
 Access the address list of the To header.
@@ -273,7 +273,7 @@ Returns a Zend\\Mail\\AddressList instance.
 
 <!-- -->
 
-**setCc**  
+### setCc
 `setCc(string|AddressDescription|array|Zend\Mail\AddressList|Traversable $emailOrAddressList,
 string|null $name)`
 
@@ -283,7 +283,7 @@ Implements a fluent interface.
 
 <!-- -->
 
-**addCc**  
+### addCc
 `addCc(string|Zend\Mail\Address|array|Zend\Mail\AddressList|Traversable $emailOrAddressOrList,
 string|null $name)`
 
@@ -293,7 +293,7 @@ Implements a fluent interface.
 
 <!-- -->
 
-**cc**  
+### cc
 `cc()`
 
 Retrieve list of CC recipients
@@ -304,7 +304,7 @@ Returns a Zend\\Mail\\AddressList instance.
 
 <!-- -->
 
-**setBcc**  
+### setBcc
 `setBcc(string|AddressDescription|array|Zend\Mail\AddressList|Traversable $emailOrAddressList,
 string|null $name)`
 
@@ -314,7 +314,7 @@ Implements a fluent interface.
 
 <!-- -->
 
-**addBcc**  
+### addBcc
 `addBcc(string|Zend\Mail\Address|array|Zend\Mail\AddressList|Traversable $emailOrAddressOrList,
 string|null $name)`
 
@@ -324,7 +324,7 @@ Implements a fluent interface.
 
 <!-- -->
 
-**bcc**  
+### bcc
 `bcc()`
 
 Retrieve list of BCC recipients.
@@ -335,7 +335,7 @@ Returns a Zend\\Mail\\AddressList instance.
 
 <!-- -->
 
-**setReplyTo**  
+### setReplyTo
 `setReplyTo(string|AddressDescription|array|Zend\Mail\AddressList|Traversable $emailOrAddressList,
 null|string $name)`
 
@@ -345,7 +345,7 @@ Implements a fluent interface.
 
 <!-- -->
 
-**addReplyTo**  
+### addReplyTo
 `addReplyTo(string|AddressDescription|array|Zend\Mail\AddressList|Traversable $emailOrAddressOrList,
 null|string $name)`
 
@@ -355,10 +355,10 @@ Implements a fluent interface.
 
 <!-- -->
 
-**replyTo**  
+### replyTo
 `replyTo()`
 
-Access the address list of the Reply-To header
+Access the address list of the Reply-To header.
 
 Lazy-loads a Zend\\Mail\\AddressList and populates the Reply-To header if not previously done.
 
@@ -366,7 +366,7 @@ Returns a Zend\\Mail\\AddressList instance.
 
 <!-- -->
 
-**setSender**  
+### setSender
 `setSender(mixed $emailOrAddress, mixed $name)`
 
 Set the message envelope Sender header.
@@ -375,7 +375,7 @@ Implements a fluent interface.
 
 <!-- -->
 
-**getSender**  
+### getSender
 `getSender()`
 
 Retrieve the sender address, if any.
@@ -384,7 +384,7 @@ Returns null or a Zend\\Mail\\AddressDescription instance.
 
 <!-- -->
 
-**setSubject**  
+### setSubject
 `setSubject(string $subject)`
 
 Set the message subject header value.
@@ -393,7 +393,7 @@ Implements a fluent interface.
 
 <!-- -->
 
-**getSubject**  
+### getSubject
 `getSubject()`
 
 Get the message subject header value.
@@ -402,7 +402,7 @@ Returns null or a string.
 
 <!-- -->
 
-**setBody**  
+### setBody
 `setBody(null|string|Zend\Mime\Message|object $body)`
 
 Set the message body.
@@ -411,7 +411,7 @@ Implements a fluent interface.
 
 <!-- -->
 
-**getBody**  
+### getBody
 `getBody()`
 
 Return the currently set message body.
@@ -420,7 +420,7 @@ Returns null, a string, or an object.
 
 <!-- -->
 
-**getBodyText**  
+### getBodyText
 `getBodyText()`
 
 Get the string-serialized message body text.
@@ -429,7 +429,7 @@ Returns null or a string.
 
 <!-- -->
 
-**toString**  
+### toString
 `toString()`
 
 Serialize to string.
