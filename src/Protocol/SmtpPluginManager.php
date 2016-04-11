@@ -55,7 +55,7 @@ class SmtpPluginManager extends AbstractPluginManager
         'zendmailprotocolsmtpauthcrammd5' => InvokableFactory::class,
         'zendmailprotocolsmtpauthlogin'   => InvokableFactory::class,
         'zendmailprotocolsmtpauthplain'   => InvokableFactory::class,
-        'zendmailprotocolsmtp'              => InvokableFactory::class,
+        'zendmailprotocolsmtp'            => InvokableFactory::class,
     ];
 
     /**
