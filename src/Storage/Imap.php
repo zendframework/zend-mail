@@ -31,7 +31,7 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
 
     /**
      * IMAP folder delimiter character
-     * @var string
+     * @var null|string
      */
     protected $delimiter;
 
