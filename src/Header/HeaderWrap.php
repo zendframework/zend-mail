@@ -121,13 +121,13 @@ abstract class HeaderWrap
         // "x-test: =?ISO-8859-1?B?dGVzdA==?=" -> 33
         //  8       +2          +3         +3  -> 16
         $charset = 'UTF-8';
-        $line_length = strlen($value) * 4 + strlen($charset) + 16;
+        $lineLength = strlen($value) * 4 + strlen($charset) + 16;
 
         $preferences = [
             'scheme' => 'Q',
             'input-charset' => $charset,
             'output-charset' => $charset,
-            'line-length' => $line_length,
+            'line-length' => $lineLength,
         ];
 
         $encoded = iconv_mime_encode('x-test', $value, $preferences);
