@@ -37,7 +37,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#44](https://github.com/zendframework/zend-mail/pull/44) fixes an issue with
+  decoding of addresses where the full name contains a comma (e.g., "Lastname,
+  Firstname").
 
 ## 2.6.1 - 2016-02-24
 
