@@ -18,6 +18,7 @@ use Zend\Mail\Storage\Message;
 
 /**
  * @group      Zend_Mail
+ * @covers Zend\Mail\Storage\Message<extended>
  */
 class MessageTest extends \PHPUnit_Framework_TestCase
 {

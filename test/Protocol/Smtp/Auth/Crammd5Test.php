@@ -14,6 +14,7 @@ use Zend\Mail\Protocol\Smtp\Auth\Crammd5;
 
 /**
  * @group      Zend_Mail
+ * @covers Zend\Mail\Protocol\Smtp\Auth\Crammd5<extended>
  */
 class Crammd5Test extends \PHPUnit_Framework_TestCase
 {

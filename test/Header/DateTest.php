@@ -12,6 +12,9 @@ namespace ZendTest\Mail\Header;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Mail\Header;
 
+/**
+ * @covers Zend\Mail\Header\Date<extended>
+ */
 class DateTest extends TestCase
 {
     public function headerLines()
