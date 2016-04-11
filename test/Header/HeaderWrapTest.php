@@ -13,6 +13,7 @@ use Zend\Mail\Header\HeaderWrap;
 
 /**
  * @group      Zend_Mail
+ * @covers Zend\Mail\Header\HeaderWrap<extended>
  */
 class HeaderWrapTest extends \PHPUnit_Framework_TestCase
 {

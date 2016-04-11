@@ -12,6 +12,9 @@ namespace ZendTest\Mail\Header;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Mail\Header\GenericHeader;
 
+/**
+ * @covers Zend\Mail\Header\GenericHeader<extended>
+ */
 class GenericHeaderTest extends TestCase
 {
     /**

@@ -12,6 +12,9 @@ namespace ZendTest\Mail\Header;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Mail\Header\HeaderName;
 
+/**
+ * @covers Zend\Mail\Header\HeaderName<extended>
+ */
 class HeaderNameTest extends TestCase
 {
     /**

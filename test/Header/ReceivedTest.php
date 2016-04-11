@@ -13,6 +13,7 @@ use Zend\Mail\Header;
 
 /**
  * @group      Zend_Mail
+ * @covers Zend\Mail\Header\Received<extended>
  */
 class ReceivedTest extends \PHPUnit_Framework_TestCase
 {

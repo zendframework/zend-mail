@@ -11,6 +11,9 @@ use PHPUnit_Framework_TestCase;
 use Zend\Mail\Transport\Factory;
 use Zend\Stdlib\ArrayObject;
 
+/**
+ * @covers Zend\Mail\Transport\Factory<extended>
+ */
 class FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**

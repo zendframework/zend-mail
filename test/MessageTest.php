@@ -21,6 +21,7 @@ use Zend\Mime\Part as MimePart;
 
 /**
  * @group      Zend_Mail
+ * @covers Zend\Mail\Message<extended>
  */
 class MessageTest extends \PHPUnit_Framework_TestCase
 {

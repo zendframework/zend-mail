@@ -14,6 +14,7 @@ use Zend\Mail\Transport\InMemory;
 
 /**
  * @group      Zend_Mail
+ * @covers Zend\Mail\Transport\InMemory<extended>
  */
 class InMemoryTest extends \PHPUnit_Framework_TestCase
 {
