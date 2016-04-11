@@ -696,6 +696,21 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @group 45
+     */
+    public function testCanRestoreFromSerializedStringWhenBodyContainsMultipleNewlines()
+    {
+        $this->message->addTo('zf-devteam@example.com', 'ZF DevTeam');
+        $this->message->addFrom('matthew@example.com', "Matthew Weier O'Phinney");
+        $this->message->addCc('zf-contributors@example.com', 'ZF Contributors List');
+        $this->message->setSubject('This is a subject');
+        $this->message->setBody("foo\n\ntest");
+        $serialized      = $this->message->toString();
+        $restoredMessage = Message::fromString($serialized);
+        $this->assertEquals($serialized, $restoredMessage->toString());
+    }
+
+    /**
      * @group ZF2-5962
      */
     public function testPassEmptyArrayIntoSetPartsOfMimeMessageShouldReturnEmptyBodyString()
