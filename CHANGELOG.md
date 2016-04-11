@@ -8,6 +8,12 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#41](https://github.com/zendframework/zend-mail/pull/41) adds support for
   IMAP delimiters in the IMAP storage adapter.
+- [#80](https://github.com/zendframework/zend-mail/pull/80) adds:
+  - `Zend\Mail\Protocol\SmtpPluginManagerFactory`, for creating and returning an
+    `SmtpPluginManagerFactory` instance.
+  - `Zend\Mail\ConfigProvider`, which maps the `SmtpPluginManager` to the above
+    factory.
+  - `Zend\Mail\Module`, which does the same, for zend-mvc contexts.
 
 ### Deprecated
 
