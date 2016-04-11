@@ -6,7 +6,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#41](https://github.com/zendframework/zend-mail/pull/41) adds support for
+  IMAP delimiters in the IMAP storage adapter.
 
 ### Deprecated
 
