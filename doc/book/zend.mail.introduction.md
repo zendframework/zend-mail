@@ -25,10 +25,11 @@ $transport = new Mail\Transport\Sendmail();
 $transport->send($mail);
 ```
 
-> ## Note
-#### Minimum definitions
-In order to send an email using `Zend\Mail` you have to specify at least one recipient as well as a
-message body. Please note that each Transport may require additional parameters to be set.
+> #### Minimum definitions
+>
+> In order to send an email using `Zend\Mail` you have to specify at least one
+> recipient as well as a message body. Please note that each Transport may
+> require additional parameters to be set.
 
 For most mail attributes there are "get" methods to read the information stored in the message
 object. for further details, please refer to the *API* documentation.
@@ -69,24 +70,30 @@ $transport = new Mail\Transport\Sendmail('-freturn_to_me@example.com');
 $transport->send($mail);
 ```
 
-> ## Note
-#### Safe mode restrictions
-Supplying additional parameters to the transport will cause the [mail()](http://php.net/mail)
-function to fail if *PHP* is running in safe mode.
+> #### Safe mode restrictions
+>
+> Supplying additional parameters to the transport will cause the
+> [mail()](http://php.net/mail) function to fail if *PHP* is running in safe
+> mode.
 
-> ## Note
-#### Choosing your transport wisely
-Although the sendmail transport is the transport that requires only minimal configuration, it may
-not be suitable for your production environment. This is because emails sent using the sendmail
-transport will be more often delivered to SPAM-boxes. This can partly be remedied by using the
-\[SMTP Transport\](zend.mail.transport.quick-start.smtp-usage) combined with an SMTP server that has
-an overall good reputation. Additionally, techniques such as SPF and DKIM may be employed to ensure
-even more email messages are delivered as should.
+> #### Choosing your transport wisely
+>
+> Although the sendmail transport is the transport that requires only minimal
+> configuration, it may not be suitable for your production environment. This is
+> because emails sent using the sendmail transport will be more often delivered
+> to SPAM-boxes. This can partly be remedied by using the [SMTP
+> Transport](zend.mail.transport.quick-start.smtp-usage.md) combined with an
+> SMTP server that has an overall good reputation. Additionally, techniques such
+> as SPF and DKIM may be employed to ensure even more email messages are
+> delivered as should.
 
-> ## Warning
-#### Sendmail Transport and Windows
-As the *PHP* manual states the `mail()` function has different behaviour on Windows and on \*nix
-based systems. Using the Sendmail Transport on Windows will not work in combination with `addBcc()`.
-The `mail()` function will sent to the BCC recipient such that all the other recipients can see him
-as recipient!
-Therefore if you want to use BCC on a windows server, use the SMTP transport for sending!
+> #### Warning: Sendmail Transport and Windows
+>
+> As the *PHP* manual states the `mail()` function has different behaviour on
+> Windows and on \*nix based systems. Using the Sendmail Transport on Windows
+> will not work in combination with `addBcc()`.  The `mail()` function will sent
+> to the BCC recipient such that all the other recipients can see him as
+> recipient!
+>
+> Therefore if you want to use BCC on a windows server, use the SMTP transport
+> for sending!

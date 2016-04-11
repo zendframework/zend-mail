@@ -128,7 +128,7 @@ options.
 
 ## Available Methods
 
-**send**  
+### send
 `send(Zend\Mail\Message $message)`
 
 Send a mail message.
