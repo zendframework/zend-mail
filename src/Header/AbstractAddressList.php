@@ -94,6 +94,19 @@ abstract class AbstractAddressList implements HeaderInterface
         return $this->fieldName;
     }
 
+    /**
+     * Safely convert UTF-8 encoded domain name to ASCII
+     * @param string $domainName  the UTF-8 encoded email
+     * @return string
+     */
+    protected function idnToAscii($domainName)
+    {
+        if (extension_loaded('intl')) {
+            return (idn_to_ascii($domainName) ?: $domainName);
+        }
+        return $domainName;
+    }
+
     public function getFieldValue($format = HeaderInterface::FORMAT_RAW)
     {
         $emails   = [];
@@ -103,22 +116,29 @@ abstract class AbstractAddressList implements HeaderInterface
             $email = $address->getEmail();
             $name  = $address->getName();
 
-            if (empty($name)) {
-                $emails[] = $email;
-                continue;
-            }
-
-            if (false !== strstr($name, ',')) {
+            if (!empty($name) && false !== strstr($name, ',')) {
                 $name = sprintf('"%s"', $name);
             }
 
             if ($format === HeaderInterface::FORMAT_ENCODED
                 && 'ASCII' !== $encoding
             ) {
-                $name = HeaderWrap::mimeEncodeValue($name, $encoding);
+                if (!empty($name)) {
+                    $name = HeaderWrap::mimeEncodeValue($name, $encoding);
+                }
+
+                if (preg_match('/^(.+)@([^@]+)$/', $email, $matches)) {
+                    $localPart = $matches[1];
+                    $hostname  = $this->idnToAscii($matches[2]);
+                    $email = sprintf('%s@%s', $localPart, $hostname);
+                }
             }
 
-            $emails[] = sprintf('%s <%s>', $name, $email);
+            if (empty($name)) {
+                $emails[] = $email;
+            } else {
+                $emails[] = sprintf('%s <%s>', $name, $email);
+            }
         }
 
         // Ensure the values are valid before sending them.
