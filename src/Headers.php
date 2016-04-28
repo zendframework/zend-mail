@@ -475,8 +475,9 @@ class Headers implements Countable, Iterator
      * @param string $headerLine
      * @return \Zend\Mail\Header\HeaderInterface
      */
-    public function loadHeader($headerLine){
-        list($name, ) = \Zend\Mail\Header\GenericHeader::splitHeaderLine($headerLine);
+    public function loadHeader($headerLine)
+    {
+        list($name,) = \Zend\Mail\Header\GenericHeader::splitHeaderLine($headerLine);
 
         $class = ($this->getPluginClassLoader()->load($name)) ?: 'Zend\Mail\Header\GenericHeader';
 
