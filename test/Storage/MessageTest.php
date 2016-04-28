@@ -9,12 +9,12 @@
 
 namespace ZendTest\Mail\Storage;
 
-use Zend\Mime;
-use Zend\Mime\Exception as MimeException;
 use Zend\Mail\Exception as MailException;
 use Zend\Mail\Storage;
 use Zend\Mail\Storage\Exception;
 use Zend\Mail\Storage\Message;
+use Zend\Mime;
+use Zend\Mime\Exception as MimeException;
 
 /**
  * @group      Zend_Mail
@@ -23,10 +23,12 @@ use Zend\Mail\Storage\Message;
 class MessageTest extends \PHPUnit_Framework_TestCase
 {
     protected $_file;
+    protected $_file2;
 
     public function setUp()
     {
         $this->_file = __DIR__ . '/../_files/mail.txt';
+        $this->_file2 = __DIR__ . '/../_files/mail_multi_to.txt';
     }
 
     public function testInvalidFile()
@@ -428,6 +430,16 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $raw = file_get_contents($this->_file);
         $raw = "From foo@example.com  Sun Jan 01 00:00:00 2000\n" . $raw;
         $message = new Message(['raw' => $raw, 'strict' => true]);
+    }
+
+    public function testMultivalueToHeader()
+    {
+        $message = new Message(['file' => $this->_file2]);
+        /** @var \Zend\Mail\Header\To $header */
+        $header = $message->getHeader('to');
+        $addressList = $header->getAddressList();
+        $this->assertEquals(2, $addressList->count());
+        $this->assertEquals('nicpoń', $addressList->get('bar@example.pl')->getName());
     }
 
     public function filesProvider()
