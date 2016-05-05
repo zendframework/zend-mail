@@ -228,7 +228,11 @@ class Headers implements Countable, Iterator
         }
 
         if ($fieldValue === null) {
-            $this->addHeader(Header\GenericHeader::fromString($headerFieldNameOrLine));
+            $headers = $this->loadHeader($headerFieldNameOrLine);
+            $headers = is_array($headers) ? $headers : [$headers];
+            foreach ($headers as $header) {
+                $this->addHeader($header);
+            }
         } elseif (is_array($fieldValue)) {
             foreach ($fieldValue as $i) {
                 $this->addHeader(Header\GenericMultiHeader::fromString($headerFieldNameOrLine . ':' . $i));
@@ -463,6 +467,21 @@ class Headers implements Countable, Iterator
             // $item should now be loaded
         }
         return true;
+    }
+
+    /**
+     * Create Header object from header line
+     *
+     * @param string $headerLine
+     * @return \Zend\Mail\Header\HeaderInterface
+     */
+    public function loadHeader($headerLine)
+    {
+        list($name, ) = \Zend\Mail\Header\GenericHeader::splitHeaderLine($headerLine);
+
+        $class = ($this->getPluginClassLoader()->load($name)) ?: 'Zend\Mail\Header\GenericHeader';
+
+        return $class::fromString($headerLine);
     }
 
     /**
