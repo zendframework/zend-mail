@@ -815,8 +815,8 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $raw = file_get_contents(__DIR__ . '/_files/zend-mail-19.txt');
         $message = Message::fromString($raw);
         $this->assertInstanceOf(Message::class, $message);
-
         $this->assertInternalType('string', $message->getBody());
+
         $headers = $message->getHeaders();
         $this->assertCount(8, $headers);
         $this->assertTrue($headers->has('Date'));
