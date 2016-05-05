@@ -40,6 +40,10 @@ All notable changes to this project will be documented in this file, in reverse 
   `Zend\Mail\Header\Sender::fromString()` implementation to more closely follow
   the ABNF defined in RFC-5322, specifically to allow addresses in the form
   `user@domain` (with no TLD).
+- [#28](https://github.com/zendframework/zend-mail/pull/28) and
+  [#87](https://github.com/zendframework/zend-mail/pull/87) fix header value
+  validation when headers wrap using the sequence `\r\n\t`; prior to this
+  release, such sequences incorrectly marked a header value invalid.
 
 ## 2.7.0 - 2016-04-11
 

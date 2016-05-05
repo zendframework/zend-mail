@@ -31,7 +31,7 @@ class Crammd5Test extends \PHPUnit_Framework_TestCase
     public function testHmacMd5ReturnsExpectedHash()
     {
         $class = new ReflectionClass('Zend\Mail\Protocol\Smtp\Auth\Crammd5');
-        $method = $class->getMethod('_hmacMd5');
+        $method = $class->getMethod('hmacMd5');
         $method->setAccessible(true);
 
         $result = $method->invokeArgs(

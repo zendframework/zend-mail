@@ -85,7 +85,10 @@ class Maildir extends Folder\Maildir implements WritableInterface
             $params = (object) $params;
         }
 
-        if (!empty($params->create) && isset($params->dirname) && !file_exists($params->dirname . DIRECTORY_SEPARATOR . 'cur')) {
+        if (!empty($params->create)
+            && isset($params->dirname)
+            && !file_exists($params->dirname . DIRECTORY_SEPARATOR . 'cur')
+        ) {
             self::initMaildir($params->dirname);
         }
 
@@ -159,7 +162,11 @@ class Maildir extends Folder\Maildir implements WritableInterface
         ErrorHandler::start();
         if (!mkdir($fulldir) || !mkdir($fulldir . DIRECTORY_SEPARATOR . 'cur')) {
             $error = ErrorHandler::stop();
-            throw new StorageException\RuntimeException('error while creating new folder, may be created incompletely', 0, $error);
+            throw new StorageException\RuntimeException(
+                'error while creating new folder, may be created incompletely',
+                0,
+                $error
+            );
         }
         ErrorHandler::stop();
 
@@ -323,7 +330,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
      *
      * @return string new uniqueid
      */
-    protected function _createUniqueId()
+    protected function createUniqueId()
     {
         $id = '';
         $id .= microtime(true);
@@ -344,7 +351,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
      * @return  array array('dirname' => dir of maildir folder, 'uniq' => unique id, 'filename' => name of create file
      *                     'handle'  => file opened for writing)
      */
-    protected function _createTmpFile($folder = 'INBOX')
+    protected function createTmpFile($folder = 'INBOX')
     {
         if ($folder == 'INBOX') {
             $tmpdir = $this->rootdir . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR;
@@ -364,7 +371,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
         // normally we should have a valid unique name after the first try, we're just following the "standard" here
         $maxTries = 5;
         for ($i = 0; $i < $maxTries; ++$i) {
-            $uniq = $this->_createUniqueId();
+            $uniq = $this->createUniqueId();
             if (!file_exists($tmpdir . $uniq)) {
                 // here is the race condition! - as defined in the standard
                 // to avoid having a long time between stat()ing the file and creating it we're opening it here
@@ -393,11 +400,12 @@ class Maildir extends Folder\Maildir implements WritableInterface
     /**
      * create an info string for filenames with given flags
      *
-     * @param   array $flags wanted flags, with the reference you'll get the set flags with correct key (= char for flag)
-     * @throws \Zend\Mail\Storage\Exception\InvalidArgumentException
-     * @return  string info string for version 2 filenames including the leading colon
+     * @param array $flags wanted flags, with the reference you'll get the set
+     *     flags with correct key (= char for flag)
+     * @return string info string for version 2 filenames including the leading colon
+     * @throws StorageException\InvalidArgumentException
      */
-    protected function _getInfoString(&$flags)
+    protected function getInfoString(&$flags)
     {
         // accessing keys is easier, faster and it removes duplicated flags
         $wantedFlags = array_flip($flags);
@@ -427,14 +435,15 @@ class Maildir extends Folder\Maildir implements WritableInterface
     /**
      * append a new message to mail storage
      *
-     * @param   string|resource                            $message message as string or stream resource
-     * @param   null|string|\Zend\Mail\Storage\Folder      $folder  folder for new message, else current folder is taken
-     * @param   null|array                                 $flags   set flags for new message, else a default set is used
-     * @param   bool                                       $recent  handle this mail as if recent flag has been set,
-     *                                                              should only be used in delivery
-     * @throws \Zend\Mail\Storage\Exception\RuntimeException
+     * @param string|resource $message message as string or stream resource.
+     * @param null|string|Folder $folder folder for new message, else current
+     *     folder is taken.
+     * @param null|array $flags set flags for new message, else a default set
+     *     is used.
+     * @param bool $recent handle this mail as if recent flag has been set,
+     *     should only be used in delivery.
+     * @throws StorageException\RuntimeException
      */
-    // not yet * @param string|\Zend\Mail\Message|\Zend\Mime\Message $message message as string or instance of message class
     public function appendMessage($message, $folder = null, $flags = null, $recent = false)
     {
         if ($this->quota && $this->checkQuota()) {
@@ -452,8 +461,8 @@ class Maildir extends Folder\Maildir implements WritableInterface
         if ($flags === null) {
             $flags = [Storage::FLAG_SEEN];
         }
-        $info     = $this->_getInfoString($flags);
-        $tempFile = $this->_createTmpFile($folder->getGlobalName());
+        $info     = $this->getInfoString($flags);
+        $tempFile = $this->createTmpFile($folder->getGlobalName());
 
         // TODO: handle class instances for $message
         if (is_resource($message) && get_resource_type($message) == 'stream') {
@@ -491,7 +500,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
                                 'flags'    => $flags,
                                 'filename' => $newFilename];
         if ($this->quota) {
-            $this->_addQuotaEntry((int) $size, 1);
+            $this->addQuotaEntry((int) $size, 1);
         }
     }
 
@@ -512,7 +521,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
             $folder = $this->getFolders($folder);
         }
 
-        $filedata = $this->_getFileData($id);
+        $filedata = $this->getFileData($id);
         $oldFile  = $filedata['filename'];
         $flags    = $filedata['flags'];
 
@@ -520,10 +529,10 @@ class Maildir extends Folder\Maildir implements WritableInterface
         while (($key = array_search(Storage::FLAG_RECENT, $flags)) !== false) {
             unset($flags[$key]);
         }
-        $info = $this->_getInfoString($flags);
+        $info = $this->getInfoString($flags);
 
         // we're creating the copy as temp file before moving to cur/
-        $tempFile = $this->_createTmpFile($folder->getGlobalName());
+        $tempFile = $this->createTmpFile($folder->getGlobalName());
         // we don't write directly to the file
         fclose($tempFile['handle']);
 
@@ -561,7 +570,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
         }
 
         if ($this->quota) {
-            $this->_addQuotaEntry((int) $size, 1);
+            $this->addQuotaEntry((int) $size, 1);
         }
     }
 
@@ -584,7 +593,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
             throw new StorageException\RuntimeException('target is current folder');
         }
 
-        $filedata = $this->_getFileData($id);
+        $filedata = $this->getFileData($id);
         $oldFile  = $filedata['filename'];
         $flags    = $filedata['flags'];
 
@@ -592,10 +601,10 @@ class Maildir extends Folder\Maildir implements WritableInterface
         while (($key = array_search(Storage::FLAG_RECENT, $flags)) !== false) {
             unset($flags[$key]);
         }
-        $info = $this->_getInfoString($flags);
+        $info = $this->getInfoString($flags);
 
         // reserving a new name
-        $tempFile = $this->_createTmpFile($folder->getGlobalName());
+        $tempFile = $this->createTmpFile($folder->getGlobalName());
         fclose($tempFile['handle']);
 
         // we're adding the size to the filename for maildir++
@@ -637,11 +646,16 @@ class Maildir extends Folder\Maildir implements WritableInterface
      */
     public function setFlags($id, $flags)
     {
-        $info     = $this->_getInfoString($flags);
-        $filedata = $this->_getFileData($id);
+        $info     = $this->getInfoString($flags);
+        $filedata = $this->getFileData($id);
 
-        // NOTE: double dirname to make sure we always move to cur. if recent flag has been set (message is in new) it will be moved to cur.
-        $newFilename = dirname(dirname($filedata['filename'])) . DIRECTORY_SEPARATOR . 'cur' . DIRECTORY_SEPARATOR . "$filedata[uniq]$info";
+        // NOTE: double dirname to make sure we always move to cur. if recent
+        // flag has been set (message is in new) it will be moved to cur.
+        $newFilename = dirname(dirname($filedata['filename']))
+            . DIRECTORY_SEPARATOR
+            . 'cur'
+            . DIRECTORY_SEPARATOR
+            . "$filedata[uniq]$info";
 
         ErrorHandler::start();
         $test  = rename($filedata['filename'], $newFilename);
@@ -664,7 +678,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
      */
     public function removeMessage($id)
     {
-        $filename = $this->_getFileData($id, 'filename');
+        $filename = $this->getFileData($id, 'filename');
 
         if ($this->quota) {
             $size = filesize($filename);
@@ -680,7 +694,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
         // remove the gap
         $this->files = array_values($this->files);
         if ($this->quota) {
-            $this->_addQuotaEntry(0 - (int) $size, -1);
+            $this->addQuotaEntry(0 - (int) $size, -1);
         }
     }
 
@@ -738,7 +752,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
      * @throws \Zend\Mail\Storage\Exception\RuntimeException
      * @return array
      */
-    protected function _calculateMaildirsize()
+    protected function calculateMaildirsize()
     {
         $timestamps = [];
         $messages   = 0;
@@ -807,7 +821,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
             }
         }
 
-        $tmp        = $this->_createTmpFile();
+        $tmp        = $this->createTmpFile();
         $fh         = $tmp['handle'];
         $definition = [];
         foreach ($quota as $type => $value) {
@@ -838,13 +852,16 @@ class Maildir extends Folder\Maildir implements WritableInterface
      * @param bool $forceRecalc
      * @return array
      */
-    protected function _calculateQuota($forceRecalc = false)
+    protected function calculateQuota($forceRecalc = false)
     {
         $fh          = null;
         $totalSize   = 0;
         $messages    = 0;
         $maildirsize = '';
-        if (!$forceRecalc && file_exists($this->rootdir . 'maildirsize') && filesize($this->rootdir . 'maildirsize') < 5120) {
+        if (!$forceRecalc
+            && file_exists($this->rootdir . 'maildirsize')
+            && filesize($this->rootdir . 'maildirsize') < 5120
+        ) {
             $fh = fopen($this->rootdir . 'maildirsize', 'r');
         }
         if ($fh) {
@@ -856,7 +873,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
             }
         }
         if (!$fh) {
-            $result     = $this->_calculateMaildirsize();
+            $result     = $this->calculateMaildirsize();
             $totalSize = $result['size'];
             $messages   = $result['count'];
             $quota      = $result['quota'];
@@ -891,7 +908,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
         // Also we're using local time to calculate the 15 minute offset. Touching a file just for known the
         // local time of the file storage isn't worth the hassle.
         if ($overQuota && ($maildirsize || filemtime($this->rootdir . 'maildirsize') > time() - 900)) {
-            $result     = $this->_calculateMaildirsize();
+            $result     = $this->calculateMaildirsize();
             $totalSize  = $result['size'];
             $messages   = $result['count'];
             $quota      = $result['quota'];
@@ -911,10 +928,10 @@ class Maildir extends Folder\Maildir implements WritableInterface
                      'over_quota' => $overQuota];
     }
 
-    protected function _addQuotaEntry($size, $count = 1)
+    protected function addQuotaEntry($size, $count = 1)
     {
         if (!file_exists($this->rootdir . 'maildirsize')) {
-            // TODO: should get file handler from _calculateQuota
+            // TODO: should get file handler from calculateQuota
         }
         $size  = (int) $size;
         $count = (int) $count;
@@ -924,14 +941,14 @@ class Maildir extends Folder\Maildir implements WritableInterface
     /**
      * check if storage is currently over quota
      *
-     * @see _calculateQuota()
+     * @see calculateQuota()
      * @param bool $detailedResponse return known data of quota and current size and message count
      * @param bool $forceRecalc
      * @return bool|array over quota state or detailed response
      */
     public function checkQuota($detailedResponse = false, $forceRecalc = false)
     {
-        $result = $this->_calculateQuota($forceRecalc);
+        $result = $this->calculateQuota($forceRecalc);
         return $detailedResponse ? $result : $result['over_quota'];
     }
 }
