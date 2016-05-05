@@ -13,7 +13,6 @@ use Zend\Mail\Address;
 use Zend\Mail\Header;
 use Zend\Mail\Exception;
 
-
 /**
  * @group      Zend_Mail
  * @covers Zend\Mail\Header\Sender<extended>
@@ -225,17 +224,18 @@ class SenderTest extends \PHPUnit_Framework_TestCase
 
     public function validHeaderLinesProvider()
     {
-
+        // @codingStandardsIgnoreStart
         return [
-            // [ header line, expected sender name, expected email address ]
-            ['Sender: foo@bar', null, 'foo@bar'],
-            ['Sender: <foo@bar>', null, 'foo@bar'],
-            ['Sender:    foo@bar', null, 'foo@bar'],
-            ['Sender: name <foo@bar>', 'name', 'foo@bar'],
-            ['Sender: <weird name> <foo@bar>', '<weird name>', 'foo@bar'],
-            ['Sender: moar words <foo@bar>', 'moar words', 'foo@bar'],
-            ['Sender: =?UTF-8?Q?=C3=A1z=C3=81Z09?= <foo@bar>', 'ázÁZ09', 'foo@bar'],
+            // [ header line,                                  expected sender name, expected email address ]
+            ['Sender: foo@bar',                                null,                 'foo@bar'],
+            ['Sender: <foo@bar>',                              null,                 'foo@bar'],
+            ['Sender:    foo@bar',                             null,                 'foo@bar'],
+            ['Sender: name <foo@bar>',                         'name',               'foo@bar'],
+            ['Sender: <weird name> <foo@bar>',                 '<weird name>',       'foo@bar'],
+            ['Sender: moar words <foo@bar>',                   'moar words',         'foo@bar'],
+            ['Sender: =?UTF-8?Q?=C3=A1z=C3=81Z09?= <foo@bar>', 'ázÁZ09',             'foo@bar'],
         ];
+        // @codingStandardsIgnoreEnd
     }
 
     /**
