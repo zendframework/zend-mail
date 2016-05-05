@@ -18,7 +18,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#9](https://github.com/zendframework/zend-mail/pull/9) fixes the
+  `Zend\Mail\Header\Sender::fromString()` implementation to more closely follow
+  the ABNF defined in RFC-5322, specifically to allow addresses in the form
+  `user@domain` (with no TLD).
 
 ## 2.7.0 - 2016-04-11
 
