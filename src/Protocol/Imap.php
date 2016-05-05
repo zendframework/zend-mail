@@ -527,13 +527,14 @@ class Imap
      * @param  int|array    $from  message for items or start message if $to !== null
      * @param  int|null     $to    if null only one message ($from) is fetched, else it's the
      *                             last message, INF means last message available
+     * @param  bool         $uid   set to true if passing a unique id
      * @throws Exception\RuntimeException
      * @return string|array if only one item of one message is fetched it's returned as string
      *                      if items of one message are fetched it's returned as (name => value)
      *                      if one items of messages are fetched it's returned as (msgno => value)
      *                      if items of messages are fetched it's returned as (msgno => (name => value))
      */
-    public function fetch($items, $from, $to = null)
+    public function fetch($items, $from, $to = null, $uid = false)
     {
         if (is_array($from)) {
             $set = implode(',', $from);
@@ -549,7 +550,7 @@ class Imap
         $itemList = $this->escapeList($items);
 
         $tag = null;  // define $tag variable before first use
-        $this->sendRequest('FETCH', [$set, $itemList], $tag);
+        $this->sendRequest(($uid ? 'UID ' : '') . 'FETCH', [$set, $itemList], $tag);
 
         $result = [];
         $tokens = null; // define $tokens variable before first use
@@ -558,14 +559,25 @@ class Imap
             if ($tokens[1] != 'FETCH') {
                 continue;
             }
+            // find array key of UID value; try the last elements, or search for it
+            if ($uid) {
+                $count = count($tokens[2]);
+                if ($tokens[2][$count - 2] == 'UID') {
+                    $uidKey = $count - 1;
+                } else {
+                    $uidKey = array_search('UID', $tokens[2]) + 1;
+                }
+            }
             // ignore other messages
-            if ($to === null && !is_array($from) && $tokens[0] != $from) {
+            if ($to === null && !is_array($from) && ($uid ? $tokens[2][$uidKey] != $from : $tokens[0] != $from)) {
                 continue;
             }
             // if we only want one item we return that one directly
             if (count($items) == 1) {
                 if ($tokens[2][0] == $items[0]) {
                     $data = $tokens[2][1];
+                } elseif ($uid && $tokens[2][2] == $items[0]) {
+                    $data = $tokens[2][3];
                 } else {
                     // maybe the server send an other field we didn't wanted
                     $count = count($tokens[2]);
@@ -586,7 +598,7 @@ class Imap
                 }
             }
             // if we want only one message we can ignore everything else and just return
-            if ($to === null && !is_array($from) && $tokens[0] == $from) {
+            if ($to === null && !is_array($from) && ($uid ? $tokens[2][$uidKey] == $from : $tokens[0] == $from)) {
                 // we still need to read all lines
                 while (!$this->readLine($tokens, $tag)) {
                 }
