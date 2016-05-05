@@ -30,6 +30,8 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#37](https://github.com/zendframework/zend-mail/pull/37) ensures that empty
   lines do not result in PHP errors when consuming messages from a Courier IMAP
   server.
+- [#81](https://github.com/zendframework/zend-mail/pull/81) fixes the validation
+  in `Zend\Mail\Address` to also DNS hostnames as well as local addresses.
 
 ## 2.7.0 - 2016-04-11
 
