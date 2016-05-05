@@ -10,6 +10,7 @@
 namespace ZendTest\Mail\Header;
 
 use PHPUnit_Framework_TestCase as TestCase;
+use ReflectionClass;
 use Zend\Mail\Header\HeaderValue;
 
 /**
@@ -33,7 +34,8 @@ class HeaderValueTest extends TestCase
             ["This is a\r\r test", "This is a test"],
             ["This is a \r\r\n test", "This is a \r\n test"],
             ["This is a \r\n\r\ntest", "This is a test"],
-            ["This is a \r\n\n\r\n test", "This is a \r\n test"]
+            ["This is a \r\n\n\r\n test", "This is a \r\n test"],
+            ["This is a test\r\n", "This is a test"],
         ];
     }
 
@@ -59,7 +61,11 @@ class HeaderValueTest extends TestCase
             ["This is a\r\r test", 'assertFalse'],
             ["This is a \r\r\n test", 'assertFalse'],
             ["This is a \r\n\r\ntest", 'assertFalse'],
-            ["This is a \r\n\n\r\n test", 'assertFalse']
+            ["This is a \r\n\n\r\n test", 'assertFalse'],
+            ["This\tis\ta test", 'assertTrue'],
+            ["This is\ta \r\n test", 'assertTrue'],
+            ["This\tis\ta\ntest", 'assertFalse'],
+            ["This is a \r\t\n \r\n test", 'assertFalse'],
         ];
     }
 
@@ -84,7 +90,7 @@ class HeaderValueTest extends TestCase
             ["This is a\r\r test"],
             ["This is a \r\r\n test"],
             ["This is a \r\n\r\ntest"],
-            ["This is a \r\n\n\r\n test"]
+            ["This is a \r\n\n\r\n test"],
         ];
     }
 
@@ -96,5 +102,11 @@ class HeaderValueTest extends TestCase
     {
         $this->setExpectedException('Zend\Mail\Header\Exception\RuntimeException', 'Invalid');
         HeaderValue::assertValid($value);
+    }
+
+    public function testCannotBeConstructed()
+    {
+        $class = new ReflectionClass('Zend\Mail\Header\HeaderValue');
+        $this->assertFalse($class->isInstantiable());
     }
 }
