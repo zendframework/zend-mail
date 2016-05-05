@@ -280,8 +280,12 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
     public function testCastingToArrayReturnsMultiHeadersAsArrays()
     {
         $headers = new Mail\Headers();
+
+        // @codingStandardsIgnoreStart
         $received1 = Header\Received::fromString("Received: from framework (localhost [127.0.0.1])\r\n by framework (Postfix) with ESMTP id BBBBBBBBBBB\r\n for <zend@framework>; Mon, 21 Nov 2011 12:50:27 -0600 (CST)");
         $received2 = Header\Received::fromString("Received: from framework (localhost [127.0.0.1])\r\n by framework (Postfix) with ESMTP id AAAAAAAAAAA\r\n for <zend@framework>; Mon, 21 Nov 2011 12:50:29 -0600 (CST)");
+        // @codingStandardsIgnoreEnd
+
         $headers->addHeader($received1);
         $headers->addHeader($received2);
         $array   = $headers->toArray();
@@ -297,8 +301,12 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
     public function testCastingToStringReturnsAllMultiHeaderValues()
     {
         $headers = new Mail\Headers();
+
+        // @codingStandardsIgnoreStart
         $received1 = Header\Received::fromString("Received: from framework (localhost [127.0.0.1])\r\n by framework (Postfix) with ESMTP id BBBBBBBBBBB\r\n for <zend@framework>; Mon, 21 Nov 2011 12:50:27 -0600 (CST)");
         $received2 = Header\Received::fromString("Received: from framework (localhost [127.0.0.1])\r\n by framework (Postfix) with ESMTP id AAAAAAAAAAA\r\n for <zend@framework>; Mon, 21 Nov 2011 12:50:29 -0600 (CST)");
+        // @codingStandardsIgnoreEnd
+
         $headers->addHeader($received1);
         $headers->addHeader($received2);
         $string  = $headers->toString();

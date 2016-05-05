@@ -12,7 +12,8 @@ namespace Zend\Mail\Protocol;
 use Zend\Validator;
 
 /**
- * Provides low-level methods for concrete adapters to communicate with a remote mail server and track requests and responses.
+ * Provides low-level methods for concrete adapters to communicate with a
+ * remote mail server and track requests and responses.
  *
  * @todo Implement proxy settings
  */
@@ -128,7 +129,8 @@ abstract class AbstractProtocol
     /**
      * Create a connection to the remote host
      *
-     * Concrete adapters for this class will implement their own unique connect scripts, using the _connect() method to create the socket resource.
+     * Concrete adapters for this class will implement their own unique connect
+     * scripts, using the _connect() method to create the socket resource.
      */
     abstract public function connect();
 
@@ -171,6 +173,7 @@ abstract class AbstractProtocol
         $this->log = [];
     }
 
+    // @codingStandardsIgnoreStart
     /**
      * Add the transaction log
      *
@@ -178,6 +181,7 @@ abstract class AbstractProtocol
      */
     protected function _addLog($value)
     {
+        // @codingStandardsIgnoreEnd
         if ($this->maximumLog >= 0 && count($this->log) >= $this->maximumLog) {
             array_shift($this->log);
         }
@@ -185,6 +189,7 @@ abstract class AbstractProtocol
         $this->log[] = $value;
     }
 
+    // @codingStandardsIgnoreStart
     /**
      * Connect to the server using the supplied transport and target
      *
@@ -196,6 +201,7 @@ abstract class AbstractProtocol
      */
     protected function _connect($remote)
     {
+        // @codingStandardsIgnoreEnd
         $errorNum = 0;
         $errorStr = '';
 
@@ -216,17 +222,20 @@ abstract class AbstractProtocol
         return $result;
     }
 
+    // @codingStandardsIgnoreStart
     /**
      * Disconnect from remote host and free resource
      *
      */
     protected function _disconnect()
     {
+        // @codingStandardsIgnoreEnd
         if (is_resource($this->socket)) {
             fclose($this->socket);
         }
     }
 
+    // @codingStandardsIgnoreStart
     /**
      * Send the given request followed by a LINEEND to the server.
      *
@@ -236,6 +245,7 @@ abstract class AbstractProtocol
      */
     protected function _send($request)
     {
+        // @codingStandardsIgnoreEnd
         if (!is_resource($this->socket)) {
             throw new Exception\RuntimeException('No connection has been established to ' . $this->host);
         }
@@ -254,6 +264,7 @@ abstract class AbstractProtocol
         return $result;
     }
 
+    // @codingStandardsIgnoreStart
     /**
      * Get a line from the stream.
      *
@@ -263,6 +274,7 @@ abstract class AbstractProtocol
      */
     protected function _receive($timeout = null)
     {
+        // @codingStandardsIgnoreEnd
         if (!is_resource($this->socket)) {
             throw new Exception\RuntimeException('No connection has been established to ' . $this->host);
         }
@@ -292,6 +304,7 @@ abstract class AbstractProtocol
         return $response;
     }
 
+    // @codingStandardsIgnoreStart
     /**
      * Parse server response for successful codes
      *
@@ -305,6 +318,7 @@ abstract class AbstractProtocol
      */
     protected function _expect($code, $timeout = null)
     {
+        // @codingStandardsIgnoreEnd
         $this->response = [];
         $errMsg = '';
 
@@ -321,7 +335,9 @@ abstract class AbstractProtocol
             } elseif ($cmd === null || !in_array($cmd, $code)) {
                 $errMsg =  $msg;
             }
-        } while (strpos($more, '-') === 0); // The '-' message prefix indicates an information string instead of a response string.
+
+        // The '-' message prefix indicates an information string instead of a response string.
+        } while (strpos($more, '-') === 0);
 
         if ($errMsg !== '') {
             throw new Exception\RuntimeException($errMsg);

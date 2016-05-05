@@ -49,7 +49,11 @@ class Sender implements HeaderInterface
          * 'name' and 'email' capture groups correspond respectively to 'display-name' and 'addr-spec' in the ABNF
          * @see https://tools.ietf.org/html/rfc5322#section-3.4
          */
-        $hasMatches = preg_match('/^(?:(?P<name>.+)\s)?(?(name)<|<?)(?P<email>[^\s]+?)(?(name)>|>?)$/', $value, $matches);
+        $hasMatches = preg_match(
+            '/^(?:(?P<name>.+)\s)?(?(name)<|<?)(?P<email>[^\s]+?)(?(name)>|>?)$/',
+            $value,
+            $matches
+        );
 
         if ($hasMatches !== 1) {
             throw new Exception\InvalidArgumentException('Invalid header value for Sender string');

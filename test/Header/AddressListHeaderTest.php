@@ -84,7 +84,9 @@ class AddressListHeaderTest extends \PHPUnit_Framework_TestCase
 
     public function getExpectedFieldValue()
     {
+        // @codingStandardsIgnoreStart
         return "ZF DevTeam <zf-devteam@zend.com>,\r\n zf-contributors@lists.zend.com,\r\n ZF Announce List <fw-announce@lists.zend.com>,\r\n \"Last, First\" <first@last.zend.com>";
+        // @codingStandardsIgnoreEnd
     }
 
     /**

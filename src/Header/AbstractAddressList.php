@@ -44,9 +44,9 @@ abstract class AbstractAddressList implements HeaderInterface
         list($fieldName, $fieldValue) = GenericHeader::splitHeaderLine($headerLine);
         if (strtolower($fieldName) !== static::$type) {
             throw new Exception\InvalidArgumentException(sprintf(
-                    'Invalid header line for "%s" string',
-                    __CLASS__
-                ));
+                'Invalid header line for "%s" string',
+                __CLASS__
+            ));
         }
 
         // split value on ","
