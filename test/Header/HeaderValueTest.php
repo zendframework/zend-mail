@@ -55,6 +55,7 @@ class HeaderValueTest extends TestCase
             ["This is a\r test", 'assertFalse'],
             ["This is a\n\r test", 'assertFalse'],
             ["This is a\r\n  test", 'assertTrue'],
+            ["This is a\r\n\ttest", 'assertTrue'],
             ["This is a \r\ntest", 'assertFalse'],
             ["This is a \r\n\n test", 'assertFalse'],
             ["This is a\n\n test", 'assertFalse'],
@@ -102,11 +103,5 @@ class HeaderValueTest extends TestCase
     {
         $this->setExpectedException('Zend\Mail\Header\Exception\RuntimeException', 'Invalid');
         HeaderValue::assertValid($value);
-    }
-
-    public function testCannotBeConstructed()
-    {
-        $class = new ReflectionClass('Zend\Mail\Header\HeaderValue');
-        $this->assertFalse($class->isInstantiable());
     }
 }

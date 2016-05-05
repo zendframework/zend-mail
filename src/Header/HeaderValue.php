@@ -34,7 +34,7 @@ final class HeaderValue
         // Long Header Fields (section 2.2.3 of RFC 2822)
         for ($i = 0; $i < $total; $i += 1) {
             $ord = ord($value[$i]);
-            if ($ord === 10 || $ord > 126) {
+            if ($ord === 10 || $ord > 127) {
                 continue;
             }
 
@@ -75,7 +75,7 @@ final class HeaderValue
             $ord = ord($value[$i]);
 
             // bare LF means we aren't valid
-            if ($ord === 10 || $ord > 126) {
+            if ($ord === 10 || $ord > 127) {
                 return false;
             }
 
@@ -87,7 +87,7 @@ final class HeaderValue
                 $lf = ord($value[$i + 1]);
                 $sp = ord($value[$i + 2]);
 
-                if ($lf !== 10 || $sp !== 32) {
+                if ($lf !== 10 || ! in_array($sp, [9, 32], true)) {
                     return false;
                 }
 
