@@ -44,6 +44,9 @@ All notable changes to this project will be documented in this file, in reverse 
   [#87](https://github.com/zendframework/zend-mail/pull/87) fix header value
   validation when headers wrap using the sequence `\r\n\t`; prior to this
   release, such sequences incorrectly marked a header value invalid.
+- [#37](https://github.com/zendframework/zend-mail/pull/37) ensures that empty
+  lines do not result in PHP errors when consuming messages from a Courier IMAP
+  server.
 
 ## 2.7.0 - 2016-04-11
 
