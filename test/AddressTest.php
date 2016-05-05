@@ -67,4 +67,23 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             ["foo@bar", "\r\nevilBody"],
         ];
     }
+
+    /**
+     * @dataProvider validSenderDataProvider
+     * @param string $email
+     * @param null|string $name
+     */
+    public function testSetAddressValidAddressObject($email, $name)
+    {
+        $address = new Address($email, $name);
+        $this->assertInstanceOf('\Zend\Mail\Address', $address);
+    }
+
+    public function validSenderDataProvider()
+    {
+        return [
+            // Description => [sender address, sender name],
+            'german IDN' => ['öäü@ä-umlaut.de', null],
+        ];
+    }
 }
