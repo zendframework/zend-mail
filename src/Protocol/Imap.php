@@ -96,7 +96,7 @@ class Imap
             ), 0, $error);
         }
 
-        if (!$this->_assumedNextLine('* OK')) {
+        if (!$this->assumedNextLine('* OK')) {
             throw new Exception\RuntimeException('host doesn\'t allow connection');
         }
 
@@ -115,7 +115,7 @@ class Imap
      * @throws Exception\RuntimeException
      * @return string next line
      */
-    protected function _nextLine()
+    protected function nextLine()
     {
         $line = fgets($this->socket);
         if ($line === false) {
@@ -132,9 +132,9 @@ class Imap
      * @param  string $start the first bytes we assume to be in the next line
      * @return bool line starts with $start
      */
-    protected function _assumedNextLine($start)
+    protected function assumedNextLine($start)
     {
-        $line = $this->_nextLine();
+        $line = $this->nextLine();
         return strpos($line, $start) === 0;
     }
 
@@ -144,9 +144,9 @@ class Imap
      * @param  string $tag tag of line is returned by reference
      * @return string next line
      */
-    protected function _nextTaggedLine(&$tag)
+    protected function nextTaggedLine(&$tag)
     {
-        $line = $this->_nextLine();
+        $line = $this->nextLine();
 
         // separate tag from line
         list($tag, $line) = explode(' ', $line, 2);
@@ -160,7 +160,7 @@ class Imap
      * @param  string $line line to decode
      * @return array tokens, literals are returned as string, lists as array
      */
-    protected function _decodeLine($line)
+    protected function decodeLine($line)
     {
         $tokens = [];
         $stack = [];
@@ -201,14 +201,14 @@ class Imap
                 if (is_numeric($chars)) {
                     $token = '';
                     while (strlen($token) < $chars) {
-                        $token .= $this->_nextLine();
+                        $token .= $this->nextLine();
                     }
                     $line = '';
                     if (strlen($token) > $chars) {
                         $line = substr($token, $chars);
                         $token = substr($token, 0, $chars);
                     } else {
-                        $line .= $this->_nextLine();
+                        $line .= $this->nextLine();
                     }
                     $tokens[] = $token;
                     $line = trim($line) . ' ';
@@ -262,9 +262,9 @@ class Imap
     public function readLine(&$tokens = [], $wantedTag = '*', $dontParse = false)
     {
         $tag  = null;                         // define $tag variable before first use
-        $line = $this->_nextTaggedLine($tag); // get next tag
+        $line = $this->nextTaggedLine($tag); // get next tag
         if (!$dontParse) {
-            $tokens = $this->_decodeLine($line);
+            $tokens = $this->decodeLine($line);
         } else {
             $tokens = $line;
         }
@@ -324,7 +324,7 @@ class Imap
                 if (fwrite($this->socket, $line . ' ' . $token[0] . "\r\n") === false) {
                     throw new Exception\RuntimeException('cannot write - connection closed?');
                 }
-                if (!$this->_assumedNextLine('+ ')) {
+                if (!$this->assumedNextLine('+ ')) {
                     throw new Exception\RuntimeException('cannot send literal string');
                 }
                 $line = $token[1];

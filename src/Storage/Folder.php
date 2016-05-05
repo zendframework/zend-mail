@@ -32,7 +32,7 @@ class Folder implements RecursiveIterator
     protected $globalName;
 
     /**
-     * folder is selectable if folder is able to hold messages, else it's just a parent folder
+     * folder is selectable if folder is able to hold messages, otherwise it is a parent folder
      * @var bool
      */
     protected $selectable = true;
@@ -42,8 +42,9 @@ class Folder implements RecursiveIterator
      *
      * @param string $localName  name of folder in current subdirectory
      * @param string $globalName absolute name of folder
-     * @param bool   $selectable if true folder holds messages, if false it's just a parent for subfolders (Default: true)
-     * @param array  $folders    init with given instances of \Zend\Mail\Storage\Folder as subfolders
+     * @param bool $selectable if true folder holds messages, if false it's
+     *     just a parent for subfolders (Default: true)
+     * @param array $folders init with given instances of Folder as subfolders
      */
     public function __construct($localName, $globalName = '', $selectable = true, array $folders = [])
     {

@@ -16,8 +16,8 @@ use Zend\Stdlib\ErrorHandler;
 class Mbox extends Storage\Mbox implements FolderInterface
 {
     /**
-     * \Zend\Mail\Storage\Folder root folder for folder structure
-     * @var \Zend\Mail\Storage\Folder
+     * Storage\Folder root folder for folder structure
+     * @var Storage\Folder
      */
     protected $rootFolder;
 
@@ -37,13 +37,15 @@ class Mbox extends Storage\Mbox implements FolderInterface
      * Create instance with parameters
      *
      * Disallowed parameters are:
-     *   - filename use \Zend\Mail\Storage\Mbox for a single file
+     * - filename use \Zend\Mail\Storage\Mbox for a single file
+     *
      * Supported parameters are:
-     *   - dirname rootdir of mbox structure
-     *   - folder intial selected folder, default is 'INBOX'
+     *
+     * - dirname rootdir of mbox structure
+     * - folder intial selected folder, default is 'INBOX'
      *
      * @param  $params array mail reader specific parameters
-     * @throws \Zend\Mail\Storage\Exception\InvalidArgumentException
+     * @throws Exception\InvalidArgumentException
      */
     public function __construct($params)
     {
@@ -61,7 +63,7 @@ class Mbox extends Storage\Mbox implements FolderInterface
 
         $this->rootdir = rtrim($params->dirname, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
-        $this->_buildFolderTree($this->rootdir);
+        $this->buildFolderTree($this->rootdir);
         $this->selectFolder(!empty($params->folder) ? $params->folder : 'INBOX');
         $this->has['top']      = true;
         $this->has['uniqueid'] = false;
@@ -70,15 +72,15 @@ class Mbox extends Storage\Mbox implements FolderInterface
     /**
      * find all subfolders and mbox files for folder structure
      *
-     * Result is save in \Zend\Mail\Storage\Folder instances with the root in $this->rootFolder.
+     * Result is save in Storage\Folder instances with the root in $this->rootFolder.
      * $parentFolder and $parentGlobalName are only used internally for recursion.
      *
      * @param string $currentDir call with root dir, also used for recursion.
-     * @param \Zend\Mail\Storage\Folder|null $parentFolder used for recursion
+     * @param Storage\Folder|null $parentFolder used for recursion
      * @param string $parentGlobalName used for recursion
-     * @throws \Zend\Mail\Storage\Exception\InvalidArgumentException
+     * @throws Exception\InvalidArgumentException
      */
-    protected function _buildFolderTree($currentDir, $parentFolder = null, $parentGlobalName = '')
+    protected function buildFolderTree($currentDir, $parentFolder = null, $parentGlobalName = '')
     {
         if (!$parentFolder) {
             $this->rootFolder = new Storage\Folder('/', '/', false);
@@ -107,7 +109,7 @@ class Mbox extends Storage\Mbox implements FolderInterface
             }
             $folder = new Storage\Folder($entry, $globalName, false);
             $parentFolder->$entry = $folder;
-            $this->_buildFolderTree($absoluteEntry . DIRECTORY_SEPARATOR, $folder, $globalName);
+            $this->buildFolderTree($absoluteEntry . DIRECTORY_SEPARATOR, $folder, $globalName);
         }
 
         closedir($dh);
@@ -117,8 +119,8 @@ class Mbox extends Storage\Mbox implements FolderInterface
      * get root folder or given folder
      *
      * @param string $rootFolder get folder structure for given folder, else root
-     * @throws \Zend\Mail\Storage\Exception\InvalidArgumentException
-     * @return \Zend\Mail\Storage\Folder root or wanted folder
+     * @return Storage\Folder root or wanted folder
+     * @throws Exception\InvalidArgumentException
      */
     public function getFolders($rootFolder = null)
     {
@@ -149,8 +151,9 @@ class Mbox extends Storage\Mbox implements FolderInterface
      *
      * folder must be selectable!
      *
-     * @param \Zend\Mail\Storage\Folder|string $globalName global name of folder or instance for subfolder
-     * @throws \Zend\Mail\Storage\Exception\RuntimeException
+     * @param Storage\Folder|string $globalName global name of folder or
+     *     instance for subfolder
+     * @throws Exception\RuntimeException
      */
     public function selectFolder($globalName)
     {
@@ -167,9 +170,10 @@ class Mbox extends Storage\Mbox implements FolderInterface
                 throw new Exception\RuntimeException("{$this->currentFolder} is not selectable", 0, $e);
             }
             // seems like file has vanished; rebuilding folder tree - but it's still an exception
-            $this->_buildFolderTree($this->rootdir);
+            $this->buildFolderTree($this->rootdir);
             throw new Exception\RuntimeException(
-                'seems like the mbox file has vanished, I\'ve rebuild the folder tree, search for an other folder and try again',
+                'seems like the mbox file has vanished; I have rebuilt the folder tree; '
+                . 'search for another folder and try again',
                 0,
                 $e
             );
@@ -177,10 +181,10 @@ class Mbox extends Storage\Mbox implements FolderInterface
     }
 
     /**
-     * get \Zend\Mail\Storage\Folder instance for current folder
+     * get Storage\Folder instance for current folder
      *
-     * @return \Zend\Mail\Storage\Folder instance of current folder
-     * @throws \Zend\Mail\Storage\Exception\ExceptionInterface
+     * @return Storage\Folder instance of current folder
+     * @throws Exception\ExceptionInterface
      */
     public function getCurrentFolder()
     {

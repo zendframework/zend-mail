@@ -19,7 +19,7 @@ class SmtpProtocolSpy extends Smtp
     public $calledQuit = false;
     protected $connect = false;
     protected $mail;
-    protected $rcptTest = array();
+    protected $rcptTest = [];
 
     public function connect()
     {
@@ -48,7 +48,7 @@ class SmtpProtocolSpy extends Smtp
     public function rset()
     {
         parent::rset();
-        $this->rcptTest = array();
+        $this->rcptTest = [];
     }
 
     public function mail($from)
@@ -63,16 +63,20 @@ class SmtpProtocolSpy extends Smtp
         $this->rcptTest[] = $to;
     }
 
+    // @codingStandardsIgnoreStart
     protected function _send($request)
     {
         // Save request to internal log
         $this->_addLog($request . self::EOL);
     }
+    // @codingStandardsIgnoreEnd
 
+    // @codingStandardsIgnoreStart
     protected function _expect($code, $timeout = null)
     {
         return '';
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * Are we connected?

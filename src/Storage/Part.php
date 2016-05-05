@@ -96,7 +96,13 @@ class Part implements RecursiveIterator, Part\PartInterface
         $params['strict'] = isset($params['strict']) ? $params['strict'] : false;
 
         if (isset($params['raw'])) {
-            Mime\Decode::splitMessage($params['raw'], $this->headers, $this->content, Mime\Mime::LINEEND, $params['strict']);
+            Mime\Decode::splitMessage(
+                $params['raw'],
+                $this->headers,
+                $this->content,
+                Mime\Mime::LINEEND,
+                $params['strict']
+            );
         } elseif (isset($params['headers'])) {
             if (is_array($params['headers'])) {
                 $this->headers = new Headers();
@@ -170,7 +176,7 @@ class Part implements RecursiveIterator, Part\PartInterface
      * @throws Exception\RuntimeException
      * @return null
      */
-    protected function _cacheContent()
+    protected function cacheContent()
     {
         // caching content if we can't fetch parts
         if ($this->content === null && $this->mail) {
@@ -218,7 +224,7 @@ class Part implements RecursiveIterator, Part\PartInterface
             // return
         }
 
-        $this->_cacheContent();
+        $this->cacheContent();
 
         if (!isset($this->parts[$num])) {
             throw new Exception\RuntimeException('part not found');
@@ -248,7 +254,7 @@ class Part implements RecursiveIterator, Part\PartInterface
             // return
         }
 
-        $this->_cacheContent();
+        $this->cacheContent();
 
         $this->countParts = count($this->parts);
         return $this->countParts;

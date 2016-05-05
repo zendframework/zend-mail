@@ -12,7 +12,8 @@ namespace Zend\Mail\Protocol;
 /**
  * SMTP implementation of Zend\Mail\Protocol\AbstractProtocol
  *
- * Minimum implementation according to RFC2821: EHLO, MAIL FROM, RCPT TO, DATA, RSET, NOOP, QUIT
+ * Minimum implementation according to RFC2821: EHLO, MAIL FROM, RCPT TO, DATA,
+ * RSET, NOOP, QUIT
  */
 class Smtp extends AbstractProtocol
 {
@@ -169,7 +170,7 @@ class Smtp extends AbstractProtocol
 
         // Initiate helo sequence
         $this->_expect(220, 300); // Timeout set for 5 minutes as per RFC 2821 4.5.3.2
-        $this->_ehlo($host);
+        $this->ehlo($host);
 
         // If a TLS session is required, commence negotiation
         if ($this->secure == 'tls') {
@@ -178,10 +179,10 @@ class Smtp extends AbstractProtocol
             if (!stream_socket_enable_crypto($this->socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
                 throw new Exception\RuntimeException('Unable to connect via TLS');
             }
-            $this->_ehlo($host);
+            $this->ehlo($host);
         }
 
-        $this->_startSession();
+        $this->startSession();
         $this->auth();
     }
 
@@ -201,7 +202,7 @@ class Smtp extends AbstractProtocol
      * @param  string $host The client hostname or IP address (default: 127.0.0.1)
      * @throws \Exception|Exception\ExceptionInterface
      */
-    protected function _ehlo($host)
+    protected function ehlo($host)
     {
         // Support for older, less-compliant remote servers. Tries multiple attempts of EHLO or HELO.
         try {
@@ -302,8 +303,8 @@ class Smtp extends AbstractProtocol
     /**
      * Issues the RSET command end validates answer
      *
-     * Can be used to restore a clean smtp communication state when a transaction has been cancelled or commencing a new transaction.
-     *
+     * Can be used to restore a clean smtp communication state when a
+     * transaction has been cancelled or commencing a new transaction.
      */
     public function rset()
     {
@@ -351,7 +352,7 @@ class Smtp extends AbstractProtocol
             $this->auth = false;
             $this->_send('QUIT');
             $this->_expect(221, 300); // Timeout set for 5 minutes as per RFC 2821 4.5.3.2
-            $this->_stopSession();
+            $this->stopSession();
         }
     }
 
@@ -378,11 +379,14 @@ class Smtp extends AbstractProtocol
         $this->_disconnect();
     }
 
+    // @codingStandardsIgnoreStart
     /**
      * Disconnect from remote host and free resource
      */
     protected function _disconnect()
     {
+        // @codingStandardsIgnoreEnd
+
         // Make sure the session gets closed
         $this->quit();
         parent::_disconnect();
@@ -392,7 +396,7 @@ class Smtp extends AbstractProtocol
      * Start mail session
      *
      */
-    protected function _startSession()
+    protected function startSession()
     {
         $this->sess = true;
     }
@@ -401,7 +405,7 @@ class Smtp extends AbstractProtocol
      * Stop mail session
      *
      */
-    protected function _stopSession()
+    protected function stopSession()
     {
         $this->sess = false;
     }

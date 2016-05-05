@@ -28,13 +28,15 @@ class SendmailTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->transport = new Sendmail();
-        $this->transport->setCallable(function ($to, $subject, $message, $additional_headers, $additional_parameters = null) {
-            $this->to                    = $to;
-            $this->subject               = $subject;
-            $this->message               = $message;
-            $this->additional_headers    = $additional_headers;
-            $this->additional_parameters = $additional_parameters;
-        });
+        $this->transport->setCallable(
+            function ($to, $subject, $message, $additional_headers, $additional_parameters = null) {
+                $this->to                    = $to;
+                $this->subject               = $subject;
+                $this->message               = $message;
+                $this->additional_headers    = $additional_headers;
+                $this->additional_parameters = $additional_parameters;
+            }
+        );
         $this->operating_system      = strtoupper(substr(PHP_OS, 0, 3));
     }
 
@@ -103,7 +105,10 @@ class SendmailTest extends \PHPUnit_Framework_TestCase
         $this->assertContains("To: ZF DevTeam <zf-devteam@zend.com>\r\n", $this->additional_headers);
         $this->assertContains("Cc: matthew@zend.com\r\n", $this->additional_headers);
         $this->assertContains("Bcc: \"CR-Team, ZF Project\" <zf-crteam@lists.zend.com>\r\n", $this->additional_headers);
-        $this->assertContains("From: zf-devteam@zend.com,\r\n Matthew <matthew@zend.com>\r\n", $this->additional_headers);
+        $this->assertContains(
+            "From: zf-devteam@zend.com,\r\n Matthew <matthew@zend.com>\r\n",
+            $this->additional_headers
+        );
         $this->assertContains("X-Foo-Bar: Matthew\r\n", $this->additional_headers);
         $this->assertContains("Sender: Ralph Schindler <ralph.schindler@zend.com>\r\n", $this->additional_headers);
         $this->assertNull($this->additional_parameters);
