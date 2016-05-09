@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    <title>Reading and Storing Mail - zend-mail</title>
+
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/2.018/css/hack.min.css">
+    <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic,700&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link href="../css/base.css" rel="stylesheet">
+    <link href="../css/zf.css" rel="stylesheet">
+    <link href="../css/prism-zf.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+            <span class="navbar-brand">
+              <a class="logo-link" href="http://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Zend Framework"><img src="../img/zf-logo-mark.png" height="28" alt="Zend Framework" /></a>
+              <a href="..">zend-mail</a>
+            </span>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="..">Home</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../intro/">Intro</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reference <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">Messages</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../message/intro/">Intro and Usage</a>
+</li>
+
+        
+            
+<li >
+    <a href="../message/attachments/">Attachments</a>
+</li>
+
+        
+            
+<li >
+    <a href="../message/character-sets/">Character Sets</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">Transports</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../transport/intro/">Usage</a>
+</li>
+
+        
+            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">SMTP</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../transport/smtp-options/">SMTP Options</a>
+</li>
+
+        
+            
+<li >
+    <a href="../transport/smtp-multiple-send/">Sending multiple messages</a>
+</li>
+
+        
+            
+<li >
+    <a href="../transport/smtp-authentication/">Authentication</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+        
+            
+<li >
+    <a href="../transport/file-options/">File Transport Options</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                            
+<li class="active">
+    <a href="./">Reading and Storing Mail</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+            
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" class="component-toggle" data-toggle="tooltip" data-placement="bottom" title="Show component list">
+                        <i class="fa fa-book"></i> Components
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                
+                    <li>
+                        <a href="https://github.com/zendframework/zend-mail">
+                            
+                                <i class="fa fa-github"></i>
+                            
+                            GitHub
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <!-- content:begin -->
+    <div class="container">
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#reading-and-storing-mail">Reading and Storing Mail</a></li>
+        
+            <li><a href="#basic-pop3-example">Basic POP3 example</a></li>
+        
+            <li><a href="#using-local-storage-via-mbox-and-maildir">Using local storage via mbox and maildir</a></li>
+        
+            <li><a href="#using-remote-storage-protocols">Using remote storage protocols</a></li>
+        
+            <li><a href="#fetching-counting-and-removing-messages">Fetching, counting, and removing messages</a></li>
+        
+            <li><a href="#working-with-messages">Working with messages</a></li>
+        
+            <li><a href="#checking-for-flags">Checking for flags</a></li>
+        
+            <li><a href="#using-folders">Using folders</a></li>
+        
+            <li><a href="#advanced-use">Advanced Use</a></li>
+        
+    
+    </ul>
+
+    
+    <ul class="pager hidden-print">
+      <li class="previous">
+        <a rel="prev" href="../transport/file-options/"><i class="fa fa-arrow-left"></i> Previous</a>
+      </li>
+      <li class="next disabled ">
+        <a rel="next" >Next <i class="fa fa-arrow-right"></i></a>
+      </li>
+    </ul>
+    
+</div></div>
+        <div class="col-md-9" role="main">
+
+<ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
+  <li><a href="..">Docs</a> &raquo;</li>
+  
+    
+      
+        <li>Reference &raquo;</li>
+      
+    
+  
+  <li class="active">Reading and Storing Mail</li>
+</ol>
+
+<h1 id="reading-and-storing-mail">Reading and Storing Mail</h1>
+<p>zend-mail can read mail messages from several local or remote mail storage
+types. Storage adapters share the same API for counting and fetching messages,
+and some of them implement additional interfaces for less common features. For a
+feature overview of the implemented storages, see the following table.</p>
+<div class="table-responsive"><table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Mbox</th>
+<th>Maildir</th>
+<th>Pop3</th>
+<th>IMAP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Storage type</td>
+<td>local</td>
+<td>local</td>
+<td>remote</td>
+<td>remote</td>
+</tr>
+<tr>
+<td>Fetch message</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Fetch MIME-part</td>
+<td>emulated</td>
+<td>emulated</td>
+<td>emulated</td>
+<td>emulated</td>
+</tr>
+<tr>
+<td>Folders</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Create message/folder</td>
+<td>No</td>
+<td>todo</td>
+<td>No</td>
+<td>todo</td>
+</tr>
+<tr>
+<td>Flags</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Quota</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+</tr>
+</tbody>
+</table></div>
+<p>Storage adapters return instances of <code>Zend\Mail\Storage\Message</code>, which has a
+different API than <a href="../message/intro/">messages used when sending</a>; the API is
+described in the <a href="#working-with-messages">"Working with messages"</a> section.</p>
+<h2 id="basic-pop3-example">Basic POP3 example</h2>
+<pre class="codehilite"><code class="language-php">use Zend\Mail\Storage\Pop3;
+
+$mail = Pop3([
+    'host'     =&gt; 'localhost',
+    'user'     =&gt; 'test',
+    'password' =&gt; 'test',
+]);
+
+echo $mail-&gt;countMessages() . &quot; messages found\n&quot;;
+foreach ($mail as $message) {
+    printf(&quot;Mail from '%s': %s\n&quot;, $message-&gt;from, $message-&gt;subject);
+}</code></pre>
+
+
+<h2 id="using-local-storage-via-mbox-and-maildir">Using local storage via mbox and maildir</h2>
+<p>Mbox and Maildir are the two supported formats for local mail storage.</p>
+<p>If you want to read from an mbox file, provide the filename to the constructor
+of <code>Zend\Mail\Storage\Mbox</code>:</p>
+<pre class="codehilite"><code class="language-php">use Zend\Mail\Storage\Mbox;
+
+$mail = new Mbox(['filename' =&gt; '/home/test/mail/inbox']);</code></pre>
+
+
+<p>Maildir operates similarly, but requires a dirname instead:</p>
+<pre class="codehilite"><code class="language-php">use Zend\Mail\Storage\Maildir;
+$mail = new Maildir(['dirname' =&gt; '/home/test/mail/']);</code></pre>
+
+
+<p>Both constructors throw a <code>Zend\Mail\Exception</code> if the storage can't be read.</p>
+<h2 id="using-remote-storage-protocols">Using remote storage protocols</h2>
+<p>For remote storage, the two most popular protocols are supported: POP3 and IMAP.
+Both need at least a host and a user to connect and login. The default password
+is an empty string, and the default port for the protocol is used if none is
+provided.</p>
+<pre class="codehilite"><code class="language-php">use Zend\Mail\Storage\Imap;
+use Zend\Mail\Storage\Pop3;
+
+// Connecting with Pop3:
+$mail = Pop3([
+    'host'     =&gt; 'example.com',
+    'user'     =&gt; 'test',
+    'password' =&gt; 'test',
+]);
+
+// Connecting with Imap:
+$mail = new Imap([
+    'host'     =&gt; 'example.com',
+    'user'     =&gt; 'test',
+    'password' =&gt; 'test',
+]);
+
+// Example of using POP3 on a non-standard port:
+$mail = new Pop3([
+    'host'     =&gt; 'example.com',
+    'port'     =&gt; 1120,
+    'user'     =&gt; 'test',
+    'password' =&gt; 'test',
+]);</code></pre>
+
+
+<p>Both storage adapters support SSL and TLS. If you use SSL, the default port
+changes as specified in the relevant RFC.</p>
+<pre class="codehilite"><code class="language-php">use Zend\Mail\Storage\Pop3;
+
+// Examples use Pop3; the same configuration works for Imap.
+
+// Use SSL on a non-standard port (default is 995 for Pop3 and 993 for Imap)
+$mail = new Pop3([
+    'host'     =&gt; 'example.com',
+    'user'     =&gt; 'test',
+    'password' =&gt; 'test',
+    'ssl'      =&gt; 'SSL',
+]);
+
+// use TLS on the default port:
+$mail = new Pop3([
+    'host'     =&gt; 'example.com',
+    'user'     =&gt; 'test',
+    'password' =&gt; 'test',
+    'ssl'      =&gt; 'TLS',
+]);</code></pre>
+
+
+<p>Both constructors throw <code>Zend\Mail\Exception</code> or <code>Zend\Mail\Protocol\Exception</code>
+(extends <code>Zend\Mail\Exception</code>) for connection errors, depending on the type of
+error encountered.</p>
+<h2 id="fetching-counting-and-removing-messages">Fetching, counting, and removing messages</h2>
+<p>Once you have opened the mail storage, you may fetch messages. To do so, you
+need the message number, which is a counter starting with 1 for the first
+message. To fetch the message, you use the method <code>getMessage()</code>:</p>
+<pre class="codehilite"><code class="language-php">$message = $mail-&gt;getMessage($messageNum);</code></pre>
+
+
+<p>Array access is also supported, but this access method does not support any
+additional parameters that could be added to <code>getMessage()</code>. As long as you
+don't mind, and can live with the default values, you may use:</p>
+<pre class="codehilite"><code class="language-php">$message = $mail[$messageNum];</code></pre>
+
+
+<p>For iterating over all messages the <code>Iterator</code> interface is implemented:</p>
+<pre class="codehilite"><code class="language-php">foreach ($mail as $messageNum =&gt; $message) {
+    // do stuff ...
+}</code></pre>
+
+
+<p>To count the messages in the storage, you can use the method
+<code>countMessages()</code>; alternately, storage adapters implement <code>Countable</code>, allowing
+you to <code>count()</code> the instance.</p>
+<pre class="codehilite"><code class="language-php">// method
+$maxMessage = $mail-&gt;countMessages();
+
+// array access
+$maxMessage = count($mail);</code></pre>
+
+
+<p>To remove a mail, use the method <code>removeMessage()</code>, or rely on array access and
+use <code>unset()</code>:</p>
+<pre class="codehilite"><code class="language-php">// method
+$mail-&gt;removeMessage($messageNum);
+
+// array access
+unset($mail[$messageNum]);</code></pre>
+
+
+<h2 id="working-with-messages">Working with messages</h2>
+<p>After you fetch a message, you can:</p>
+<ul>
+<li>fetch headers</li>
+<li>fetch the message content</li>
+<li>fetch individual parts of multipart messages</li>
+</ul>
+<p>All headers can be accessed as message instance properties or via the method
+<code>getHeader()</code>; use the latter for messages with compound names.  Header names
+are normalized to lowercase internally, but may be fetched using any case
+structure; dash-separated headers may be fetched using camelCase notation. If no
+header matching the name is found, an exception is thrown; use the
+<code>headerExists()</code> method (or <code>isset($message-&gt;headerName)</code>) to test for header
+existence prior to retrieval.</p>
+<pre class="codehilite"><code class="language-php">// get the message object
+$message = $mail-&gt;getMessage(1);
+
+// output subject of message
+echo $message-&gt;subject . &quot;\n&quot;;
+
+// get content-type header
+$type = $message-&gt;contentType;
+
+// check if CC isset:
+if (isset($message-&gt;cc)) { // or $message-&gt;headerExists('cc');
+    $cc = $message-&gt;cc;
+}</code></pre>
+
+
+<p>If you have multiple headers with the same name &mdash; e.g. the <code>Received</code>
+headers &mdash; you will want an array of values. Property access always returns
+a string, so use <code>getHeader()</code> instead for these situations:</p>
+<pre class="codehilite"><code class="language-php">// get header as property - the result is always a string,
+// with new lines between each value.
+$received = $message-&gt;received;
+
+// The same via getHeader() method:
+$received = $message-&gt;getHeader('received', 'string');
+
+// To retrieve an array of values:
+$received = $message-&gt;getHeader('received', 'array');
+foreach ($received as $line) {
+    // do stuff
+}
+
+// If you don't define a format you'll get the internal representation
+// (string for single headers, array for multiple):
+$received = $message-&gt;getHeader('received');
+if (is_string($received)) {
+    // only one received header found in message
+}</code></pre>
+
+
+<p>The method <code>getHeaders()</code> returns all headers as an array with the lower-cased
+name as the key and the value as an array for multiple headers or as string for
+single headers.</p>
+<pre class="codehilite"><code class="language-php">// dump all headers
+foreach ($message-&gt;getHeaders() as $name =&gt; $value) {
+    if (is_string($value)) {
+        echo &quot;$name: $value\n&quot;;
+        continue;
+    }
+    foreach ($value as $entry) {
+        echo &quot;$name: $entry\n&quot;;
+    }
+}</code></pre>
+
+
+<p>If you don't have a multipart message, fetch the content via <code>getContent()</code>.
+Unlike headers, the content is only fetched when needed (aka late-fetch).</p>
+<pre class="codehilite"><code class="language-php">// output message content for HTML
+echo '&lt;pre&gt;';
+echo $message-&gt;getContent();
+echo '&lt;/pre&gt;';</code></pre>
+
+
+<p>Checking for multipart messages is done with the method <code>isMultipart()</code>. If you
+have a multipart message you, can get retrieve the individual
+<code>Zend\Mail\Storage\Part</code> instances making up the message via the <code>getPart()</code>
+method, which accepts the part index as a parameter (indices start with 1).
+<code>Zend\Mail\Storage\Part</code> is the base class of <code>Zend\Mail\Storage\Message</code>, and
+thus exposes the same API with regards to headers, content, and retrieving
+nested parts.</p>
+<pre class="codehilite"><code class="language-php">// get the first non-multipart part
+$part = $message;
+while ($part-&gt;isMultipart()) {
+    $part = $message-&gt;getPart(1);
+}
+echo 'Type of this part is ' . strtok($part-&gt;contentType, ';') . &quot;\n&quot;;
+echo &quot;Content:\n&quot;;
+echo $part-&gt;getContent();</code></pre>
+
+
+<p><code>Zend\Mail\Storage\Part</code> also implements <code>RecursiveIterator</code>, which allows iterating
+through all parts, even when nested. Additionally, it implements the magic
+method <code>__toString()</code>, which returns the content.</p>
+<pre class="codehilite"><code class="language-php">use RecursiveIteratorIterator;
+use Zend\Mail\Exception;
+
+// output first text/plain part
+$foundPart = null;
+foreach (new RecursiveIteratorIterator($mail-&gt;getMessage(1)) as $part) {
+    try {
+        if (strtok($part-&gt;contentType, ';') == 'text/plain') {
+            $foundPart = $part;
+            break;
+        }
+    } catch (Exception $e) {
+        // ignore
+    }
+}
+if (! $foundPart) {
+    echo 'no plain text part found';
+} else {
+    echo &quot;plain text part: \n&quot; . $foundPart;
+}</code></pre>
+
+
+<h2 id="checking-for-flags">Checking for flags</h2>
+<p>Maildir and IMAP support storing flags with messages. The <code>Zend\Mail\Storage</code>
+class defines constants for all known maildir and IMAP system flags, named
+<code>FLAG_&lt;flagname&gt;</code>. To check for flags, <code>Zend\Mail\Storage\Message</code> has
+a method called <code>hasFlag()</code>. With <code>getFlags()</code> you'll get all flags.</p>
+<pre class="codehilite"><code class="language-php">use Zend\Mail\Storage;
+
+// Find unread messages:
+echo &quot;Unread mails:\n&quot;;
+foreach ($mail as $message) {
+    if ($message-&gt;hasFlag(Storage::FLAG_SEEN)) {
+        continue;
+    }
+
+    // mark recent/new mails
+    echo ($message-&gt;hasFlag(Storage::FLAG_RECENT))
+        ? '! '
+        : '  ';
+
+    echo $message-&gt;subject . &quot;\n&quot;;
+}
+
+// Check for known flags
+$flags = $message-&gt;getFlags();
+echo 'Message is flagged as: ';
+foreach ($flags as $flag) {
+    switch ($flag) {
+        case Storage::FLAG_ANSWERED:
+            echo 'Answered ';
+            break;
+        case Storage::FLAG_FLAGGED:
+            echo 'Flagged ';
+            break;
+
+        // ...
+        // check for other flags
+        // ...
+
+        default:
+            echo $flag . '(unknown flag) ';
+    }
+}</code></pre>
+
+
+<p>As IMAP allows user or client defined flags, you could get flags that don't have
+a constant in <code>Zend\Mail\Storage</code>. Instead, they are returned as strings and can
+be checked the same way with <code>hasFlag()</code>.</p>
+<pre class="codehilite"><code class="language-php">// check message for client defined flags $IsSpam, $SpamTested
+if (! $message-&gt;hasFlag('$SpamTested')) {
+    echo 'message has not been tested for spam';
+} elseif ($message-&gt;hasFlag('$IsSpam')) {
+    echo 'this message is spam';
+} else {
+    echo 'this message is ham';
+}</code></pre>
+
+
+<h2 id="using-folders">Using folders</h2>
+<p>All storage adapters except POP3 support folders (also called <em>mailboxes</em>). The
+interface implemented by all aadapters supporting folders is called
+<code>Zend\Mail\Storage\Folder\FolderInterface</code>. Each also supports an optional
+configuration parameter called <code>folder</code>, which is the folder selected after
+login.</p>
+<p>For the local storage adapters, you need to use the adapter-specific folder
+classes, <code>Zend\Mail\Storage\Folder\Mbox</code> and <code>Zend\Mail\Storage\Folder\Maildir</code>.
+Each accepts a single parameter, <code>dirname</code>, with the name of the base direcor.
+The format for maildir is as defined in
+<a href="https://en.wikipedia.org/wiki/Maildir#Maildir.2B.2B">maildir++</a> (with a dot as
+default delimiter); mbox uses a directory hierarchy of mbox files. If you don't
+have an mbox file called <code>INBOX</code> in your mbox base directory, you need to
+specify another folder via the constructor.</p>
+<p><code>Zend\Mail\Storage\Imap</code> supports folders by default.</p>
+<p>Examples for opening folders with each adapter:</p>
+<pre class="codehilite"><code class="language-php">use Zend\Mail\Storage\Folder;
+use Zend\Mail\Storage\Imap;
+
+// mbox with folders:
+$mail = Folder\Mbox(['dirname' =&gt; '/home/test/mail/']);
+
+// mbox with a default folder not called INBOX; also works
+// with the maildir and IMAP implemenations.
+$mail = new Folder\Mbox([
+    'dirname' =&gt; '/home/test/mail/',
+    'folder'  =&gt; 'Archive',
+]);
+
+// maildir with folders:
+$mail = new Folder\Maildir(['dirname' =&gt; '/home/test/mail/']);
+
+// maildir with colon as delimiter, as suggested in Maildir++:
+$mail = new Folder\Maildir([
+    'dirname' =&gt; '/home/test/mail/',
+    'delim'   =&gt; ':',
+]);
+
+// IMAP is the same with and without folders:
+$mail = new Imap([
+    'host'     =&gt; 'example.com',
+    'user'     =&gt; 'test',
+    'password' =&gt; 'test',
+]);</code></pre>
+
+
+<p>With the method <code>getFolders($root = null)</code>, you can get the folder hierarchy
+starting with the root folder, or the given folder. The method returns an
+instance of <code>Zend\Mail\Storage\Folder</code>, which implements <code>RecursiveIterator</code>,
+and all children are also instances of <code>Folder</code>. Each of these instances has a
+local and a global name returned by the methods <code>getLocalName()</code> and
+<code>getGlobalName()</code>. The global name is the absolute name from the root folder
+(including delimiters); the local name is the name in the parent folder.</p>
+<p>If you use the iterator, the key of the current element is the local name. The
+global name is also returned by the magic method <code>__toString()</code>. Some folders
+may not be selectable, which means they can't store messages; selecting them
+results in an error. This can be checked with the method <code>isSelectable()</code>.</p>
+<p>The following demonstrates providing a tree view of a folder:</p>
+<pre class="codehilite"><code class="language-php">use RecursiveIteratorIterator;
+
+$folders = new RecursiveIteratorIterator(
+    $this-&gt;mail-&gt;getFolders(),
+    RecursiveIteratorIterator::SELF_FIRST
+);
+
+echo '&lt;select name=&quot;folder&quot;&gt;';
+foreach ($folders as $localName =&gt; $folder) {
+    $localName = str_pad('', $folders-&gt;getDepth(), '-', STR_PAD_LEFT)
+        .  $localName;
+    echo '&lt;option';
+
+    if (! $folder-&gt;isSelectable()) {
+        echo ' disabled=&quot;disabled&quot;';
+    }
+
+    printf(
+        ' value=&quot;%s&quot;&gt;%s&lt;/option&gt;',
+        htmlspecialchars($folder),
+        htmlspecialchars($localName)
+    );
+}
+echo '&lt;/select&gt;';</code></pre>
+
+
+<p>The current selected folder is returned by the method <code>getSelectedFolder()</code>.
+Changing the folder is done with the method <code>selectFolder()</code>, which needs the
+<em>global name</em> as a parameter. If you want to avoid writing delimiters, you can
+also use the properties of a <code>Folder</code> instance:</p>
+<pre class="codehilite"><code class="language-php">// depending on your mail storage and its settings $rootFolder-&gt;Archive-&gt;2005
+// is the same as:
+//  /Archive/2005
+//  Archive:2005
+//  INBOX.Archive.2005
+//  ...
+$folder = $mail-&gt;getFolders()-&gt;Archive-&gt;2005;
+printf(&quot;Last folder was %s; new folder is %s\n&quot;, $mail-&gt;getSelectedFolder(), $folder);
+$mail-&gt;selectFolder($folder);</code></pre>
+
+
+<h2 id="advanced-use">Advanced Use</h2>
+<h3 id="using-noop">Using NOOP</h3>
+<p>If you're using a remote storage and have some long tasks, you might need to
+keep the connection alive via noop:</p>
+<pre class="codehilite"><code class="language-php">foreach ($mail as $message) {
+
+    // do some calculations ...
+
+    $mail-&gt;noop(); // keep alive
+
+    // do something else ...
+
+    $mail-&gt;noop(); // keep alive
+}</code></pre>
+
+
+<h3 id="caching-instances">Caching instances</h3>
+<p><code>Zend\Mail\Storage\Mbox</code>, <code>Zend\Mail\Storage\Folder\Mbox</code>,
+<code>Zend\Mail\Storage\Maildir</code>, and <code>Zend\Mail\Storage\Folder\Maildir</code> implement the
+magic methods <code>__sleep()</code> and <code>__wakeup()</code>, which means they are serializable.</p>
+<p>Serialization avoids parsing files and directory trees multiple times. The
+disadvantage is that your mbox or maildir storage should not change; as such,
+its best used with static storage.</p>
+<p>You can combine serialization with writable storage in a number of ways:</p>
+<ul>
+<li>Check the current mbox file for modification time changes.</li>
+<li>Reparse the folder structure if a folder has vanished (which still results in
+  an error, but you can search for another folder afterwards).</li>
+<li>Create a signal file whenever a change is made; check for that signal file,
+  reparse if present, and remove it afterwards.</li>
+</ul>
+<pre class="codehilite"><code class="language-php">use Zend\Mail\Storage\Folder\Mbox;
+
+// There's no specific cache handler/class used here,
+// change the code to match your cache handler.
+$signalFile  = '/home/test/.mail.last_change';
+$mboxBasedir = '/home/test/mail/';
+$cacheId     = 'example mail cache ' . $mboxBasedir . $signalFile;
+$cache       = new Cache();
+$hasCache    = ($cache-&gt;has($cacheId)
+    &amp;&amp; filemtime($signalFile) &lt;= $cache-&gt;getMTime($cacheId)
+);
+
+$mail        = $hasCache
+    ? $cache-&gt;get($cacheId)
+    : new Mbox(['dirname' =&gt; $mboxBasedir]);
+
+// do stuff ...
+
+// Cache when done
+$cache-&gt;set($cacheId, $mail);</code></pre>
+
+
+<h3 id="extending-protocol-classes">Extending Protocol Classes</h3>
+<p>Remote storage adapters use two classes: <code>Zend\Mail\Storage\&lt;Name&gt;</code> and
+<code>Zend\Mail\Protocol\&lt;Name&gt;</code>. The protocol class translates the protocol commands
+and responses from and to PHP, like methods for the commands or variables with
+different structures for data. The storage class implements the common
+interface for message access.</p>
+<p>If you need additional protocol features, you can extend the protocol class and
+use it in the constructor of the main class. As an example, assume we need to
+knock different ports before we can connect to POP3.</p>
+<pre class="codehilite"><code class="language-php">namespace Example\Mail
+{
+    use Zend\Mail;
+
+    class Exception extends Mail\Exception
+    {
+    }
+}
+
+namespace Example\Mail\Protocol
+{
+    use Zend\Mail\Protocol;
+
+    class Exception extends Protocol\Exception
+    {
+    }
+}
+
+namespace Example\Mail\Protocol\Pop3
+{
+    use Zend\Mail\Protocol\Pop3;
+
+    class Knock extends Pop3
+    {
+        private $host
+
+        private $port;
+
+        public function __construct($host, $port = null)
+        {
+            // no auto connect in this class
+            $this-&gt;host = $host;
+            $this-&gt;port = $port;
+        }
+
+        public function knock($port)
+        {
+            $sock = @fsockopen($this-&gt;host, $port);
+            if ($sock) {
+                fclose($sock);
+            }
+        }
+
+        public function connect($host = null, $port = null, $ssl = false)
+        {
+            if ($host === null) {
+                $host = $this-&gt;host;
+            }
+            if ($port === null) {
+                $port = $this-&gt;port;
+            }
+            parent::connect($host, $port);
+        }
+    }
+}
+
+namespace Example\Mail\Pop3
+{
+    use Example\Mail\Protoco\Pop3\Knock as KnockProtocol;
+    use Zend\Mail\Storage\Pop3;
+
+    class Knock extends Pop3
+    {
+        public function __construct(array $params)
+        {
+            // ... check $params here! ...
+            $protocol = new KnockProtocol($params['host']);
+
+            // do our &quot;special&quot; thing
+            foreach ((array) $params['knock_ports'] as $port) {
+                $protocol-&gt;knock($port);
+            }
+
+            // get to correct state
+            $protocol-&gt;connect($params['host'], $params['port']);
+            $protocol-&gt;login($params['user'], $params['password']);
+
+            // initialize parent
+            parent::__construct($protocol);
+        }
+    }
+}
+
+$mail = new Example\Mail\Pop3\Knock([
+    'host'        =&gt; 'localhost',
+    'user'        =&gt; 'test',
+    'password'    =&gt; 'test',
+    'knock_ports' =&gt; [1101, 1105, 1111],
+]);</code></pre>
+
+
+<p>The above assumes a connection is made; when connected, it logs in and, if
+supported, selects a folder as provided to the constructor.  When defining your
+own protocol class, make sure that's done or the next method will fail if the
+server doesn't allow it in the current state.</p>
+<h3 id="using-quotas">Using Quotas</h3>
+<p><code>Zend\Mail\Storage\Writable\Maildir</code> has support for Maildir++ quotas. It's
+disabled by default, but it's possible to use it manually, if the automatic
+checks are not desired (this means <code>appendMessage()</code>, <code>removeMessage()</code>, and
+<code>copyMessage()</code> do no checks and do not add entries to the maildirsize file). If
+enabled, an exception is thrown if you try to write to the maildir and it's
+already over quota.</p>
+<p>There are three methods used for quotas: <code>getQuota()</code>, <code>setQuota()</code>, and
+<code>checkQuota()</code>:</p>
+<pre class="codehilite"><code class="language-php">use Zend\Mail\Storage\Writable\Maildir;
+
+$mail = new Maildir(['dirname' =&gt; '/home/test/mail/']);
+$mail-&gt;setQuota(true); // true to enable, false to disable
+
+printf(&quot;Quota check is now %s\n&quot;, $mail-&gt;getQuota() ? 'enabled' : 'disabled');
+
+// Check quota can be used even if quota checks are disabled:
+printf(&quot;You are %sover quota\n&quot;, $mail-&gt;checkQuota() ? '' : 'not ');</code></pre>
+
+
+<p><code>checkQuota()</code> can also return a more detailed response by passing a boolean
+<code>true</code> argument:</p>
+<pre class="codehilite"><code class="language-php">$quota = $mail-&gt;checkQuota(true);
+printf(&quot;You are %sover quota\n&quot;, $quota['over_quota'] ? '' : 'not ');
+printf(
+    &quot;You have %d of %d messages and use %d of %d octets\n&quot;,
+    $quota['count'],
+    $quota['quota']['count'],
+    $quota['size'],
+    $quota['quota']['size']
+);</code></pre>
+
+
+<p>If you want to specify your own quota instead of using the one specified in the
+maildirsize file, you can do with <code>setQuota()</code>:</p>
+<pre class="codehilite"><code class="language-php">// Message count and octet size supported; order does matter.
+$quota = $mail-&gt;setQuota(['size' =&gt; 10000, 'count' =&gt; 100]);</code></pre>
+
+
+<p>To add your own quota checks, use single letters as keys, and they will be
+preserved (but obviously not checked). It's also possible to extend
+<code>Zend\Mail\Storage\Writable\Maildir</code> to define your own quota if the maildirsize
+file is missing (which can happen in Maildir++):</p>
+<pre class="codehilite"><code class="language-php">namespace Example\Mail\Storage;
+
+use Zend\Mail\Storage\Exception;
+use Zend\Mail\Storage\Writable\Maildir as BaseMaildir;
+
+class Maildir extends BaseMaildir
+{
+    /**
+     * getQuota is called with $fromStorage = true by quota checks.
+     *
+     * @param bool $fromStorage
+     * @return bool|array
+     */
+    public function getQuota($fromStorage = false) {
+        try {
+            return parent::getQuota($fromStorage);
+        } catch (Exception $e) {
+            if (! $fromStorage) {
+                // unknown error:
+                throw $e;
+            }
+
+            // maildirsize file must be missing
+            list($count, $size) = get_quota_from_somewhere_else();
+            return ['count' =&gt; $count, 'size' =&gt; $size];
+        }
+    }
+}</code></pre>
+
+<hr />
+
+
+<nav>
+  <ul class="pager hidden-print">
+    <li class="previous">
+      <a rel="prev" href="../transport/file-options/"><i class="fa fa-arrow-left"></i> Previous</a>
+    </li>
+    <li class="next disabled ">
+      <a rel="next" >Next <i class="fa fa-arrow-right"></i></a>
+    </li>
+  </ul>
+</nav>
+</div>
+        
+    </div>
+    <!-- content:end -->
+
+    <footer class="col-md-12 text-center">
+        <hr>
+        <p>
+        <small>Copyright (c) 2016 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a><br></small>
+        </p>
+        <p><small><a href="http://framework.zend.com">Learn more about Zend Framework</a></small></p>
+    </footer>
+
+    <script src="../js/jquery-1.10.2.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/prism-zf.js"></script>
+
+    <script>var base_url = '..';</script>
+    <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script>
+    <script src="../js/base.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="zf-components">
+  <div class="zf-components-grid">
+    <div class="zf-logo">
+      <a href="http://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="../img/zf-logo-mark.png" alt="Zend Framework" width="250" /></a>
+    </div>
+
+    <div class="component-list"></div>
+
+    <p class="zf-components-rollup"><a href="#">Hide list</a></p>
+  </div>
+</div>
+
+    <script>
+  // Prepare the component list dropdown for display
+  $(function () {
+    var components = $(".zf-components"),
+        componentList = components.find(".component-list"),
+        sidebar = $(".bs-sidebar.affix"),
+        sidebarInitialPos = sidebar.css("position"),
+        hidden,
+        componentToggle = $(".component-toggle"),
+        navbar = $(".navbar-fixed-top"),
+        rollUpLink = $(".zf-components-rollup a");
+
+    // Initial setup on document load
+    components.insertBefore(navbar);
+    $(".zf-logo a").tooltip();
+    componentToggle.tooltip();
+    rollUpLink.attr({ href: "#", alt: "Hide component list" });
+
+    // Cast initial sidebar position value
+    if (undefined === sidebarInitialPos) {
+      sidebarInitialPos = "fixed";
+    }
+
+    // Setup onclick events to toggle list
+    componentToggle.click(toggleComponentList);
+    rollUpLink.click(toggleComponentList);
+
+    // Toggle the component list display
+    function toggleComponentList(event) {
+      event.preventDefault();
+
+      if (hidden === undefined) {
+        // Not loaded yet; load and display.
+        loadComponentList();
+        return;
+      }
+
+      if (hidden) {
+        // Hidden; display.
+        showComponentList();
+        return;
+      }
+
+      // Currently visible; hide
+      hideComponentList();
+    }
+
+    // Show the component list
+    function showComponentList() {
+      navbar.css({position: "relative"});
+      sidebar.css({position: "relative"});
+      components
+        .css({"margin-top": "-" + components.outerHeight() + "px"})
+        .show()
+        .animate({"margin-top": 0}, {
+          complete: function () {
+            componentToggle
+              .data("placement", "top")
+              .attr("data-original-title", "Hide component list");
+            hidden = false;
+          },
+          queue: false
+        });
+    }
+
+    // Hide the component list
+    function hideComponentList() {
+      components.animate({"margin-top": "-" + components.outerHeight() + "px"}, {
+        complete: function () {
+          navbar.css({position: "fixed"});
+          sidebar.css({position: sidebarInitialPos});
+          componentToggle
+            .data("placement", "bottom")
+            .attr("data-original-title", "Show component list");
+          components.hide();
+          hidden = true;
+        },
+        queue: false
+      });
+      sidebar.animate({ top: sidebarInitialTop + "px" }, { queue: false});
+    }
+
+    // Inject a component into the componet list DOM.
+    function injectComponent(index, component) {
+      componentList.append('<div class="component"><h4><a href="' + component.url + '">' + component.name + '</a></h4><p>' + component.description + '</p></div>');
+    }
+
+    // Parse the component list, build the DOM, and display it.
+    function parseComponentList(components) {
+      $.each(components, injectComponent);
+      showComponentList();
+    }
+
+    // Fetch the component list and display it.
+    function loadComponentList () {
+      $.ajax({
+        url: "//zendframework.github.io/zf-mkdoc-theme/scripts/zf-component-list.json",
+        dataType: "text json",
+        success: parseComponentList,
+        error: function (e) {
+          console.log("Error occurred with XHR call", e);
+        }
+      });
+    }
+  });
+</script>
+    </body>
+
+</html>
