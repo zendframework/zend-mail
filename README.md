@@ -9,6 +9,5 @@ the `Mail\Transport\Sendmail`, `Mail\Transport\Smtp` or the `Mail\Transport\File
 transport. Of course, you can also implement your own transport by implementing
 the `Mail\Transport\TransportInterface`.
 
-
 - File issues at https://github.com/zendframework/zend-mail/issues
-- Documentation is at http://framework.zend.com/manual/current/en/index.html#zend-mail
+- Documentation is at https://zendframework.github.io/zend-mail/
