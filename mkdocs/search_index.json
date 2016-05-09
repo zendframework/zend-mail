@@ -2,12 +2,12 @@
     "docs": [
         {
             "location": "/", 
-            "text": "zend-mail\n\n\n\n\n\n\nZend\\Mail\n provides generalized functionality to compose and send both text and\nMIME-compliant multipart email messages. Mail can be sent with \nZend\\Mail\n via\nthe \nMail\\Transport\\Sendmail\n, \nMail\\Transport\\Smtp\n or the \nMail\\Transport\\File\n\ntransport. Of course, you can also implement your own transport by implementing\nthe \nMail\\Transport\\TransportInterface\n.\n\n\n\n\nFile issues at https://github.com/zendframework/zend-mail/issues\n\n\nDocumentation is at http://framework.zend.com/manual/current/en/index.html#zend-mail", 
+            "text": "zend-mail\n\n\n\n\n\n\nZend\\Mail\n provides generalized functionality to compose and send both text and\nMIME-compliant multipart email messages. Mail can be sent with \nZend\\Mail\n via\nthe \nMail\\Transport\\Sendmail\n, \nMail\\Transport\\Smtp\n or the \nMail\\Transport\\File\n\ntransport. Of course, you can also implement your own transport by implementing\nthe \nMail\\Transport\\TransportInterface\n.\n\n\n\n\nFile issues at https://github.com/zendframework/zend-mail/issues\n\n\nDocumentation is at https://zendframework.github.io/zend-mail/", 
             "title": "Home"
         }, 
         {
             "location": "/#zend-mail", 
-            "text": "Zend\\Mail  provides generalized functionality to compose and send both text and\nMIME-compliant multipart email messages. Mail can be sent with  Zend\\Mail  via\nthe  Mail\\Transport\\Sendmail ,  Mail\\Transport\\Smtp  or the  Mail\\Transport\\File \ntransport. Of course, you can also implement your own transport by implementing\nthe  Mail\\Transport\\TransportInterface .   File issues at https://github.com/zendframework/zend-mail/issues  Documentation is at http://framework.zend.com/manual/current/en/index.html#zend-mail", 
+            "text": "Zend\\Mail  provides generalized functionality to compose and send both text and\nMIME-compliant multipart email messages. Mail can be sent with  Zend\\Mail  via\nthe  Mail\\Transport\\Sendmail ,  Mail\\Transport\\Smtp  or the  Mail\\Transport\\File \ntransport. Of course, you can also implement your own transport by implementing\nthe  Mail\\Transport\\TransportInterface .   File issues at https://github.com/zendframework/zend-mail/issues  Documentation is at https://zendframework.github.io/zend-mail/", 
             "title": "zend-mail"
         }, 
         {
