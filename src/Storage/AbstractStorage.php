@@ -22,12 +22,14 @@ abstract class AbstractStorage implements
      * class capabilities with default values
      * @var array
      */
-    protected $has = ['uniqueid'  => true,
-                            'delete'    => false,
-                            'create'    => false,
-                            'top'       => false,
-                            'fetchPart' => true,
-                            'flags'     => false];
+    protected $has = [
+        'uniqueid'  => true,
+        'delete'    => false,
+        'create'    => false,
+        'top'       => false,
+        'fetchPart' => true,
+        'flags'     => false,
+    ];
 
     /**
      * current iteration position
@@ -260,7 +262,7 @@ abstract class AbstractStorage implements
     /**
      * Iterator::current()
      *
-     * @return   Message current message
+     * @return Message current message
      */
     public function current()
     {
