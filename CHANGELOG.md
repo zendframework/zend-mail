@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#38](https://github.com/zendframework/zend-mail/pull/38) adds support in the
   IMAP protocol adapter for fetching items by UID.
+- [#88](https://github.com/zendframework/zend-mail/pull/88) adds and publishes
+  documentation to https://zendframework.github.io/zend-mail/
 
 ### Deprecated
 
