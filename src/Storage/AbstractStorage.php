@@ -256,7 +256,7 @@ abstract class AbstractStorage implements
     public function rewind()
     {
         $this->iterationMax = $this->countMessages();
-        $this->iterationPos = 1;
+        $this->iterationPos = 0;
     }
 
     /**
@@ -297,7 +297,7 @@ abstract class AbstractStorage implements
         if ($this->iterationMax === null) {
             $this->iterationMax = $this->countMessages();
         }
-        return $this->iterationPos && $this->iterationPos <= $this->iterationMax;
+        return $this->iterationPos < $this->iterationMax;
     }
 
     /**
