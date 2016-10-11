@@ -107,8 +107,8 @@ class SmtpTest extends \PHPUnit_Framework_TestCase
     {
         $smtp = new TestAsset\ErroneousSmtp();
 
-        $this->setExpectedExceptionRegExp('Zend\Mail\Protocol\Exception\RuntimeException', '/Name or service not known/');
+        $this->setExpectedExceptionRegExp('Zend\Mail\Protocol\Exception\RuntimeException', '/nonexistentremote/');
 
-        $smtp->connect('tcp://nonexistentdomain:25');
+        $smtp->connect('nonexistentremote');
     }
 }
