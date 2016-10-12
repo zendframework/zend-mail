@@ -124,9 +124,9 @@ class SmtpTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNotContains('QUIT', $this->connection->getLog());
 
-        $connection = new SmtpProtocolSpy(array(
+        $connection = new SmtpProtocolSpy([
             'use_complete_quit' => false,
-        ));
+        ]);
         $this->assertFalse($connection->useCompleteQuit());
     }
 }
