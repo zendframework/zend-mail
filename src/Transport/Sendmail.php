@@ -216,15 +216,14 @@ class Sendmail implements TransportInterface
      */
     protected function prepareHeaders(Mail\Message $message)
     {
-        // On Windows, simply return verbatim
-        if ($this->isWindowsOs()) {
-            return $message->getHeaders()->toString();
-        }
-
-        // On *nix platforms, strip the "to" header
+        // strip the "subject" header
         $headers = clone $message->getHeaders();
-        $headers->removeHeader('To');
         $headers->removeHeader('Subject');
+
+        // On *nix platforms, strip the "to" header as well
+        if (!$this->isWindowsOs()) {
+            $headers->removeHeader('To');
+        }
         return $headers->toString();
     }
 
