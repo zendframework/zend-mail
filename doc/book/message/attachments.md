@@ -128,7 +128,7 @@ $body->setParts([$contentPart, $image]);
 
 $message = new Message();
 $message->setBody($body);
-$message->geHeaders()->addHeaderLine('Content-Type', 'multipart/related');
+$message->getHeaders()->addHeaderLine('Content-Type', 'multipart/related');
 ```
 
 ## Setting custom MIME boundaries
