@@ -113,7 +113,7 @@ $content->setParts([$text, $html]);
 
 $contentPart = new MimePart($content->generateMessage());
 $contentPart->type = sprintf(
-    "multipart/alternative\n boundary=\"%s\",
+    "multipart/alternative\n boundary=\"%s\"",
     $content->getMime()->boundary()
 );
 
@@ -128,7 +128,7 @@ $body->setParts([$contentPart, $image]);
 
 $message = new Message();
 $message->setBody($body);
-$message->geHeaders()->addHeaderLine('Content-Type', 'multipart/related');
+$message->getHeaders()->addHeaderLine('Content-Type', 'multipart/related');
 ```
 
 ## Setting custom MIME boundaries
