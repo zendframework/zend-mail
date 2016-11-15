@@ -57,7 +57,7 @@ class Maildir extends Storage\Maildir implements FolderInterface
             $params = (object) $params;
         }
 
-        if (!isset($params->dirname) || !is_dir($params->dirname)) {
+        if (! isset($params->dirname) || ! is_dir($params->dirname)) {
             throw new Exception\InvalidArgumentException('no valid dirname given in params');
         }
 
@@ -66,7 +66,7 @@ class Maildir extends Storage\Maildir implements FolderInterface
         $this->delim = isset($params->delim) ? $params->delim : '.';
 
         $this->buildFolderTree();
-        $this->selectFolder(!empty($params->folder) ? $params->folder : 'INBOX');
+        $this->selectFolder(! empty($params->folder) ? $params->folder : 'INBOX');
         $this->has['top'] = true;
         $this->has['flags'] = true;
     }
@@ -87,7 +87,7 @@ class Maildir extends Storage\Maildir implements FolderInterface
         ErrorHandler::start(E_WARNING);
         $dh    = opendir($this->rootdir);
         $error = ErrorHandler::stop();
-        if (!$dh) {
+        if (! $dh) {
             throw new Exception\RuntimeException("can't read folders in maildir", 0, $error);
         }
         $dirs = [];
@@ -129,7 +129,7 @@ class Maildir extends Storage\Maildir implements FolderInterface
                     $parentFolder = array_pop($folderStack);
                 }
             } while ($stack);
-            if (!$stack) {
+            if (! $stack) {
                 throw new Exception\RuntimeException('error while reading maildir');
             }
         }
@@ -144,7 +144,7 @@ class Maildir extends Storage\Maildir implements FolderInterface
      */
     public function getFolders($rootFolder = null)
     {
-        if (!$rootFolder || $rootFolder == 'INBOX') {
+        if (! $rootFolder || $rootFolder == 'INBOX') {
             return $this->rootFolder;
         }
 
@@ -160,7 +160,7 @@ class Maildir extends Storage\Maildir implements FolderInterface
             list($entry, $subname) = explode($this->delim, $subname, 2);
             ErrorHandler::stop();
             $currentFolder = $currentFolder->$entry;
-            if (!$subname) {
+            if (! $subname) {
                 break;
             }
         }
@@ -191,7 +191,7 @@ class Maildir extends Storage\Maildir implements FolderInterface
             $this->_openMaildir($this->rootdir . '.' . $folder->getGlobalName());
         } catch (Exception\ExceptionInterface $e) {
             // check what went wrong
-            if (!$folder->isSelectable()) {
+            if (! $folder->isSelectable()) {
                 throw new Exception\RuntimeException("{$this->currentFolder} is not selectable", 0, $e);
             }
             // seems like file has vanished; rebuilding folder tree - but it's still an exception

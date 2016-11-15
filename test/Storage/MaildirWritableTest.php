@@ -26,7 +26,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->originalDir = __DIR__ . '/../_files/test.maildir/';
-        if (!getenv('TESTS_ZEND_MAIL_MAILDIR_ENABLED')) {
+        if (! getenv('TESTS_ZEND_MAIL_MAILDIR_ENABLED')) {
             $this->markTestSkipped('You have to unpack maildir.tar in Zend/Mail/_files/test.maildir/ '
                                  . 'directory before enabling the maildir tests');
             return;
@@ -38,7 +38,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
             } else {
                 $this->tmpdir = __DIR__ . '/../_files/test.tmp/';
             }
-            if (!file_exists($this->tmpdir)) {
+            if (! file_exists($this->tmpdir)) {
                 mkdir($this->tmpdir);
             }
             $count = 0;
@@ -62,14 +62,14 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
                 mkdir($this->tmpdir . $dir);
             }
             foreach (['cur', 'new'] as $subdir) {
-                if (!file_exists($this->originalDir . $dir . '/' . $subdir)) {
+                if (! file_exists($this->originalDir . $dir . '/' . $subdir)) {
                     continue;
                 }
                 mkdir($this->tmpdir . $dir . '/' . $subdir);
                 $dh = opendir($this->originalDir . $dir . '/' . $subdir);
                 while (($entry = readdir($dh)) !== false) {
                     $entry = $dir . '/' . $subdir . '/' . $entry;
-                    if (!is_file($this->originalDir . $entry)) {
+                    if (! is_file($this->originalDir . $entry)) {
                         continue;
                     }
                     copy($this->originalDir . $entry, $this->tmpdir . $entry);
@@ -83,17 +83,17 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         foreach (array_reverse($this->subdirs) as $dir) {
-            if (!file_exists($this->tmpdir . $dir)) {
+            if (! file_exists($this->tmpdir . $dir)) {
                 continue;
             }
             foreach (['cur', 'new', 'tmp'] as $subdir) {
-                if (!file_exists($this->tmpdir . $dir . '/' . $subdir)) {
+                if (! file_exists($this->tmpdir . $dir . '/' . $subdir)) {
                     continue;
                 }
                 $dh = opendir($this->tmpdir . $dir . '/' . $subdir);
                 while (($entry = readdir($dh)) !== false) {
                     $entry = $this->tmpdir . $dir . '/' . $subdir . '/' . $entry;
-                    if (!is_file($entry)) {
+                    if (! is_file($entry)) {
                         continue;
                     }
                     unlink($entry);

@@ -23,7 +23,7 @@ class Pop3Test extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        if (!getenv('TESTS_ZEND_MAIL_POP3_ENABLED')) {
+        if (! getenv('TESTS_ZEND_MAIL_POP3_ENABLED')) {
             $this->markTestSkipped('Zend_Mail POP3 tests are not enabled');
         }
 
@@ -34,8 +34,8 @@ class Pop3Test extends \PHPUnit_Framework_TestCase
         ];
 
         if (getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR') && getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR')) {
-            if (!file_exists(getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR') . DIRECTORY_SEPARATOR . 'inbox')
-                && !file_exists(getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR') . DIRECTORY_SEPARATOR . 'INBOX')
+            if (! file_exists(getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR') . DIRECTORY_SEPARATOR . 'inbox')
+                && ! file_exists(getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR') . DIRECTORY_SEPARATOR . 'INBOX')
             ) {
                 $this->markTestSkipped(
                     'There is no file name "inbox" or "INBOX" in '
@@ -117,7 +117,7 @@ class Pop3Test extends \PHPUnit_Framework_TestCase
 
     public function testConnectSSL()
     {
-        if (!getenv('TESTS_ZEND_MAIL_POP3_SSL')) {
+        if (! getenv('TESTS_ZEND_MAIL_POP3_SSL')) {
             return;
         }
 
@@ -128,7 +128,7 @@ class Pop3Test extends \PHPUnit_Framework_TestCase
 
     public function testConnectTLS()
     {
-        if (!getenv('TESTS_ZEND_MAIL_POP3_TLS')) {
+        if (! getenv('TESTS_ZEND_MAIL_POP3_TLS')) {
             return;
         }
 

@@ -164,7 +164,7 @@ class Smtp extends AbstractProtocol
         }
 
         // Validate client hostname
-        if (!$this->validHost->isValid($host)) {
+        if (! $this->validHost->isValid($host)) {
             throw new Exception\RuntimeException(implode(', ', $this->validHost->getMessages()));
         }
 
@@ -176,7 +176,7 @@ class Smtp extends AbstractProtocol
         if ($this->secure == 'tls') {
             $this->_send('STARTTLS');
             $this->_expect(220, 180);
-            if (!stream_socket_enable_crypto($this->socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
+            if (! stream_socket_enable_crypto($this->socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
                 throw new Exception\RuntimeException('Unable to connect via TLS');
             }
             $this->ehlo($host);

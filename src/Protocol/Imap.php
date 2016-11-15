@@ -73,7 +73,7 @@ class Imap
         switch ($ssl) {
             case 'ssl':
                 $host = 'ssl://' . $host;
-                if (!$port) {
+                if (! $port) {
                     $port = 993;
                 }
                 break;
@@ -81,7 +81,7 @@ class Imap
                 $isTls = true;
                 // break intentionally omitted
             default:
-                if (!$port) {
+                if (! $port) {
                     $port = 143;
                 }
         }
@@ -89,21 +89,21 @@ class Imap
         ErrorHandler::start();
         $this->socket = fsockopen($host, $port, $errno, $errstr, self::TIMEOUT_CONNECTION);
         $error = ErrorHandler::stop();
-        if (!$this->socket) {
+        if (! $this->socket) {
             throw new Exception\RuntimeException(sprintf(
                 'cannot connect to host %s',
                 ($error ? sprintf('; error = %s (errno = %d )', $error->getMessage(), $error->getCode()) : '')
             ), 0, $error);
         }
 
-        if (!$this->assumedNextLine('* OK')) {
+        if (! $this->assumedNextLine('* OK')) {
             throw new Exception\RuntimeException('host doesn\'t allow connection');
         }
 
         if ($isTls) {
             $result = $this->requestAndResponse('STARTTLS');
             $result = $result && stream_socket_enable_crypto($this->socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
-            if (!$result) {
+            if (! $result) {
                 throw new Exception\RuntimeException('cannot enable TLS');
             }
         }
@@ -183,7 +183,7 @@ class Imap
         $line = rtrim($line) . ' ';
         while (($pos = strpos($line, ' ')) !== false) {
             $token = substr($line, 0, $pos);
-            if (!strlen($token)) {
+            if (! strlen($token)) {
                 continue;
             }
             while ($token[0] == '(') {
@@ -266,7 +266,7 @@ class Imap
     {
         $tag  = null;                         // define $tag variable before first use
         $line = $this->nextTaggedLine($tag); // get next tag
-        if (!$dontParse) {
+        if (! $dontParse) {
             $tokens = $this->decodeLine($line);
         } else {
             $tokens = $line;
@@ -288,7 +288,7 @@ class Imap
     {
         $lines = [];
         $tokens = null; // define $tokens variable before first use
-        while (!$this->readLine($tokens, $tag, $dontParse)) {
+        while (! $this->readLine($tokens, $tag, $dontParse)) {
             $lines[] = $tokens;
         }
 
@@ -315,7 +315,7 @@ class Imap
      */
     public function sendRequest($command, $tokens = [], &$tag = null)
     {
-        if (!$tag) {
+        if (! $tag) {
             ++$this->tagCount;
             $tag = 'TAG' . $this->tagCount;
         }
@@ -327,7 +327,7 @@ class Imap
                 if (fwrite($this->socket, $line . ' ' . $token[0] . "\r\n") === false) {
                     throw new Exception\RuntimeException('cannot write - connection closed?');
                 }
-                if (!$this->assumedNextLine('+ ')) {
+                if (! $this->assumedNextLine('+ ')) {
                     throw new Exception\RuntimeException('cannot send literal string');
                 }
                 $line = $token[1];
@@ -391,7 +391,7 @@ class Imap
     {
         $result = [];
         foreach ($list as $v) {
-            if (!is_array($v)) {
+            if (! is_array($v)) {
                 $result[] = $v;
                 continue;
             }
@@ -442,7 +442,7 @@ class Imap
     {
         $response = $this->requestAndResponse('CAPABILITY');
 
-        if (!$response) {
+        if (! $response) {
             return $response;
         }
 
@@ -470,7 +470,7 @@ class Imap
 
         $result = [];
         $tokens = null; // define $tokens variable before first use
-        while (!$this->readLine($tokens, $tag)) {
+        while (! $this->readLine($tokens, $tag)) {
             if ($tokens[0] == 'FLAGS') {
                 array_shift($tokens);
                 $result['flags'] = $tokens;
@@ -554,7 +554,7 @@ class Imap
 
         $result = [];
         $tokens = null; // define $tokens variable before first use
-        while (!$this->readLine($tokens, $tag)) {
+        while (! $this->readLine($tokens, $tag)) {
             // ignore other responses
             if ($tokens[1] != 'FETCH') {
                 continue;
@@ -571,7 +571,7 @@ class Imap
             }
 
             // ignore other messages
-            if ($to === null && !is_array($from) && ($uid ? $tokens[2][$uidKey] != $from : $tokens[0] != $from)) {
+            if ($to === null && ! is_array($from) && ($uid ? $tokens[2][$uidKey] != $from : $tokens[0] != $from)) {
                 continue;
             }
 
@@ -602,16 +602,16 @@ class Imap
             }
 
             // if we want only one message we can ignore everything else and just return
-            if ($to === null && !is_array($from) && ($uid ? $tokens[2][$uidKey] == $from : $tokens[0] == $from)) {
+            if ($to === null && ! is_array($from) && ($uid ? $tokens[2][$uidKey] == $from : $tokens[0] == $from)) {
                 // we still need to read all lines
-                while (!$this->readLine($tokens, $tag)) {
+                while (! $this->readLine($tokens, $tag)) {
                 }
                 return $data;
             }
             $result[$tokens[0]] = $data;
         }
 
-        if ($to === null && !is_array($from)) {
+        if ($to === null && ! is_array($from)) {
             throw new Exception\RuntimeException('the single id was not found in response');
         }
 
@@ -632,7 +632,7 @@ class Imap
     {
         $result = [];
         $list = $this->requestAndResponse('LIST', $this->escapeString($reference, $mailbox));
-        if (!$list || $list === true) {
+        if (! $list || $list === true) {
             return $result;
         }
 
@@ -815,7 +815,7 @@ class Imap
     public function search(array $params)
     {
         $response = $this->requestAndResponse('SEARCH', $params);
-        if (!$response) {
+        if (! $response) {
             return $response;
         }
 

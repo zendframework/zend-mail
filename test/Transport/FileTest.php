@@ -22,7 +22,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->tempDir = sys_get_temp_dir() . '/mail_file_transport';
-        if (!is_dir($this->tempDir)) {
+        if (! is_dir($this->tempDir)) {
             mkdir($this->tempDir);
         } else {
             $this->cleanup($this->tempDir);

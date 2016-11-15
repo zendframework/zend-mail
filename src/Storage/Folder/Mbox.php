@@ -57,14 +57,14 @@ class Mbox extends Storage\Mbox implements FolderInterface
             throw new Exception\InvalidArgumentException('use \Zend\Mail\Storage\Mbox for a single file');
         }
 
-        if (!isset($params->dirname) || !is_dir($params->dirname)) {
+        if (! isset($params->dirname) || ! is_dir($params->dirname)) {
             throw new Exception\InvalidArgumentException('no valid dirname given in params');
         }
 
         $this->rootdir = rtrim($params->dirname, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
         $this->buildFolderTree($this->rootdir);
-        $this->selectFolder(!empty($params->folder) ? $params->folder : 'INBOX');
+        $this->selectFolder(! empty($params->folder) ? $params->folder : 'INBOX');
         $this->has['top']      = true;
         $this->has['uniqueid'] = false;
     }
@@ -82,7 +82,7 @@ class Mbox extends Storage\Mbox implements FolderInterface
      */
     protected function buildFolderTree($currentDir, $parentFolder = null, $parentGlobalName = '')
     {
-        if (!$parentFolder) {
+        if (! $parentFolder) {
             $this->rootFolder = new Storage\Folder('/', '/', false);
             $parentFolder = $this->rootFolder;
         }
@@ -90,7 +90,7 @@ class Mbox extends Storage\Mbox implements FolderInterface
         ErrorHandler::start(E_WARNING);
         $dh = opendir($currentDir);
         ErrorHandler::stop();
-        if (!$dh) {
+        if (! $dh) {
             throw new Exception\InvalidArgumentException("can't read dir $currentDir");
         }
         while (($entry = readdir($dh)) !== false) {
@@ -104,7 +104,7 @@ class Mbox extends Storage\Mbox implements FolderInterface
                 $parentFolder->$entry = new Storage\Folder($entry, $globalName);
                 continue;
             }
-            if (!is_dir($absoluteEntry) /* || $entry == '.' || $entry == '..' */) {
+            if (! is_dir($absoluteEntry) /* || $entry == '.' || $entry == '..' */) {
                 continue;
             }
             $folder = new Storage\Folder($entry, $globalName, false);
@@ -124,7 +124,7 @@ class Mbox extends Storage\Mbox implements FolderInterface
      */
     public function getFolders($rootFolder = null)
     {
-        if (!$rootFolder) {
+        if (! $rootFolder) {
             return $this->rootFolder;
         }
 
@@ -135,7 +135,7 @@ class Mbox extends Storage\Mbox implements FolderInterface
             list($entry, $subname) = explode(DIRECTORY_SEPARATOR, $subname, 2);
             ErrorHandler::stop();
             $currentFolder = $currentFolder->$entry;
-            if (!$subname) {
+            if (! $subname) {
                 break;
             }
         }
@@ -166,7 +166,7 @@ class Mbox extends Storage\Mbox implements FolderInterface
             $this->openMboxFile($this->rootdir . $folder->getGlobalName());
         } catch (Exception\ExceptionInterface $e) {
             // check what went wrong
-            if (!$folder->isSelectable()) {
+            if (! $folder->isSelectable()) {
                 throw new Exception\RuntimeException("{$this->currentFolder} is not selectable", 0, $e);
             }
             // seems like file has vanished; rebuilding folder tree - but it's still an exception
