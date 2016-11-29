@@ -294,10 +294,16 @@ class Part implements RecursiveIterator, Part\PartInterface
      */
     public function getHeader($name, $format = null)
     {
-        $header = $this->getHeaders()->get($name);
+        $headers = $this->getHeaders();
+        if (!($headers instanceof Headers)) {
+            throw new Exception\RuntimeException(
+                '$this->headers must be an instance of Headers'
+            );
+        }
+        $header = $headers->get($name);
         if ($header === false) {
             $lowerName = strtolower(preg_replace('%([a-z])([A-Z])%', '\1-\2', $name));
-            $header = $this->getHeaders()->get($lowerName);
+            $header = $headers->get($lowerName);
             if ($header === false) {
                 throw new Exception\InvalidArgumentException(
                     "Header with Name $name or $lowerName not found"
