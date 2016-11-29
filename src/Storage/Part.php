@@ -389,7 +389,13 @@ class Part implements RecursiveIterator, Part\PartInterface
      */
     public function __isset($name)
     {
-        return $this->getHeaders()->has($name);
+        $headers = $this->getHeaders();
+        if (!($headers instanceof Headers)) {
+            throw new Exception\RuntimeException(
+                '$this->headers must be an instance of Headers'
+            );
+        }
+        return $headers->has($name);
     }
 
     /**
