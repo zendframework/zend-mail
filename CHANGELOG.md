@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.4.11 - 2016-12-20
+
+### Added
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Fixes the [ZF2016-04 advisory](https://framework.zend.com/security/advisory/ZF2016-04)
+  ("Potential remote code execution in zend-mail via Sendmail adapter").
+
 ## 2.4.10 - 2016-05-09
 
 ### Added
