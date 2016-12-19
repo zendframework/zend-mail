@@ -225,6 +225,16 @@ class Sendmail implements TransportInterface
         $headers = clone $message->getHeaders();
         $headers->removeHeader('To');
         $headers->removeHeader('Subject');
+
+        // Sanitize the From header
+        $from = $headers->get('From');
+        if ($from) {
+            foreach ($from->getAddressList() as $address) {
+                if (preg_match('/\\\"/', $address->getEmail())) {
+                    throw new Exception\RuntimeException('Potential code injection in From header');
+                }
+            }
+        }
         return $headers->toString();
     }
 
