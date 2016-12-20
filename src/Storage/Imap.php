@@ -64,6 +64,16 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
     ];
 
     /**
+     * Return access to protocol class
+     *
+     * @return null|\Zend\Mail\Protocol\Imap
+     */
+    public function getProtocol()
+    {
+        return $this->protocol;
+    }
+
+    /**
      * Count messages all messages in current box
      *
      * @param null $flags
@@ -465,20 +475,20 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
      *     folder is taken
      * @param null|array $flags set flags for new message, else a default set
      *     is used
+     * @param null|string $date set date for new message in the form of
+     *     "d-M-Y H:i:s O", else current time is used
      * @throws Exception\RuntimeException
      */
-    public function appendMessage($message, $folder = null, $flags = null)
+    public function appendMessage($message, $folder = null, $flags = null, $date = null)
     {
         if ($folder === null) {
             $folder = $this->currentFolder;
         }
-
         if ($flags === null) {
             $flags = [Mail\Storage::FLAG_SEEN];
         }
-
         // TODO: handle class instances for $message
-        if (!$this->protocol->append($folder, $message, $flags)) {
+        if (!$this->protocol->append($folder, $message, $flags, $date)) {
             throw new Exception\RuntimeException(
                 'cannot create message, please check if the folder exists and your flags'
             );
