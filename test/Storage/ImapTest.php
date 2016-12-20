@@ -594,6 +594,13 @@ class ImapTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($status['exists'], 7);
     }
 
+    public function testStorageSelect()
+    {
+        $mail = new Storage\Imap($this->params);
+        $mail->selectFolder('INBOX');
+        $count = $mail->countMessages();
+        $this->assertInternalType('int', $count);
+    }
 
     public function testExamine()
     {
@@ -602,6 +609,14 @@ class ImapTest extends \PHPUnit_Framework_TestCase
         $status = $protocol->examine('INBOX');
         $this->assertInternalType('array', $status['flags']);
         $this->assertEquals($status['exists'], 7);
+    }
+
+    public function testStorageExamine()
+    {
+        $mail = new Storage\Imap($this->params);
+        $mail->examineFolder('INBOX');
+        $count = $mail->countMessages();
+        $this->assertInternalType('int', $count);
     }
 
     public function testClosedSocketNewlineToken()
