@@ -276,7 +276,9 @@ $body-&gt;setParts([$html, $image]);
 
 $message = new Message();
 $message-&gt;setBody($body);
-$message-&gt;getHeaders()-&gt;addHeaderLine('Content-Type', 'multipart/related');</code></pre>
+
+$contentTypeHeader = $message-&gt;getHeaders()-&gt;get('Content-Type');
+$contentTypeHeader-&gt;setType('multipart/related');</code></pre>
 
 <p>Note that the above code requires us to manually specify the message content
 type; zend-mime does not automatically select the multipart type for us, nor
@@ -304,7 +306,9 @@ $body-&gt;setParts([$text, $html]);
 
 $message = new Message();
 $message-&gt;setBody($body);
-$message-&gt;getHeaders()-&gt;addHeaderLine('Content-Type', 'multipart/alternative');</code></pre>
+
+$contentTypeHeader = $message-&gt;getHeaders()-&gt;get('Content-Type');
+$contentTypeHeader-&gt;setType('multipart/alternative');</code></pre>
 
 <p>The only differences from the first example are:</p>
 <ul>
@@ -362,7 +366,9 @@ $body-&gt;setParts([$contentPart, $image]);
 
 $message = new Message();
 $message-&gt;setBody($body);
-$message-&gt;geHeaders()-&gt;addHeaderLine('Content-Type', 'multipart/related');</code></pre>
+
+$contentTypeHeader = $message-&gt;getHeaders()-&gt;get('Content-Type');
+$contentTypeHeader-&gt;setType('multipart/related');</code></pre>
 
 <h2 id="setting-custom-mime-boundaries">Setting custom MIME boundaries</h2>
 <p>In a multipart message, a MIME boundary for separating the different parts of
