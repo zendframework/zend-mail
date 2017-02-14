@@ -102,4 +102,31 @@ class SmtpTest extends \PHPUnit_Framework_TestCase
         $this->connection->disconnect();
         $this->assertFalse($this->connection->getAuth());
     }
+
+    public function testCanAvoidQuitRequest()
+    {
+        $this->assertTrue($this->connection->useCompleteQuit(), 'Default behaviour must be BC');
+
+        $this->connection->resetLog();
+        $this->connection->connect();
+        $this->connection->helo();
+        $this->connection->disconnect();
+
+        $this->assertContains('QUIT', $this->connection->getLog());
+
+        $this->connection->setUseCompleteQuit(false);
+        $this->assertFalse($this->connection->useCompleteQuit());
+
+        $this->connection->resetLog();
+        $this->connection->connect();
+        $this->connection->helo();
+        $this->connection->disconnect();
+
+        $this->assertNotContains('QUIT', $this->connection->getLog());
+
+        $connection = new SmtpProtocolSpy([
+            'use_complete_quit' => false,
+        ]);
+        $this->assertFalse($connection->useCompleteQuit());
+    }
 }
