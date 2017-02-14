@@ -33,7 +33,7 @@ class MboxFolderTest extends \PHPUnit_Framework_TestCase
             } else {
                 $this->tmpdir = __DIR__ . '/../_files/test.tmp/';
             }
-            if (!file_exists($this->tmpdir)) {
+            if (! file_exists($this->tmpdir)) {
                 mkdir($this->tmpdir);
             }
             $count = 0;
@@ -59,7 +59,7 @@ class MboxFolderTest extends \PHPUnit_Framework_TestCase
             $dh = opendir($this->originalDir . $dir);
             while (($entry = readdir($dh)) !== false) {
                 $entry = $dir . '/' . $entry;
-                if (!is_file($this->originalDir . $entry)) {
+                if (! is_file($this->originalDir . $entry)) {
                     continue;
                 }
                 copy($this->originalDir . $entry, $this->tmpdir . $entry);
@@ -74,7 +74,7 @@ class MboxFolderTest extends \PHPUnit_Framework_TestCase
             $dh = opendir($this->tmpdir . $dir);
             while (($entry = readdir($dh)) !== false) {
                 $entry = $this->tmpdir . $dir . '/' . $entry;
-                if (!is_file($entry)) {
+                if (! is_file($entry)) {
                     continue;
                 }
                 unlink($entry);
@@ -177,7 +177,7 @@ class MboxFolderTest extends \PHPUnit_Framework_TestCase
         $found_folders = [];
 
         foreach ($iterator as $localName => $folder) {
-            if (!isset($search_folders[$folder->getGlobalName()])) {
+            if (! isset($search_folders[$folder->getGlobalName()])) {
                 continue;
             }
 
@@ -201,7 +201,7 @@ class MboxFolderTest extends \PHPUnit_Framework_TestCase
         $found_folders = [];
 
         foreach ($iterator as $localName => $folder) {
-            if (!isset($search_folders[$folder->getGlobalName()])) {
+            if (! isset($search_folders[$folder->getGlobalName()])) {
                 continue;
             }
 
@@ -313,10 +313,10 @@ class MboxFolderTest extends \PHPUnit_Framework_TestCase
 
         chmod($this->params['dirname'] . 'subfolder', $stat['mode']);
 
-        if (!$check) {
+        if (! $check) {
             if (function_exists('posix_getuid') && posix_getuid() === 0) {
                 $this->markTestSkipped('seems like you are root and we therefore cannot test the error handling');
-            } elseif (!function_exists('posix_getuid')) {
+            } elseif (! function_exists('posix_getuid')) {
                 $this->markTestSkipped('Can\t test if you\'re root and we therefore cannot test the error handling');
             }
             $this->fail('no exception while loading invalid dir with subfolder not readable');

@@ -22,15 +22,15 @@ class ImapTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        if (!getenv('TESTS_ZEND_MAIL_IMAP_ENABLED')) {
+        if (! getenv('TESTS_ZEND_MAIL_IMAP_ENABLED')) {
             $this->markTestSkipped('Zend_Mail IMAP tests are not enabled');
         }
         $this->params = ['host'     => getenv('TESTS_ZEND_MAIL_IMAP_HOST'),
                                'user'     => getenv('TESTS_ZEND_MAIL_IMAP_USER'),
                                'password' => getenv('TESTS_ZEND_MAIL_IMAP_PASSWORD')];
         if (getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR') && getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR')) {
-            if (!file_exists(getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR') . DIRECTORY_SEPARATOR . 'inbox')
-                && !file_exists(getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR') . DIRECTORY_SEPARATOR . 'INBOX')
+            if (! file_exists(getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR') . DIRECTORY_SEPARATOR . 'inbox')
+                && ! file_exists(getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR') . DIRECTORY_SEPARATOR . 'INBOX')
             ) {
                 $this->markTestSkipped(
                     'There is no file name "inbox" or "INBOX" in '
@@ -111,7 +111,7 @@ class ImapTest extends \PHPUnit_Framework_TestCase
 
     public function testConnectSSL()
     {
-        if (!getenv('TESTS_ZEND_MAIL_IMAP_SSL')) {
+        if (! getenv('TESTS_ZEND_MAIL_IMAP_SSL')) {
             return;
         }
 
@@ -121,7 +121,7 @@ class ImapTest extends \PHPUnit_Framework_TestCase
 
     public function testConnectTLS()
     {
-        if (!getenv('TESTS_ZEND_MAIL_IMAP_TLS')) {
+        if (! getenv('TESTS_ZEND_MAIL_IMAP_TLS')) {
             return;
         }
 
@@ -336,7 +336,7 @@ class ImapTest extends \PHPUnit_Framework_TestCase
         $found_folders = [];
 
         foreach ($iterator as $localName => $folder) {
-            if (!isset($search_folders[$folder->getGlobalName()])) {
+            if (! isset($search_folders[$folder->getGlobalName()])) {
                 continue;
             }
 

@@ -62,7 +62,7 @@ class Folder implements RecursiveIterator
     public function hasChildren()
     {
         $current = $this->current();
-        return $current && $current instanceof Folder && !$current->isLeaf();
+        return $current && $current instanceof Folder && ! $current->isLeaf();
     }
 
     /**
@@ -130,7 +130,7 @@ class Folder implements RecursiveIterator
      */
     public function __get($name)
     {
-        if (!isset($this->folders[$name])) {
+        if (! isset($this->folders[$name])) {
             throw new Exception\InvalidArgumentException("no subfolder named $name");
         }
 

@@ -21,7 +21,7 @@ class MaildirMessageOldTest extends TestCase
     public function setUp()
     {
         $this->originalMaildir = __DIR__ . '/../_files/test.maildir/';
-        if (!getenv('TESTS_ZEND_MAIL_MAILDIR_ENABLED')) {
+        if (! getenv('TESTS_ZEND_MAIL_MAILDIR_ENABLED')) {
             $this->markTestSkipped('You have to unpack maildir.tar in Zend/Mail/_files/test.maildir/ '
                                  . 'directory before enabling the maildir tests');
             return;
@@ -33,7 +33,7 @@ class MaildirMessageOldTest extends TestCase
             } else {
                 $this->tmpdir = __DIR__ . '/../_files/test.tmp/';
             }
-            if (!file_exists($this->tmpdir)) {
+            if (! file_exists($this->tmpdir)) {
                 mkdir($this->tmpdir);
             }
             $count = 0;
@@ -55,7 +55,7 @@ class MaildirMessageOldTest extends TestCase
             $dh = opendir($this->originalMaildir . $dir);
             while (($entry = readdir($dh)) !== false) {
                 $entry = $dir . '/' . $entry;
-                if (!is_file($this->originalMaildir . $entry)) {
+                if (! is_file($this->originalMaildir . $entry)) {
                     continue;
                 }
                 copy($this->originalMaildir . $entry, $this->tmpdir . $entry);
@@ -67,13 +67,13 @@ class MaildirMessageOldTest extends TestCase
     public function tearDown()
     {
         foreach (['cur', 'new'] as $dir) {
-            if (!is_dir($this->tmpdir . $dir)) {
+            if (! is_dir($this->tmpdir . $dir)) {
                 continue;
             }
             $dh = opendir($this->tmpdir . $dir);
             while (($entry = readdir($dh)) !== false) {
                 $entry = $this->tmpdir . $dir . '/' . $entry;
-                if (!is_file($entry)) {
+                if (! is_file($entry)) {
                     continue;
                 }
                 unlink($entry);

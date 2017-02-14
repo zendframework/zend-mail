@@ -93,7 +93,7 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
      */
     public function setFieldName($fieldName)
     {
-        if (!is_string($fieldName) || empty($fieldName)) {
+        if (! is_string($fieldName) || empty($fieldName)) {
             throw new Exception\InvalidArgumentException('Header name must be a string');
         }
 

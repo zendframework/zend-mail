@@ -74,7 +74,7 @@ class ContentType implements UnstructuredInterface
 
         $values = [$prepared];
         foreach ($this->parameters as $attribute => $value) {
-            if (HeaderInterface::FORMAT_ENCODED === $format && !Mime::isPrintable($value)) {
+            if (HeaderInterface::FORMAT_ENCODED === $format && ! Mime::isPrintable($value)) {
                 $this->encoding = 'UTF-8';
                 $value = HeaderWrap::wrap($value, $this);
                 $this->encoding = 'ASCII';
@@ -111,7 +111,7 @@ class ContentType implements UnstructuredInterface
      */
     public function setType($type)
     {
-        if (!preg_match('/^[a-z-]+\/[a-z0-9.+-]+$/i', $type)) {
+        if (! preg_match('/^[a-z-]+\/[a-z0-9.+-]+$/i', $type)) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects a value in the format "type/subtype"; received "%s"',
                 __METHOD__,

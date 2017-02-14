@@ -178,7 +178,7 @@ class Headers implements Countable, Iterator
      */
     public function addHeaders($headers)
     {
-        if (!is_array($headers) && !$headers instanceof Traversable) {
+        if (! is_array($headers) && ! $headers instanceof Traversable) {
             throw new Exception\InvalidArgumentException(sprintf(
                 'Expected array or Traversable; received "%s"',
                 (is_object($headers) ? get_class($headers) : gettype($headers))
@@ -217,7 +217,7 @@ class Headers implements Countable, Iterator
      */
     public function addHeaderLine($headerFieldNameOrLine, $fieldValue = null)
     {
-        if (!is_string($headerFieldNameOrLine)) {
+        if (! is_string($headerFieldNameOrLine)) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects its first argument to be a string; received "%s"',
                 __METHOD__,
@@ -276,7 +276,7 @@ class Headers implements Countable, Iterator
             $indexes = array_keys($this->headersKeys, $key, true);
         }
 
-        if (!empty($indexes)) {
+        if (! empty($indexes)) {
             foreach ($indexes as $index) {
                 unset($this->headersKeys[$index]);
                 unset($this->headers[$index]);
@@ -445,7 +445,7 @@ class Headers implements Countable, Iterator
         foreach ($this->headers as $header) {
             if ($header instanceof Header\MultipleHeadersInterface) {
                 $name = $header->getFieldName();
-                if (!isset($headers[$name])) {
+                if (! isset($headers[$name])) {
                     $headers[$name] = [];
                 }
                 $headers[$name][] = $header->getFieldValue($format);

@@ -33,7 +33,7 @@ class FileOptions extends AbstractOptions
      */
     public function setPath($path)
     {
-        if (!is_dir($path) || !is_writable($path)) {
+        if (! is_dir($path) || ! is_writable($path)) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects a valid path in which to write mail files; received "%s"',
                 __METHOD__,
@@ -68,7 +68,7 @@ class FileOptions extends AbstractOptions
      */
     public function setCallback($callback)
     {
-        if (!is_callable($callback)) {
+        if (! is_callable($callback)) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects a valid callback; received "%s"',
                 __METHOD__,

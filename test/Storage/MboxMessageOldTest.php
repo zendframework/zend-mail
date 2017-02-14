@@ -25,7 +25,7 @@ class MboxMessageOldTest extends TestCase
             } else {
                 $this->tmpdir = __DIR__ . '/../_files/test.tmp/';
             }
-            if (!file_exists($this->tmpdir)) {
+            if (! file_exists($this->tmpdir)) {
                 mkdir($this->tmpdir);
             }
             $count = 0;
