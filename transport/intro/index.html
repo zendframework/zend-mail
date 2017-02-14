@@ -260,7 +260,7 @@ serializes in order to send.</p>
 <p>Using a mail transport involves instantiating it, optionally configuring it, and
 then passing a message to it.</p>
 <h3 id="sendmail-transport-usage">Sendmail Transport Usage</h3>
-<pre class="codehilite"><code class="language-php">use Zend\Mail\Message;
+<pre class="codehilite"><code class="language-php linenums">use Zend\Mail\Message;
 use Zend\Mail\Transport\Sendmail as SendmailTransport;
 
 $message = new Message();
@@ -272,9 +272,8 @@ $message-&gt;setBody(&quot;Sorry, I'm going to be late today!&quot;);
 $transport = new SendmailTransport();
 $transport-&gt;send($message);</code></pre>
 
-
 <h3 id="smtp-transport-usage">SMTP Transport Usage</h3>
-<pre class="codehilite"><code class="language-php">use Zend\Mail\Message;
+<pre class="codehilite"><code class="language-php linenums">use Zend\Mail\Message;
 use Zend\Mail\Transport\Smtp as SmtpTransport;
 use Zend\Mail\Transport\SmtpOptions;
 
@@ -298,9 +297,8 @@ $options   = new SmtpOptions([
 $transport-&gt;setOptions($options);
 $transport-&gt;send($message);</code></pre>
 
-
 <h3 id="file-transport-usage">File Transport Usage</h3>
-<pre class="codehilite"><code class="language-php">use Zend\Mail\Message;
+<pre class="codehilite"><code class="language-php linenums">use Zend\Mail\Message;
 use Zend\Mail\Transport\File as FileTransport;
 use Zend\Mail\Transport\FileOptions;
 use Zend\Math\Rand;
@@ -326,9 +324,8 @@ $options   = new FileOptions([
 $transport-&gt;setOptions($options);
 $transport-&gt;send($message);</code></pre>
 
-
 <h3 id="inmemory-transport-usage">InMemory Transport Usage</h3>
-<pre class="codehilite"><code class="language-php">use Zend\Mail\Message;
+<pre class="codehilite"><code class="language-php linenums">use Zend\Mail\Message;
 use Zend\Mail\Transport\InMemory as InMemoryTransport;
 
 $message = new Message();
@@ -343,7 +340,6 @@ $transport-&gt;send($message);
 
 // Verify the message:
 $received = $transport-&gt;getLastMessage();</code></pre>
-
 
 <p>The <code>InMemory</code> transport is primarily of interest when in development or when
 testing.</p>
@@ -365,8 +361,7 @@ transport-specific options.</p>
 </ul>
 <h2 id="available-methods">Available Methods</h2>
 <h3 id="send">send</h3>
-<pre class="codehilite"><code class="language-php">send(Zend\Mail\Message $message) : void</code></pre>
-
+<pre class="codehilite"><code class="language-php linenums">send(Zend\Mail\Message $message) : void</code></pre>
 
 <p>Send a mail message.</p>
 

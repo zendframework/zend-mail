@@ -250,7 +250,7 @@
 <code>Zend\Mail\Transport\Smtp</code> mail transport.</p>
 <h2 id="quick-start">Quick Start</h2>
 <h3 id="basic-smtp-transport-usage">Basic SMTP Transport Usage</h3>
-<pre class="codehilite"><code class="language-php">use Zend\Mail\Transport\Smtp as SmtpTransport;
+<pre class="codehilite"><code class="language-php linenums">use Zend\Mail\Transport\Smtp as SmtpTransport;
 use Zend\Mail\Transport\SmtpOptions;
 
 // Setup SMTP transport
@@ -261,7 +261,6 @@ $options   = new SmtpOptions([
     'port' =&gt; 25,
 ]);
 $transport-&gt;setOptions($options);</code></pre>
-
 
 <p>If you require authentication, see the section on <a href="../smtp-authentication/#examples">SMTP authentication</a>
 for examples of configuring authentication credentials.</p>
@@ -298,61 +297,50 @@ for examples of configuring authentication credentials.</p>
 </table></div>
 <h2 id="available-methods">Available Methods</h2>
 <h3 id="getname">getName</h3>
-<pre class="codehilite"><code class="language-php">getName() : string</code></pre>
-
+<pre class="codehilite"><code class="language-php linenums">getName() : string</code></pre>
 
 <p>Returns the string name of the local client hostname.</p>
 <h3 id="setname">setName</h3>
-<pre class="codehilite"><code class="language-php">setName(string $name) : void</code></pre>
-
+<pre class="codehilite"><code class="language-php linenums">setName(string $name) : void</code></pre>
 
 <p>Set the string name of the local client hostname.</p>
 <h3 id="getconnectionclass">getConnectionClass</h3>
-<pre class="codehilite"><code class="language-php">getConnectionClass() : string</code></pre>
-
+<pre class="codehilite"><code class="language-php linenums">getConnectionClass() : string</code></pre>
 
 <p>Returns a string indicating the connection class name to use.</p>
 <h3 id="setconnectionclass">setConnectionClass</h3>
-<pre class="codehilite"><code class="language-php">setConnectionClass(string $connectionClass) : void</code></pre>
-
+<pre class="codehilite"><code class="language-php linenums">setConnectionClass(string $connectionClass) : void</code></pre>
 
 <p>Set the connection class to use.</p>
 <h3 id="getconnectionconfig">getConnectionConfig</h3>
-<pre class="codehilite"><code class="language-php">getConnectionConfig() : array</code></pre>
-
+<pre class="codehilite"><code class="language-php linenums">getConnectionConfig() : array</code></pre>
 
 <p>Get configuration for the connection class.</p>
 <h3 id="setconnectionconfig">setConnectionConfig</h3>
-<pre class="codehilite"><code class="language-php">setConnectionConfig(array $config) : void</code></pre>
-
+<pre class="codehilite"><code class="language-php linenums">setConnectionConfig(array $config) : void</code></pre>
 
 <p>Set configuration for the connection class. Typically, if using anything other
 than the default connection class, this will be an associative array with the
 keys "username" and "password".</p>
 <h3 id="gethost">getHost</h3>
-<pre class="codehilite"><code class="language-php">getHost() : string</code></pre>
-
+<pre class="codehilite"><code class="language-php linenums">getHost() : string</code></pre>
 
 <p>Returns a string indicating the IP address or host name of the SMTP server via
 which to send messages.</p>
 <h3 id="sethost">setHost</h3>
-<pre class="codehilite"><code class="language-php">setHost(string $host) : void</code></pre>
-
+<pre class="codehilite"><code class="language-php linenums">setHost(string $host) : void</code></pre>
 
 <p>Set the SMTP host name or IP address.</p>
 <h3 id="getport">getPort</h3>
-<pre class="codehilite"><code class="language-php">getPort() : int</code></pre>
-
+<pre class="codehilite"><code class="language-php linenums">getPort() : int</code></pre>
 
 <p>Retrieve the integer port on which the SMTP host is listening.</p>
 <h3 id="setport">setPort</h3>
-<pre class="codehilite"><code class="language-php">setPort(int $port) : void</code></pre>
-
+<pre class="codehilite"><code class="language-php linenums">setPort(int $port) : void</code></pre>
 
 <p>Set the port on which the SMTP host is listening.</p>
 <h3 id="9595construct">__construct</h3>
-<pre class="codehilite"><code class="language-php">__construct(null|array|Traversable $config) : void</code></pre>
-
+<pre class="codehilite"><code class="language-php linenums">__construct(null|array|Traversable $config) : void</code></pre>
 
 <p>Instantiate the class, and optionally configure it with values provided.</p>
 
