@@ -350,10 +350,8 @@ $content = new MimeMessage();
 $content-&gt;setParts([$text, $html]);
 
 $contentPart = new MimePart($content-&gt;generateMessage());
-$contentPart-&gt;type = sprintf(
-    &quot;multipart/alternative\n boundary=\&quot;%s\&quot;,
-    $content-&gt;getMime()-&gt;boundary()
-);
+$contentPart-&gt;boundary = $content-&gt;getMime()-&gt;boundary();
+$contentPart-&gt;type = 'multipart/alternative';
 
 $image = new MimePart(fopen($pathToImage, 'r'));
 $image-&gt;type = 'image/jpeg';
