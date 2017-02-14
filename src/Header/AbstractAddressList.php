@@ -116,14 +116,14 @@ abstract class AbstractAddressList implements HeaderInterface
             $email = $address->getEmail();
             $name  = $address->getName();
 
-            if (!empty($name) && false !== strstr($name, ',')) {
+            if (! empty($name) && false !== strstr($name, ',')) {
                 $name = sprintf('"%s"', $name);
             }
 
             if ($format === HeaderInterface::FORMAT_ENCODED
                 && 'ASCII' !== $encoding
             ) {
-                if (!empty($name)) {
+                if (! empty($name)) {
                     $name = HeaderWrap::mimeEncodeValue($name, $encoding);
                 }
 

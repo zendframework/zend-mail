@@ -82,10 +82,10 @@ class Part implements RecursiveIterator, Part\PartInterface
     public function __construct(array $params)
     {
         if (isset($params['handler'])) {
-            if (!$params['handler'] instanceof AbstractStorage) {
+            if (! $params['handler'] instanceof AbstractStorage) {
                 throw new Exception\InvalidArgumentException('handler is not a valid mail handler');
             }
-            if (!isset($params['id'])) {
+            if (! isset($params['id'])) {
                 throw new Exception\InvalidArgumentException('need a message id with a handler');
             }
 
@@ -183,13 +183,13 @@ class Part implements RecursiveIterator, Part\PartInterface
             $this->content = $this->mail->getRawContent($this->messageNum);
         }
 
-        if (!$this->isMultipart()) {
+        if (! $this->isMultipart()) {
             return;
         }
 
         // split content in parts
         $boundary = $this->getHeaderField('content-type', 'boundary');
-        if (!$boundary) {
+        if (! $boundary) {
             throw new Exception\RuntimeException('no boundary found in content type to split message');
         }
         $parts = Mime\Decode::splitMessageStruct($this->content, $boundary);
@@ -215,7 +215,7 @@ class Part implements RecursiveIterator, Part\PartInterface
             return $this->parts[$num];
         }
 
-        if (!$this->mail && $this->content === null) {
+        if (! $this->mail && $this->content === null) {
             throw new Exception\RuntimeException('part not found');
         }
 
@@ -226,7 +226,7 @@ class Part implements RecursiveIterator, Part\PartInterface
 
         $this->cacheContent();
 
-        if (!isset($this->parts[$num])) {
+        if (! isset($this->parts[$num])) {
             throw new Exception\RuntimeException('part not found');
         }
 

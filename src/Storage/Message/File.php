@@ -30,7 +30,7 @@ class File extends Part\File implements MessageInterface
      */
     public function __construct(array $params)
     {
-        if (!empty($params['flags'])) {
+        if (! empty($params['flags'])) {
             // set key and value to the same value for easy lookup
             $this->flags = array_combine($params['flags'], $params['flags']);
         }
