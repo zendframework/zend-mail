@@ -39,18 +39,18 @@ class Maildir extends Folder\Maildir implements WritableInterface
     public static function initMaildir($dir)
     {
         if (file_exists($dir)) {
-            if (!is_dir($dir)) {
+            if (! is_dir($dir)) {
                 throw new StorageException\InvalidArgumentException('maildir must be a directory if already exists');
             }
         } else {
             ErrorHandler::start();
             $test  = mkdir($dir);
             $error = ErrorHandler::stop();
-            if (!$test) {
+            if (! $test) {
                 $dir = dirname($dir);
-                if (!file_exists($dir)) {
+                if (! file_exists($dir)) {
                     throw new StorageException\InvalidArgumentException("parent $dir not found", 0, $error);
-                } elseif (!is_dir($dir)) {
+                } elseif (! is_dir($dir)) {
                     throw new StorageException\InvalidArgumentException("parent $dir not a directory", 0, $error);
                 } else {
                     throw new StorageException\RuntimeException('cannot create maildir', 0, $error);
@@ -62,9 +62,9 @@ class Maildir extends Folder\Maildir implements WritableInterface
             ErrorHandler::start();
             $test  = mkdir($dir . DIRECTORY_SEPARATOR . $subdir);
             $error = ErrorHandler::stop();
-            if (!$test) {
+            if (! $test) {
                 // ignore if dir exists (i.e. was already valid maildir or two processes try to create one)
-                if (!file_exists($dir . DIRECTORY_SEPARATOR . $subdir)) {
+                if (! file_exists($dir . DIRECTORY_SEPARATOR . $subdir)) {
                     throw new StorageException\RuntimeException('could not create subdir ' . $subdir, 0, $error);
                 }
             }
@@ -85,9 +85,9 @@ class Maildir extends Folder\Maildir implements WritableInterface
             $params = (object) $params;
         }
 
-        if (!empty($params->create)
+        if (! empty($params->create)
             && isset($params->dirname)
-            && !file_exists($params->dirname . DIRECTORY_SEPARATOR . 'cur')
+            && ! file_exists($params->dirname . DIRECTORY_SEPARATOR . 'cur')
         ) {
             self::initMaildir($params->dirname);
         }
@@ -160,7 +160,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
         }
 
         ErrorHandler::start();
-        if (!mkdir($fulldir) || !mkdir($fulldir . DIRECTORY_SEPARATOR . 'cur')) {
+        if (! mkdir($fulldir) || ! mkdir($fulldir . DIRECTORY_SEPARATOR . 'cur')) {
             $error = ErrorHandler::stop();
             throw new StorageException\RuntimeException(
                 'error while creating new folder, may be created incompletely',
@@ -203,7 +203,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
         }
 
         // check if folder exists and has no children
-        if (!$this->getFolders($name)->isLeaf()) {
+        if (! $this->getFolders($name)->isLeaf()) {
             throw new StorageException\RuntimeException('delete children first');
         }
 
@@ -217,30 +217,30 @@ class Maildir extends Folder\Maildir implements WritableInterface
 
         foreach (['tmp', 'new', 'cur', '.'] as $subdir) {
             $dir = $this->rootdir . '.' . $name . DIRECTORY_SEPARATOR . $subdir;
-            if (!file_exists($dir)) {
+            if (! file_exists($dir)) {
                 continue;
             }
             $dh = opendir($dir);
-            if (!$dh) {
+            if (! $dh) {
                 throw new StorageException\RuntimeException("error opening $subdir");
             }
             while (($entry = readdir($dh)) !== false) {
                 if ($entry == '.' || $entry == '..') {
                     continue;
                 }
-                if (!unlink($dir . DIRECTORY_SEPARATOR . $entry)) {
+                if (! unlink($dir . DIRECTORY_SEPARATOR . $entry)) {
                     throw new StorageException\RuntimeException("error cleaning $subdir");
                 }
             }
             closedir($dh);
             if ($subdir !== '.') {
-                if (!rmdir($dir)) {
+                if (! rmdir($dir)) {
                     throw new StorageException\RuntimeException("error removing $subdir");
                 }
             }
         }
 
-        if (!rmdir($this->rootdir . '.' . $name)) {
+        if (! rmdir($this->rootdir . '.' . $name)) {
             // at least we should try to make it a valid maildir again
             mkdir($this->rootdir . '.' . $name . DIRECTORY_SEPARATOR . 'cur');
             throw new StorageException\RuntimeException("error removing maindir");
@@ -295,7 +295,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
 
         $newdir = $this->createFolder($newName);
 
-        if (!$folder->isLeaf()) {
+        if (! $folder->isLeaf()) {
             foreach ($folder as $k => $v) {
                 $this->renameFolder($v->getGlobalName(), $newName . $this->delim . $k);
             }
@@ -304,11 +304,11 @@ class Maildir extends Folder\Maildir implements WritableInterface
         $olddir = $this->rootdir . '.' . $folder;
         foreach (['tmp', 'new', 'cur'] as $subdir) {
             $subdir = DIRECTORY_SEPARATOR . $subdir;
-            if (!file_exists($olddir . $subdir)) {
+            if (! file_exists($olddir . $subdir)) {
                 continue;
             }
             // using copy or moving files would be even better - but also much slower
-            if (!rename($olddir . $subdir, $newdir . $subdir)) {
+            if (! rename($olddir . $subdir, $newdir . $subdir)) {
                 throw new StorageException\RuntimeException('error while moving ' . $subdir);
             }
         }
@@ -358,8 +358,8 @@ class Maildir extends Folder\Maildir implements WritableInterface
         } else {
             $tmpdir = $this->rootdir . '.' . $folder . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR;
         }
-        if (!file_exists($tmpdir)) {
-            if (!mkdir($tmpdir)) {
+        if (! file_exists($tmpdir)) {
+            if (! mkdir($tmpdir)) {
                 throw new StorageException\RuntimeException('problems creating tmp dir');
             }
         }
@@ -372,12 +372,12 @@ class Maildir extends Folder\Maildir implements WritableInterface
         $maxTries = 5;
         for ($i = 0; $i < $maxTries; ++$i) {
             $uniq = $this->createUniqueId();
-            if (!file_exists($tmpdir . $uniq)) {
+            if (! file_exists($tmpdir . $uniq)) {
                 // here is the race condition! - as defined in the standard
                 // to avoid having a long time between stat()ing the file and creating it we're opening it here
                 // to mark the filename as taken
                 $fh = fopen($tmpdir . $uniq, 'w');
-                if (!$fh) {
+                if (! $fh) {
                     throw new StorageException\RuntimeException('could not open temp file');
                 }
                 break;
@@ -385,7 +385,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
             sleep(1);
         }
 
-        if (!$fh) {
+        if (! $fh) {
             throw new StorageException\RuntimeException(
                 "tried {$maxTries} unique ids for a temp file, but all were taken - giving up"
             );
@@ -416,7 +416,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
         $info  = ':2,';
         $flags = [];
         foreach (Storage\Maildir::$knownFlags as $char => $flag) {
-            if (!isset($wantedFlags[$flag])) {
+            if (! isset($wantedFlags[$flag])) {
                 continue;
             }
             $info .= $char;
@@ -424,7 +424,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
             unset($wantedFlags[$flag]);
         }
 
-        if (!empty($wantedFlags)) {
+        if (! empty($wantedFlags)) {
             $wantedFlags = implode(', ', array_keys($wantedFlags));
             throw new StorageException\InvalidArgumentException('unknown flag(s): ' . $wantedFlags);
         }
@@ -454,7 +454,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
             $folder = $this->currentFolder;
         }
 
-        if (!($folder instanceof Folder)) {
+        if (! ($folder instanceof Folder)) {
             $folder = $this->getFolders($folder);
         }
 
@@ -484,7 +484,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
         // we're throwing any exception after removing our temp file and saving it to this variable instead
         $exception = null;
 
-        if (!link($tempFile['filename'], $newFilename)) {
+        if (! link($tempFile['filename'], $newFilename)) {
             $exception = new StorageException\RuntimeException('cannot link message file to final dir');
         }
 
@@ -517,7 +517,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
             throw new StorageException\RuntimeException('storage is over quota!');
         }
 
-        if (!($folder instanceof Folder)) {
+        if (! ($folder instanceof Folder)) {
             $folder = $this->getFolders($folder);
         }
 
@@ -547,9 +547,9 @@ class Maildir extends Folder\Maildir implements WritableInterface
         // we're throwing any exception after removing our temp file and saving it to this variable instead
         $exception = null;
 
-        if (!copy($oldFile, $tempFile['filename'])) {
+        if (! copy($oldFile, $tempFile['filename'])) {
             $exception = new StorageException\RuntimeException('cannot copy message file');
-        } elseif (!link($tempFile['filename'], $newFile)) {
+        } elseif (! link($tempFile['filename'], $newFile)) {
             $exception = new StorageException\RuntimeException('cannot link message file to final dir');
         }
 
@@ -583,7 +583,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
      */
     public function moveMessage($id, $folder)
     {
-        if (!($folder instanceof Folder)) {
+        if (! ($folder instanceof Folder)) {
             $folder = $this->getFolders($folder);
         }
 
@@ -618,7 +618,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
         // we're throwing any exception after removing our temp file and saving it to this variable instead
         $exception = null;
 
-        if (!rename($oldFile, $newFile)) {
+        if (! rename($oldFile, $newFile)) {
             $exception = new StorageException\RuntimeException('cannot move message file');
         }
 
@@ -660,7 +660,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
         ErrorHandler::start();
         $test  = rename($filedata['filename'], $newFilename);
         $error = ErrorHandler::stop();
-        if (!$test) {
+        if (! $test) {
             throw new StorageException\RuntimeException('cannot rename file', 0, $error);
         }
 
@@ -687,7 +687,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
         ErrorHandler::start();
         $test  = unlink($filename);
         $error = ErrorHandler::stop();
-        if (!$test) {
+        if (! $test) {
             throw new StorageException\RuntimeException('cannot remove message', 0, $error);
         }
         unset($this->files[$id - 1]);
@@ -727,7 +727,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
             ErrorHandler::start(E_WARNING);
             $fh    = fopen($this->rootdir . 'maildirsize', 'r');
             $error = ErrorHandler::stop();
-            if (!$fh) {
+            if (! $fh) {
                 throw new StorageException\RuntimeException('cannot open maildirsize', 0, $error);
             }
             $definition = fgets($fh);
@@ -782,7 +782,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
 
             foreach (['cur', 'new'] as $subsubdir) {
                 $dirname = $this->rootdir . $subdir . DIRECTORY_SEPARATOR . $subsubdir . DIRECTORY_SEPARATOR;
-                if (!file_exists($dirname)) {
+                if (! file_exists($dirname)) {
                     continue;
                 }
                 // NOTE: we are using mtime instead of "the latest timestamp". The latest would be atime
@@ -792,12 +792,12 @@ class Maildir extends Folder\Maildir implements WritableInterface
                 $dh = opendir($dirname);
                 // NOTE: Should have been checked in constructor. Not throwing an exception here, quotas will
                 // therefore not be fully enforced, but next request will fail anyway, if problem persists.
-                if (!$dh) {
+                if (! $dh) {
                     continue;
                 }
 
                 while (($entry = readdir()) !== false) {
-                    if ($entry[0] == '.' || !is_file($dirname . $entry)) {
+                    if ($entry[0] == '.' || ! is_file($dirname . $entry)) {
                         continue;
                     }
 
@@ -858,7 +858,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
         $totalSize   = 0;
         $messages    = 0;
         $maildirsize = '';
-        if (!$forceRecalc
+        if (! $forceRecalc
             && file_exists($this->rootdir . 'maildirsize')
             && filesize($this->rootdir . 'maildirsize') < 5120
         ) {
@@ -872,7 +872,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
                 $maildirsize = '';
             }
         }
-        if (!$fh) {
+        if (! $fh) {
             $result     = $this->calculateMaildirsize();
             $totalSize = $result['size'];
             $messages   = $result['count'];
@@ -930,7 +930,7 @@ class Maildir extends Folder\Maildir implements WritableInterface
 
     protected function addQuotaEntry($size, $count = 1)
     {
-        if (!file_exists($this->rootdir . 'maildirsize')) {
+        if (! file_exists($this->rootdir . 'maildirsize')) {
             // TODO: should get file handler from calculateQuota
         }
         $size  = (int) $size;

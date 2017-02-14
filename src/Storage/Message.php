@@ -32,7 +32,7 @@ class Message extends Part implements Message\MessageInterface
     public function __construct(array $params)
     {
         if (isset($params['file'])) {
-            if (!is_resource($params['file'])) {
+            if (! is_resource($params['file'])) {
                 ErrorHandler::start();
                 $params['raw'] = file_get_contents($params['file']);
                 $error = ErrorHandler::stop();
@@ -46,7 +46,7 @@ class Message extends Part implements Message\MessageInterface
             $params['raw'] = ltrim($params['raw']);
         }
 
-        if (!empty($params['flags'])) {
+        if (! empty($params['flags'])) {
             // set key and value to the same value for easy lookup
             $this->flags = array_combine($params['flags'], $params['flags']);
         }

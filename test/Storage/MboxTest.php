@@ -30,7 +30,7 @@ class MboxTest extends \PHPUnit_Framework_TestCase
             } else {
                 $this->tmpdir = __DIR__ . '/../_files/test.tmp/';
             }
-            if (!file_exists($this->tmpdir)) {
+            if (! file_exists($this->tmpdir)) {
                 mkdir($this->tmpdir);
             }
             $count = 0;
@@ -286,10 +286,10 @@ class MboxTest extends \PHPUnit_Framework_TestCase
 
         chmod($this->mboxFile, $stat['mode']);
 
-        if (!$check) {
+        if (! $check) {
             if (function_exists('posix_getuid') && posix_getuid() === 0) {
                 $this->markTestSkipped('seems like you are root and we therefore cannot test the error handling');
-            } elseif (!function_exists('posix_getuid')) {
+            } elseif (! function_exists('posix_getuid')) {
                 $this->markTestSkipped('Can\t test if you\'re root and we therefore cannot test the error handling');
             }
             $this->fail('no exception while waking with non readable file');

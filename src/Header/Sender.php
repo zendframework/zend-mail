@@ -84,7 +84,7 @@ class Sender implements HeaderInterface
         $email = sprintf('<%s>', $this->address->getEmail());
         $name  = $this->address->getName();
 
-        if (!empty($name)) {
+        if (! empty($name)) {
             if ($format == HeaderInterface::FORMAT_ENCODED) {
                 $encoding = $this->getEncoding();
                 if ('ASCII' !== $encoding) {
@@ -131,7 +131,7 @@ class Sender implements HeaderInterface
     {
         if (is_string($emailOrAddress)) {
             $emailOrAddress = new Mail\Address($emailOrAddress, $name);
-        } elseif (!$emailOrAddress instanceof Mail\Address\AddressInterface) {
+        } elseif (! $emailOrAddress instanceof Mail\Address\AddressInterface) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects a string or AddressInterface object; received "%s"',
                 __METHOD__,

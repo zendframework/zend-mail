@@ -37,7 +37,7 @@ class File implements TransportInterface
      */
     public function __construct(FileOptions $options = null)
     {
-        if (!$options instanceof FileOptions) {
+        if (! $options instanceof FileOptions) {
             $options = new FileOptions();
         }
         $this->setOptions($options);

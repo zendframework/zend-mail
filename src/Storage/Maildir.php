@@ -57,7 +57,7 @@ class Maildir extends AbstractStorage
         }
 
         $count = 0;
-        if (!is_array($flags)) {
+        if (! is_array($flags)) {
             foreach ($this->files as $file) {
                 if (isset($file['flaglookup'][$flags])) {
                     ++$count;
@@ -69,7 +69,7 @@ class Maildir extends AbstractStorage
         $flags = array_flip($flags);
         foreach ($this->files as $file) {
             foreach ($flags as $flag => $v) {
-                if (!isset($file['flaglookup'][$flag])) {
+                if (! isset($file['flaglookup'][$flag])) {
                     continue 2;
                 }
             }
@@ -88,15 +88,15 @@ class Maildir extends AbstractStorage
      */
     protected function getFileData($id, $field = null)
     {
-        if (!isset($this->files[$id - 1])) {
+        if (! isset($this->files[$id - 1])) {
             throw new Exception\InvalidArgumentException('id does not exist');
         }
 
-        if (!$field) {
+        if (! $field) {
             return $this->files[$id - 1];
         }
 
-        if (!isset($this->files[$id - 1][$field])) {
+        if (! isset($this->files[$id - 1][$field])) {
             throw new Exception\InvalidArgumentException('field does not exist');
         }
 
@@ -170,9 +170,9 @@ class Maildir extends AbstractStorage
         $fh = fopen($this->getFileData($id, 'filename'), 'r');
 
         $content = '';
-        while (!feof($fh)) {
+        while (! feof($fh)) {
             $line = fgets($fh);
-            if (!trim($line)) {
+            if (! trim($line)) {
                 break;
             }
             $content .= $line;
@@ -199,9 +199,9 @@ class Maildir extends AbstractStorage
 
         $fh = fopen($this->getFileData($id, 'filename'), 'r');
 
-        while (!feof($fh)) {
+        while (! feof($fh)) {
             $line = fgets($fh);
-            if (!trim($line)) {
+            if (! trim($line)) {
                 break;
             }
         }
@@ -225,11 +225,11 @@ class Maildir extends AbstractStorage
             $params = (object) $params;
         }
 
-        if (!isset($params->dirname) || !is_dir($params->dirname)) {
+        if (! isset($params->dirname) || ! is_dir($params->dirname)) {
             throw new Exception\InvalidArgumentException('no valid dirname given in params');
         }
 
-        if (!$this->isMaildir($params->dirname)) {
+        if (! $this->isMaildir($params->dirname)) {
             throw new Exception\InvalidArgumentException('invalid maildir given');
         }
 
@@ -246,10 +246,10 @@ class Maildir extends AbstractStorage
      */
     protected function isMaildir($dirname)
     {
-        if (file_exists($dirname . '/new') && !is_dir($dirname . '/new')) {
+        if (file_exists($dirname . '/new') && ! is_dir($dirname . '/new')) {
             return false;
         }
-        if (file_exists($dirname . '/tmp') && !is_dir($dirname . '/tmp')) {
+        if (file_exists($dirname . '/tmp') && ! is_dir($dirname . '/tmp')) {
             return false;
         }
         return is_dir($dirname . '/cur');
@@ -270,7 +270,7 @@ class Maildir extends AbstractStorage
         ErrorHandler::start(E_WARNING);
         $dh    = opendir($dirname . '/cur/');
         $error = ErrorHandler::stop();
-        if (!$dh) {
+        if (! $dh) {
             throw new Exception\RuntimeException('cannot open maildir', 0, $error);
         }
         $this->getMaildirFiles($dh, $dirname . '/cur/');
@@ -297,7 +297,7 @@ class Maildir extends AbstractStorage
     protected function getMaildirFiles($dh, $dirname, $defaultFlags = [])
     {
         while (($entry = readdir($dh)) !== false) {
-            if ($entry[0] == '.' || !is_file($dirname . $entry)) {
+            if ($entry[0] == '.' || ! is_file($dirname . $entry)) {
                 continue;
             }
 
@@ -308,7 +308,7 @@ class Maildir extends AbstractStorage
             if ($size && $size[0] == 'S' && $size[1] == '=') {
                 $size = substr($size, 2);
             }
-            if (!ctype_digit($size)) {
+            if (! ctype_digit($size)) {
                 $size = null;
             }
 
