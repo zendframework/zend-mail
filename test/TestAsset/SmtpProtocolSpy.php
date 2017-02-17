@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -19,7 +19,7 @@ class SmtpProtocolSpy extends Smtp
     public $calledQuit = false;
     protected $connect = false;
     protected $mail;
-    protected $rcptTest = array();
+    protected $rcptTest = [];
 
     public function connect()
     {
@@ -48,7 +48,7 @@ class SmtpProtocolSpy extends Smtp
     public function rset()
     {
         parent::rset();
-        $this->rcptTest = array();
+        $this->rcptTest = [];
     }
 
     public function mail($from)
@@ -63,16 +63,20 @@ class SmtpProtocolSpy extends Smtp
         $this->rcptTest[] = $to;
     }
 
+    // @codingStandardsIgnoreStart
     protected function _send($request)
     {
         // Save request to internal log
         $this->_addLog($request . self::EOL);
     }
+    // @codingStandardsIgnoreEnd
 
+    // @codingStandardsIgnoreStart
     protected function _expect($code, $timeout = null)
     {
         return '';
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * Are we connected?

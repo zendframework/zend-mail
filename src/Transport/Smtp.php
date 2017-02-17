@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -14,6 +14,7 @@ use Zend\Mail\Headers;
 use Zend\Mail\Message;
 use Zend\Mail\Protocol;
 use Zend\Mail\Protocol\Exception as ProtocolException;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * SMTP connection object
@@ -54,7 +55,7 @@ class Smtp implements TransportInterface
      */
     public function __construct(SmtpOptions $options = null)
     {
-        if (!$options instanceof SmtpOptions) {
+        if (! $options instanceof SmtpOptions) {
             $options = new SmtpOptions();
         }
         $this->setOptions($options);
@@ -123,7 +124,7 @@ class Smtp implements TransportInterface
     public function getPluginManager()
     {
         if (null === $this->plugins) {
-            $this->setPluginManager(new Protocol\SmtpPluginManager());
+            $this->setPluginManager(new Protocol\SmtpPluginManager(new ServiceManager()));
         }
         return $this->plugins;
     }
@@ -206,7 +207,7 @@ class Smtp implements TransportInterface
      */
     public function disconnect()
     {
-        if (!empty($this->connection) && ($this->connection instanceof Protocol\Smtp)) {
+        if (! empty($this->connection) && ($this->connection instanceof Protocol\Smtp)) {
             $this->connection->disconnect();
         }
     }
@@ -225,7 +226,7 @@ class Smtp implements TransportInterface
         // If sending multiple messages per session use existing adapter
         $connection = $this->getConnection();
 
-        if (!($connection instanceof Protocol\Smtp) || !$connection->hasSession()) {
+        if (! ($connection instanceof Protocol\Smtp) || ! $connection->hasSession()) {
             $connection = $this->connect();
         } else {
             // Reset connection to ensure reliable transaction
@@ -238,7 +239,7 @@ class Smtp implements TransportInterface
         $headers    = $this->prepareHeaders($message);
         $body       = $this->prepareBody($message);
 
-        if ((count($recipients) == 0) && (!empty($headers) || !empty($body))) {
+        if ((count($recipients) == 0) && (! empty($headers) || ! empty($body))) {
             // Per RFC 2821 3.3 (page 18)
             throw new Exception\RuntimeException(
                 sprintf(
@@ -279,7 +280,7 @@ class Smtp implements TransportInterface
         }
 
         $from = $message->getFrom();
-        if (!count($from)) {
+        if (! count($from)) {
             // Per RFC 2822 3.6
             throw new Exception\RuntimeException(sprintf(
                 '%s transport expects either a Sender or at least one From address in the Message; none provided',
@@ -368,7 +369,7 @@ class Smtp implements TransportInterface
      */
     protected function connect()
     {
-        if (!$this->connection instanceof Protocol\Smtp) {
+        if (! $this->connection instanceof Protocol\Smtp) {
             return $this->lazyLoadConnection();
         }
 

@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -30,7 +30,7 @@ class File extends Part\File implements MessageInterface
      */
     public function __construct(array $params)
     {
-        if (!empty($params['flags'])) {
+        if (! empty($params['flags'])) {
             // set key and value to the same value for easy lookup
             $this->flags = array_combine($params['flags'], $params['flags']);
         }

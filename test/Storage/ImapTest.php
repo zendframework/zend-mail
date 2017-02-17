@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -13,28 +13,31 @@ use Zend\Config;
 use Zend\Mail\Protocol;
 use Zend\Mail\Storage;
 
+/**
+ * @covers Zend\Mail\Storage\Imap<extended>
+ */
 class ImapTest extends \PHPUnit_Framework_TestCase
 {
     protected $params;
 
     public function setUp()
     {
-        if (!getenv('TESTS_ZEND_MAIL_IMAP_ENABLED')) {
+        if (! getenv('TESTS_ZEND_MAIL_IMAP_ENABLED')) {
             $this->markTestSkipped('Zend_Mail IMAP tests are not enabled');
         }
         $this->params = ['host'     => getenv('TESTS_ZEND_MAIL_IMAP_HOST'),
                                'user'     => getenv('TESTS_ZEND_MAIL_IMAP_USER'),
                                'password' => getenv('TESTS_ZEND_MAIL_IMAP_PASSWORD')];
         if (getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR') && getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR')) {
-            if (!file_exists(getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR') . DIRECTORY_SEPARATOR . 'inbox')
-                && !file_exists(getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR') . DIRECTORY_SEPARATOR . 'INBOX')
+            if (! file_exists(getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR') . DIRECTORY_SEPARATOR . 'inbox')
+                && ! file_exists(getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR') . DIRECTORY_SEPARATOR . 'INBOX')
             ) {
                 $this->markTestSkipped(
-                     'There is no file name "inbox" or "INBOX" in '
-                     . getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR') . '. I won\'t use it for testing. '
-                     . 'This is you safety net. If you think it is the right directory just '
-                     . 'create an empty file named INBOX or remove/deactived this message.'
-                 );
+                    'There is no file name "inbox" or "INBOX" in '
+                    . getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR') . '. I won\'t use it for testing. '
+                    . 'This is you safety net. If you think it is the right directory just '
+                    . 'create an empty file named INBOX or remove/deactived this message.'
+                );
             }
 
             $this->cleanDir(getenv('TESTS_ZEND_MAIL_SERVER_TESTDIR'));
@@ -108,7 +111,7 @@ class ImapTest extends \PHPUnit_Framework_TestCase
 
     public function testConnectSSL()
     {
-        if (!getenv('TESTS_ZEND_MAIL_IMAP_SSL')) {
+        if (! getenv('TESTS_ZEND_MAIL_IMAP_SSL')) {
             return;
         }
 
@@ -118,7 +121,7 @@ class ImapTest extends \PHPUnit_Framework_TestCase
 
     public function testConnectTLS()
     {
-        if (!getenv('TESTS_ZEND_MAIL_IMAP_TLS')) {
+        if (! getenv('TESTS_ZEND_MAIL_IMAP_TLS')) {
             return;
         }
 
@@ -333,7 +336,7 @@ class ImapTest extends \PHPUnit_Framework_TestCase
         $found_folders = [];
 
         foreach ($iterator as $localName => $folder) {
-            if (!isset($search_folders[$folder->getGlobalName()])) {
+            if (! isset($search_folders[$folder->getGlobalName()])) {
                 continue;
             }
 
@@ -646,6 +649,18 @@ class ImapTest extends \PHPUnit_Framework_TestCase
         $protocol->fetch('UID', 99);
     }
 
+    public function testFetchByUid()
+    {
+        $protocol = new Protocol\Imap($this->params['host']);
+        $protocol->login($this->params['user'], $this->params['password']);
+        $protocol->select('INBOX');
+
+        $result = $protocol->fetch(['UID', 'FLAGS'], 1);
+        $uid = $result['UID'];
+        $message = $protocol->fetch(['UID', 'FLAGS'], $uid, null, true);
+        $this->assertEquals($uid, $message['UID']);
+    }
+
     public function testStore()
     {
         $protocol = new Protocol\Imap($this->params['host']);
@@ -696,5 +711,12 @@ class ImapTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($mail->countMessages([Storage::FLAG_SEEN, Storage::FLAG_ANSWERED]), 1);
         $this->assertEquals($mail->countMessages([Storage::FLAG_SEEN, Storage::FLAG_FLAGGED]), 0);
         $this->assertEquals($mail->countMessages(Storage::FLAG_FLAGGED), 0);
+    }
+
+    public function testDelimiter()
+    {
+        $mail = new Storage\Imap($this->params);
+        $delimiter = $mail->delimiter();
+        $this->assertEquals(strlen($delimiter), 1);
     }
 }

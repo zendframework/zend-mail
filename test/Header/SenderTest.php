@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend/)
  *
  * @link      http://github/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend)
+ * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend)
  * @license   http://framework.zend/license/new-bsd New BSD License
  */
 
@@ -11,9 +11,11 @@ namespace ZendTest\Mail\Header;
 
 use Zend\Mail\Address;
 use Zend\Mail\Header;
+use Zend\Mail\Exception;
 
 /**
  * @group      Zend_Mail
+ * @covers Zend\Mail\Header\Sender<extended>
  */
 class SenderTest extends \PHPUnit_Framework_TestCase
 {
@@ -202,6 +204,64 @@ class SenderTest extends \PHPUnit_Framework_TestCase
             'cr-lf' => ["<foo@bar>\r\n", $headerInvalidArgumentException, null],
             'cr-lf-wsp' => ["<foo@bar>\r\n\r\n", $headerInvalidArgumentException, null],
             'multiline' => ["<foo\r\n@\r\nbar>", $headerInvalidArgumentException, null],
+        ];
+    }
+
+    /**
+     * @param string $headerString
+     * @param string $expectedName
+     * @param string $expectedEmail
+     *
+     * @dataProvider validHeaderLinesProvider
+     */
+    public function testFromStringWithValidInput($headerString, $expectedName, $expectedEmail)
+    {
+        $header = Header\Sender::fromString($headerString);
+
+        $this->assertSame($expectedName, $header->getAddress()->getName());
+        $this->assertSame($expectedEmail, $header->getAddress()->getEmail());
+    }
+
+    public function validHeaderLinesProvider()
+    {
+        // @codingStandardsIgnoreStart
+        return [
+            // [ header line,                                  expected sender name, expected email address ]
+            ['Sender: foo@bar',                                null,                 'foo@bar'],
+            ['Sender: <foo@bar>',                              null,                 'foo@bar'],
+            ['Sender:    foo@bar',                             null,                 'foo@bar'],
+            ['Sender: name <foo@bar>',                         'name',               'foo@bar'],
+            ['Sender: <weird name> <foo@bar>',                 '<weird name>',       'foo@bar'],
+            ['Sender: moar words <foo@bar>',                   'moar words',         'foo@bar'],
+            ['Sender: =?UTF-8?Q?=C3=A1z=C3=81Z09?= <foo@bar>', 'ázÁZ09',             'foo@bar'],
+        ];
+        // @codingStandardsIgnoreEnd
+    }
+
+    /**
+     * @param string $headerString
+     * @param string $expectedException
+     * @param string $expectedMessagePart
+     *
+     * @dataProvider invalidHeaderLinesProvider
+     */
+    public function testFromStringWithInvalidInput($headerString, $expectedException, $expectedMessagePart = '')
+    {
+        $this->setExpectedException($expectedException, $expectedMessagePart);
+
+        Header\Sender::fromString($headerString);
+    }
+
+    public function invalidHeaderLinesProvider()
+    {
+        $mailInvalidArgumentException = Exception\InvalidArgumentException::class;
+        $headerInvalidArgumentException = Header\Exception\InvalidArgumentException::class;
+
+        return [
+            ['Sender: foo', $mailInvalidArgumentException],
+            ['Sender: foo<foo>', $mailInvalidArgumentException],
+            ['Sender: foo foo', $headerInvalidArgumentException],
+            ['Sender: <foo> foo', $headerInvalidArgumentException],
         ];
     }
 }

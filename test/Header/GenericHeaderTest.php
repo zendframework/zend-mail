@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -12,6 +12,9 @@ namespace ZendTest\Mail\Header;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Mail\Header\GenericHeader;
 
+/**
+ * @covers Zend\Mail\Header\GenericHeader<extended>
+ */
 class GenericHeaderTest extends TestCase
 {
     /**
@@ -137,5 +140,12 @@ class GenericHeaderTest extends TestCase
         $this->assertEquals($raw, $header->getFieldValue());
         $this->assertEquals($encoded, $header->getFieldValue(GenericHeader::FORMAT_ENCODED));
         $this->assertEquals('Foo: ' . $encoded, $header->toString());
+    }
+
+    public function testAllowZeroInHeaderValueInConstructor()
+    {
+        $header = new GenericHeader('Foo', 0);
+        $this->assertEquals(0, $header->getFieldValue());
+        $this->assertEquals('Foo: 0', $header->toString());
     }
 }

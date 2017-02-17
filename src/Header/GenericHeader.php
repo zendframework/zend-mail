@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -85,7 +85,7 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
             $this->setFieldName($fieldName);
         }
 
-        if ($fieldValue) {
+        if ($fieldValue !== null) {
             $this->setFieldValue($fieldValue);
         }
     }
@@ -99,7 +99,7 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
      */
     public function setFieldName($fieldName)
     {
-        if (!is_string($fieldName) || empty($fieldName)) {
+        if (! is_string($fieldName) || empty($fieldName)) {
             throw new Exception\InvalidArgumentException('Header name must be a string');
         }
 

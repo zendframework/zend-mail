@@ -3,16 +3,18 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
 namespace ZendTest\Mail\Header;
 
+use Zend\Mail\Header\GenericHeader;
 use Zend\Mail\Header\HeaderWrap;
 
 /**
  * @group      Zend_Mail
+ * @covers Zend\Mail\Header\HeaderWrap<extended>
  */
 class HeaderWrapTest extends \PHPUnit_Framework_TestCase
 {
@@ -69,5 +71,28 @@ class HeaderWrapTest extends \PHPUnit_Framework_TestCase
         $decoded = HeaderWrap::mimeDecodeValue($encoded);
 
         $this->assertEquals($expected, $decoded);
+    }
+
+    /**
+     * Test that fails with HeaderWrap::canBeEncoded at lowest level:
+     *   iconv_mime_encode(): Unknown error (7)
+     *
+     * which can be triggered as:
+     *   $header = new GenericHeader($name, $value);
+     */
+    public function testCanBeEncoded()
+    {
+        // @codingStandardsIgnoreStart
+        $name    = 'Subject';
+        $value   = "[#77675] New Issue:xxxxxxxxx xxxxxxx xxxxxxxx xxxxxxxxxxxxx xxxxxxxxxx xxxxxxxx, tähtaeg xx.xx, xxxx";
+        $encoded = "Subject: =?UTF-8?Q?[#77675]=20New=20Issue:xxxxxxxxx=20xxxxxxx=20xxxxxxxx=20?=\r\n =?UTF-8?Q?xxxxxxxxxxxxx=20xxxxxxxxxx=20xxxxxxxx,=20t=C3=A4htaeg=20xx.xx,=20xxxx?=";
+        // @codingStandardsIgnoreEnd
+        //
+        $res = HeaderWrap::canBeEncoded($value);
+        $this->assertTrue($res);
+
+        $header = new GenericHeader($name, $value);
+        $res = $header->toString();
+        $this->assertEquals($encoded, $res);
     }
 }

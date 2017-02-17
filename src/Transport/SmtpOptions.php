@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -61,7 +61,7 @@ class SmtpOptions extends AbstractOptions
      */
     public function setName($name)
     {
-        if (!is_string($name) && $name !== null) {
+        if (! is_string($name) && $name !== null) {
             throw new Exception\InvalidArgumentException(sprintf(
                 'Name must be a string or null; argument of type "%s" provided',
                 (is_object($name) ? get_class($name) : gettype($name))
@@ -94,7 +94,7 @@ class SmtpOptions extends AbstractOptions
      */
     public function setConnectionClass($connectionClass)
     {
-        if (!is_string($connectionClass) && $connectionClass !== null) {
+        if (! is_string($connectionClass) && $connectionClass !== null) {
             throw new Exception\InvalidArgumentException(sprintf(
                 'Connection class must be a string or null; argument of type "%s" provided',
                 (is_object($connectionClass) ? get_class($connectionClass) : gettype($connectionClass))

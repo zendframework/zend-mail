@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -37,12 +37,12 @@ class File extends Part
             throw new Exception\InvalidArgumentException('no file given in params');
         }
 
-        if (!is_resource($params['file'])) {
+        if (! is_resource($params['file'])) {
             $this->fh = fopen($params['file'], 'r');
         } else {
             $this->fh = $params['file'];
         }
-        if (!$this->fh) {
+        if (! $this->fh) {
             throw new Exception\RuntimeException('could not open file');
         }
         if (isset($params['startPos'])) {
@@ -67,19 +67,19 @@ class File extends Part
             fseek($this->fh, 0, SEEK_END);
             $this->contentPos[1] = ftell($this->fh);
         }
-        if (!$this->isMultipart()) {
+        if (! $this->isMultipart()) {
             return;
         }
 
         $boundary = $this->getHeaderField('content-type', 'boundary');
-        if (!$boundary) {
+        if (! $boundary) {
             throw new Exception\RuntimeException('no boundary found in content type to split message');
         }
 
         $part = [];
         $pos = $this->contentPos[0];
         fseek($this->fh, $pos);
-        while (!feof($this->fh) && ($endPos === null || $pos < $endPos)) {
+        while (! feof($this->fh) && ($endPos === null || $pos < $endPos)) {
             $line = fgets($this->fh);
             if ($line === false) {
                 if (feof($this->fh)) {
@@ -148,7 +148,7 @@ class File extends Part
     public function getPart($num)
     {
         --$num;
-        if (!isset($this->partPos[$num])) {
+        if (! isset($this->partPos[$num])) {
             throw new Exception\RuntimeException('part not found');
         }
 

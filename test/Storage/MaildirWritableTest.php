@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -18,31 +18,31 @@ use Zend\Mail\Storage\Writable;
  */
 class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 {
-    protected $_params;
-    protected $_originalDir;
-    protected $_tmpdir;
-    protected $_subdirs = ['.', '.subfolder', '.subfolder.test'];
+    protected $params;
+    protected $originalDir;
+    protected $tmpdir;
+    protected $subdirs = ['.', '.subfolder', '.subfolder.test'];
 
     public function setUp()
     {
-        $this->_originalDir = __DIR__ . '/../_files/test.maildir/';
-        if (!getenv('TESTS_ZEND_MAIL_MAILDIR_ENABLED')) {
+        $this->originalDir = __DIR__ . '/../_files/test.maildir/';
+        if (! getenv('TESTS_ZEND_MAIL_MAILDIR_ENABLED')) {
             $this->markTestSkipped('You have to unpack maildir.tar in Zend/Mail/_files/test.maildir/ '
                                  . 'directory before enabling the maildir tests');
             return;
         }
 
-        if ($this->_tmpdir == null) {
+        if ($this->tmpdir == null) {
             if (getenv('TESTS_ZEND_MAIL_TEMPDIR') != null) {
-                $this->_tmpdir = getenv('TESTS_ZEND_MAIL_TEMPDIR');
+                $this->tmpdir = getenv('TESTS_ZEND_MAIL_TEMPDIR');
             } else {
-                $this->_tmpdir = __DIR__ . '/../_files/test.tmp/';
+                $this->tmpdir = __DIR__ . '/../_files/test.tmp/';
             }
-            if (!file_exists($this->_tmpdir)) {
-                mkdir($this->_tmpdir);
+            if (! file_exists($this->tmpdir)) {
+                mkdir($this->tmpdir);
             }
             $count = 0;
-            $dh = opendir($this->_tmpdir);
+            $dh = opendir($this->tmpdir);
             while (readdir($dh) !== false) {
                 ++$count;
             }
@@ -54,64 +54,64 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        $this->_params = [];
-        $this->_params['dirname'] = $this->_tmpdir;
+        $this->params = [];
+        $this->params['dirname'] = $this->tmpdir;
 
-        foreach ($this->_subdirs as $dir) {
+        foreach ($this->subdirs as $dir) {
             if ($dir != '.') {
-                mkdir($this->_tmpdir . $dir);
+                mkdir($this->tmpdir . $dir);
             }
             foreach (['cur', 'new'] as $subdir) {
-                if (!file_exists($this->_originalDir . $dir . '/' . $subdir)) {
+                if (! file_exists($this->originalDir . $dir . '/' . $subdir)) {
                     continue;
                 }
-                mkdir($this->_tmpdir . $dir . '/' . $subdir);
-                $dh = opendir($this->_originalDir . $dir . '/' . $subdir);
+                mkdir($this->tmpdir . $dir . '/' . $subdir);
+                $dh = opendir($this->originalDir . $dir . '/' . $subdir);
                 while (($entry = readdir($dh)) !== false) {
                     $entry = $dir . '/' . $subdir . '/' . $entry;
-                    if (!is_file($this->_originalDir . $entry)) {
+                    if (! is_file($this->originalDir . $entry)) {
                         continue;
                     }
-                    copy($this->_originalDir . $entry, $this->_tmpdir . $entry);
+                    copy($this->originalDir . $entry, $this->tmpdir . $entry);
                 }
                 closedir($dh);
             }
-            copy($this->_originalDir . 'maildirsize', $this->_tmpdir . 'maildirsize');
+            copy($this->originalDir . 'maildirsize', $this->tmpdir . 'maildirsize');
         }
     }
 
     public function tearDown()
     {
-        foreach (array_reverse($this->_subdirs) as $dir) {
-            if (!file_exists($this->_tmpdir . $dir)) {
+        foreach (array_reverse($this->subdirs) as $dir) {
+            if (! file_exists($this->tmpdir . $dir)) {
                 continue;
             }
             foreach (['cur', 'new', 'tmp'] as $subdir) {
-                if (!file_exists($this->_tmpdir . $dir . '/' . $subdir)) {
+                if (! file_exists($this->tmpdir . $dir . '/' . $subdir)) {
                     continue;
                 }
-                $dh = opendir($this->_tmpdir . $dir . '/' . $subdir);
+                $dh = opendir($this->tmpdir . $dir . '/' . $subdir);
                 while (($entry = readdir($dh)) !== false) {
-                    $entry = $this->_tmpdir . $dir . '/' . $subdir . '/' . $entry;
-                    if (!is_file($entry)) {
+                    $entry = $this->tmpdir . $dir . '/' . $subdir . '/' . $entry;
+                    if (! is_file($entry)) {
                         continue;
                     }
                     unlink($entry);
                 }
                 closedir($dh);
-                rmdir($this->_tmpdir . $dir . '/' . $subdir);
+                rmdir($this->tmpdir . $dir . '/' . $subdir);
             }
             if ($dir != '.') {
-                rmdir($this->_tmpdir . $dir);
+                rmdir($this->tmpdir . $dir);
             }
         }
-        @unlink($this->_tmpdir . 'maildirsize');
+        @unlink($this->tmpdir . 'maildirsize');
     }
 
     public function testCreateFolder()
     {
         $this->markTestIncomplete("Fail");
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
         $mail->createFolder('subfolder.test1');
         $mail->createFolder('test2', 'INBOX.subfolder');
         $mail->createFolder('test3', $mail->getFolders()->subfolder);
@@ -123,30 +123,30 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
         $mail->selectFolder($mail->getFolders()->foo->bar);
 
         // to tear down
-        $this->_subdirs[] = '.subfolder.test1';
-        $this->_subdirs[] = '.subfolder.test2';
-        $this->_subdirs[] = '.subfolder.test3';
-        $this->_subdirs[] = '.foo';
-        $this->_subdirs[] = '.foo.bar';
+        $this->subdirs[] = '.subfolder.test1';
+        $this->subdirs[] = '.subfolder.test2';
+        $this->subdirs[] = '.subfolder.test3';
+        $this->subdirs[] = '.foo';
+        $this->subdirs[] = '.foo.bar';
     }
 
     public function testCreateFolderEmptyPart()
     {
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
         $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->createFolder('foo..bar');
     }
 
     public function testCreateFolderSlash()
     {
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
         $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->createFolder('foo/bar');
     }
 
     public function testCreateFolderDirectorySeparator()
     {
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
         $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->createFolder('foo' . DIRECTORY_SEPARATOR . 'bar');
     }
@@ -154,7 +154,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
     public function testCreateFolderExistingDir()
     {
         $this->markTestIncomplete("Fail");
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
         unset($mail->getFolders()->subfolder->test);
 
         $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
@@ -163,7 +163,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateExistingFolder()
     {
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
 
         $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->createFolder('subfolder.test');
@@ -172,7 +172,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
     public function testRemoveFolderName()
     {
         $this->markTestIncomplete("Fail");
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
         $mail->removeFolder('INBOX.subfolder.test');
 
         $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
@@ -182,7 +182,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
     public function testRemoveFolderInstance()
     {
         $this->markTestIncomplete("Fail");
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
         $mail->removeFolder($mail->getFolders()->subfolder->test);
 
         $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
@@ -191,7 +191,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveFolderWithChildren()
     {
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
 
         $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->removeFolder($mail->getFolders()->subfolder);
@@ -200,7 +200,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
     public function testRemoveSelectedFolder()
     {
         $this->markTestIncomplete("Fail");
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
         $mail->selectFolder('subfolder.test');
 
         $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
@@ -209,7 +209,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveInvalidFolder()
     {
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
 
         $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->removeFolder('thisFolderDoestNotExist');
@@ -218,7 +218,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
     public function testRenameFolder()
     {
         $this->markTestIncomplete("Fail");
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
 
         $mail->renameFolder('INBOX.subfolder', 'INBOX.foo');
         $mail->renameFolder($mail->getFolders()->foo, 'subfolder');
@@ -230,7 +230,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
     public function testRenameSelectedFolder()
     {
         $this->markTestIncomplete("Fail");
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
         $mail->selectFolder('subfolder.test');
 
         $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
@@ -239,7 +239,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
     public function testRenameToChild()
     {
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
 
         $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->renameFolder('subfolder.test', 'subfolder.test.foo');
@@ -247,7 +247,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
     public function testAppend()
     {
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
         $count = $mail->countMessages();
 
         $message = '';
@@ -265,7 +265,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
     public function testCopy()
     {
         $this->markTestIncomplete("Fail");
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
 
         $mail->selectFolder('subfolder.test');
         $count = $mail->countMessages();
@@ -285,7 +285,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
     public function testSetFlags()
     {
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
 
         $mail->setFlags(1, [Storage::FLAG_SEEN]);
         $message = $mail->getMessage(1);
@@ -308,15 +308,15 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
     public function testSetFlagsRemovedFile()
     {
-        $mail = new Writable\Maildir($this->_params);
-        unlink($this->_params['dirname'] . 'cur/1000000000.P1.example.org:2,S');
+        $mail = new Writable\Maildir($this->params);
+        unlink($this->params['dirname'] . 'cur/1000000000.P1.example.org:2,S');
 
         $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
     }
 
     public function testRemove()
     {
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
         $count = $mail->countMessages();
 
         $mail->removeMessage(1);
@@ -328,8 +328,8 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveRemovedFile()
     {
-        $mail = new Writable\Maildir($this->_params);
-        unlink($this->_params['dirname'] . 'cur/1000000000.P1.example.org:2,S');
+        $mail = new Writable\Maildir($this->params);
+        unlink($this->params['dirname'] . 'cur/1000000000.P1.example.org:2,S');
 
         $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
         $mail->removeMessage(1);
@@ -337,13 +337,13 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
     public function testCheckQuota()
     {
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
         $this->assertFalse($mail->checkQuota());
     }
 
     public function testCheckQuotaDetailed()
     {
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
         $quotaResult = [
             'size'  => 2129,
             'count' => 5,
@@ -359,7 +359,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
     public function testSetQuota()
     {
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
         $this->assertNull($mail->getQuota());
 
         $mail->setQuota(true);
@@ -388,10 +388,10 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
     public function testMissingMaildirsize()
     {
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
         $this->assertEquals($mail->getQuota(true), ['size' => 3000, 'L' => 1, 'count' => 10]);
 
-        unlink($this->_tmpdir . 'maildirsize');
+        unlink($this->tmpdir . 'maildirsize');
 
         $this->assertNull($mail->getQuota());
 
@@ -401,8 +401,8 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
     public function testMissingMaildirsizeWithFixedQuota()
     {
-        $mail = new Writable\Maildir($this->_params);
-        unlink($this->_tmpdir . 'maildirsize');
+        $mail = new Writable\Maildir($this->params);
+        unlink($this->tmpdir . 'maildirsize');
         $mail->setQuota(['size' => 100, 'count' => 2, 'X' => 0]);
 
         $quotaResult = [
@@ -423,7 +423,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
     public function testAppendMessage()
     {
         $this->markTestIncomplete("Fail");
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
         $mail->setQuota(['size' => 3000, 'count' => 6, 'X' => 0]);
         $this->assertFalse($mail->checkQuota(false, true));
         $mail->appendMessage("Subject: test\r\n\r\n");
@@ -454,7 +454,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
     public function testRemoveMessage()
     {
         $this->markTestIncomplete("Fail");
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
         $mail->setQuota(['size' => 3000, 'count' => 5, 'X' => 0]);
         $this->assertTrue($mail->checkQuota(false, true));
 
@@ -465,7 +465,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
     public function testCopyMessage()
     {
         $this->markTestIncomplete("Fail");
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
         $mail->setQuota(['size' => 3000, 'count' => 6, 'X' => 0]);
         $this->assertFalse($mail->checkQuota(false, true));
         $mail->copyMessage(1, 'subfolder');
@@ -484,7 +484,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
 
     public function testAppendStream()
     {
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
         $fh = fopen('php://memory', 'rw');
         fputs($fh, "Subject: test\r\n\r\n");
         fseek($fh, 0);
@@ -497,7 +497,7 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
     public function testMove()
     {
         $this->markTestIncomplete("Fail");
-        $mail = new Writable\Maildir($this->_params);
+        $mail = new Writable\Maildir($this->params);
         $target = $mail->getFolders()->subfolder->test;
         $mail->selectFolder($target);
         $toCount = $mail->countMessages();
@@ -514,8 +514,8 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
     public function testInitExisting()
     {
         // this should be a noop
-        Writable\Maildir::initMaildir($this->_params['dirname']);
-        $mail = new Writable\Maildir($this->_params);
+        Writable\Maildir::initMaildir($this->params['dirname']);
+        $mail = new Writable\Maildir($this->params);
         $this->assertEquals($mail->countMessages(), 5);
     }
 
@@ -526,13 +526,13 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
         // should fail now
         $e = null;
         try {
-            $mail = new Writable\Maildir($this->_params);
+            $mail = new Writable\Maildir($this->params);
             $this->fail('empty maildir should not be accepted');
         } catch (\Exception $e) {
         }
 
-        Writable\Maildir::initMaildir($this->_params['dirname']);
-        $mail = new Writable\Maildir($this->_params);
+        Writable\Maildir::initMaildir($this->params['dirname']);
+        $mail = new Writable\Maildir($this->params);
         $this->assertEquals($mail->countMessages(), 0);
     }
 
@@ -543,13 +543,13 @@ class MaildirWritableTest extends \PHPUnit_Framework_TestCase
         // should fail now
         $e = null;
         try {
-            $mail = new Writable\Maildir($this->_params);
+            $mail = new Writable\Maildir($this->params);
             $this->fail('empty maildir should not be accepted');
         } catch (\Exception $e) {
         }
 
-        $this->_params['create'] = true;
-        $mail = new Writable\Maildir($this->_params);
+        $this->params['create'] = true;
+        $mail = new Writable\Maildir($this->params);
         $this->assertEquals($mail->countMessages(), 0);
     }
 }

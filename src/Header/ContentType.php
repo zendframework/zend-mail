@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -76,7 +76,7 @@ class ContentType implements UnstructuredInterface
 
         $values = [$prepared];
         foreach ($this->parameters as $attribute => $value) {
-            if (HeaderInterface::FORMAT_ENCODED === $format && !Mime::isPrintable($value)) {
+            if (HeaderInterface::FORMAT_ENCODED === $format && ! Mime::isPrintable($value)) {
                 $this->encoding = 'UTF-8';
                 $value = HeaderWrap::wrap($value, $this);
                 $this->encoding = 'ASCII';
@@ -114,7 +114,7 @@ class ContentType implements UnstructuredInterface
      */
     public function setType($type, $throwExceptionOnInvalid = false)
     {
-        if (!preg_match('/^[a-z-]+\/[a-z0-9.+-]+$/i', $type)
+        if (! preg_match('/^[a-z-]+\/[a-z0-9.+-]+$/i', $type)
             && $throwExceptionOnInvalid === true)
         {
             throw new Exception\InvalidArgumentException(sprintf(

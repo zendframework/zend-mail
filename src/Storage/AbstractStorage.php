@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -22,12 +22,14 @@ abstract class AbstractStorage implements
      * class capabilities with default values
      * @var array
      */
-    protected $has = ['uniqueid'  => true,
-                            'delete'    => false,
-                            'create'    => false,
-                            'top'       => false,
-                            'fetchPart' => true,
-                            'flags'     => false];
+    protected $has = [
+        'uniqueid'  => true,
+        'delete'    => false,
+        'create'    => false,
+        'top'       => false,
+        'fetchPart' => true,
+        'flags'     => false,
+    ];
 
     /**
      * current iteration position
@@ -260,7 +262,7 @@ abstract class AbstractStorage implements
     /**
      * Iterator::current()
      *
-     * @return   Message current message
+     * @return Message current message
      */
     public function current()
     {

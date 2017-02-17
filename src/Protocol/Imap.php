@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -73,7 +73,7 @@ class Imap
         switch ($ssl) {
             case 'ssl':
                 $host = 'ssl://' . $host;
-                if (!$port) {
+                if (! $port) {
                     $port = 993;
                 }
                 break;
@@ -81,7 +81,7 @@ class Imap
                 $isTls = true;
                 // break intentionally omitted
             default:
-                if (!$port) {
+                if (! $port) {
                     $port = 143;
                 }
         }
@@ -89,21 +89,21 @@ class Imap
         ErrorHandler::start();
         $this->socket = fsockopen($host, $port, $errno, $errstr, self::TIMEOUT_CONNECTION);
         $error = ErrorHandler::stop();
-        if (!$this->socket) {
+        if (! $this->socket) {
             throw new Exception\RuntimeException(sprintf(
                 'cannot connect to host %s',
                 ($error ? sprintf('; error = %s (errno = %d )', $error->getMessage(), $error->getCode()) : '')
             ), 0, $error);
         }
 
-        if (!$this->_assumedNextLine('* OK')) {
+        if (! $this->assumedNextLine('* OK')) {
             throw new Exception\RuntimeException('host doesn\'t allow connection');
         }
 
         if ($isTls) {
             $result = $this->requestAndResponse('STARTTLS');
             $result = $result && stream_socket_enable_crypto($this->socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
-            if (!$result) {
+            if (! $result) {
                 throw new Exception\RuntimeException('cannot enable TLS');
             }
         }
@@ -115,7 +115,7 @@ class Imap
      * @throws Exception\RuntimeException
      * @return string next line
      */
-    protected function _nextLine()
+    protected function nextLine()
     {
         $line = fgets($this->socket);
         if ($line === false) {
@@ -132,9 +132,9 @@ class Imap
      * @param  string $start the first bytes we assume to be in the next line
      * @return bool line starts with $start
      */
-    protected function _assumedNextLine($start)
+    protected function assumedNextLine($start)
     {
-        $line = $this->_nextLine();
+        $line = $this->nextLine();
         return strpos($line, $start) === 0;
     }
 
@@ -144,9 +144,9 @@ class Imap
      * @param  string $tag tag of line is returned by reference
      * @return string next line
      */
-    protected function _nextTaggedLine(&$tag)
+    protected function nextTaggedLine(&$tag)
     {
-        $line = $this->_nextLine();
+        $line = $this->nextLine();
 
         // separate tag from line
         list($tag, $line) = explode(' ', $line, 2);
@@ -160,7 +160,7 @@ class Imap
      * @param  string $line line to decode
      * @return array tokens, literals are returned as string, lists as array
      */
-    protected function _decodeLine($line)
+    protected function decodeLine($line)
     {
         $tokens = [];
         $stack = [];
@@ -183,7 +183,7 @@ class Imap
         $line = rtrim($line) . ' ';
         while (($pos = strpos($line, ' ')) !== false) {
             $token = substr($line, 0, $pos);
-            if (!strlen($token)) {
+            if (! strlen($token)) {
                 continue;
             }
             while ($token[0] == '(') {
@@ -204,14 +204,14 @@ class Imap
                 if (is_numeric($chars)) {
                     $token = '';
                     while (strlen($token) < $chars) {
-                        $token .= $this->_nextLine();
+                        $token .= $this->nextLine();
                     }
                     $line = '';
                     if (strlen($token) > $chars) {
                         $line = substr($token, $chars);
                         $token = substr($token, 0, $chars);
                     } else {
-                        $line .= $this->_nextLine();
+                        $line .= $this->nextLine();
                     }
                     $tokens[] = $token;
                     $line = trim($line) . ' ';
@@ -265,9 +265,9 @@ class Imap
     public function readLine(&$tokens = [], $wantedTag = '*', $dontParse = false)
     {
         $tag  = null;                         // define $tag variable before first use
-        $line = $this->_nextTaggedLine($tag); // get next tag
-        if (!$dontParse) {
-            $tokens = $this->_decodeLine($line);
+        $line = $this->nextTaggedLine($tag); // get next tag
+        if (! $dontParse) {
+            $tokens = $this->decodeLine($line);
         } else {
             $tokens = $line;
         }
@@ -288,7 +288,7 @@ class Imap
     {
         $lines = [];
         $tokens = null; // define $tokens variable before first use
-        while (!$this->readLine($tokens, $tag, $dontParse)) {
+        while (! $this->readLine($tokens, $tag, $dontParse)) {
             $lines[] = $tokens;
         }
 
@@ -315,7 +315,7 @@ class Imap
      */
     public function sendRequest($command, $tokens = [], &$tag = null)
     {
-        if (!$tag) {
+        if (! $tag) {
             ++$this->tagCount;
             $tag = 'TAG' . $this->tagCount;
         }
@@ -327,7 +327,7 @@ class Imap
                 if (fwrite($this->socket, $line . ' ' . $token[0] . "\r\n") === false) {
                     throw new Exception\RuntimeException('cannot write - connection closed?');
                 }
-                if (!$this->_assumedNextLine('+ ')) {
+                if (! $this->assumedNextLine('+ ')) {
                     throw new Exception\RuntimeException('cannot send literal string');
                 }
                 $line = $token[1];
@@ -391,7 +391,7 @@ class Imap
     {
         $result = [];
         foreach ($list as $v) {
-            if (!is_array($v)) {
+            if (! is_array($v)) {
                 $result[] = $v;
                 continue;
             }
@@ -442,7 +442,7 @@ class Imap
     {
         $response = $this->requestAndResponse('CAPABILITY');
 
-        if (!$response) {
+        if (! $response) {
             return $response;
         }
 
@@ -470,7 +470,7 @@ class Imap
 
         $result = [];
         $tokens = null; // define $tokens variable before first use
-        while (!$this->readLine($tokens, $tag)) {
+        while (! $this->readLine($tokens, $tag)) {
             if ($tokens[0] == 'FLAGS') {
                 array_shift($tokens);
                 $result['flags'] = $tokens;
@@ -527,13 +527,14 @@ class Imap
      * @param  int|array    $from  message for items or start message if $to !== null
      * @param  int|null     $to    if null only one message ($from) is fetched, else it's the
      *                             last message, INF means last message available
+     * @param  bool         $uid   set to true if passing a unique id
      * @throws Exception\RuntimeException
      * @return string|array if only one item of one message is fetched it's returned as string
      *                      if items of one message are fetched it's returned as (name => value)
      *                      if one items of messages are fetched it's returned as (msgno => value)
      *                      if items of messages are fetched it's returned as (msgno => (name => value))
      */
-    public function fetch($items, $from, $to = null)
+    public function fetch($items, $from, $to = null, $uid = false)
     {
         if (is_array($from)) {
             $set = implode(',', $from);
@@ -549,26 +550,40 @@ class Imap
         $itemList = $this->escapeList($items);
 
         $tag = null;  // define $tag variable before first use
-        $this->sendRequest('FETCH', [$set, $itemList], $tag);
+        $this->sendRequest(($uid ? 'UID ' : '') . 'FETCH', [$set, $itemList], $tag);
 
         // remove any peek lines since the response doesn't return this
         $items[0] = str_replace('.PEEK', '', $items[0]);
 
         $result = [];
         $tokens = null; // define $tokens variable before first use
-        while (!$this->readLine($tokens, $tag)) {
+        while (! $this->readLine($tokens, $tag)) {
             // ignore other responses
             if ($tokens[1] != 'FETCH') {
                 continue;
             }
+
+            // find array key of UID value; try the last elements, or search for it
+            if ($uid) {
+                $count = count($tokens[2]);
+                if ($tokens[2][$count - 2] == 'UID') {
+                    $uidKey = $count - 1;
+                } else {
+                    $uidKey = array_search('UID', $tokens[2]) + 1;
+                }
+            }
+
             // ignore other messages
-            if ($to === null && !is_array($from) && $tokens[0] != $from) {
+            if ($to === null && ! is_array($from) && ($uid ? $tokens[2][$uidKey] != $from : $tokens[0] != $from)) {
                 continue;
             }
+
             // if we only want one item we return that one directly
             if (count($items) == 1) {
                 if ($tokens[2][0] == $items[0]) {
                     $data = $tokens[2][1];
+                } elseif ($uid && $tokens[2][2] == $items[0]) {
+                    $data = $tokens[2][3];
                 } else {
                     // maybe the server send an other field we didn't wanted
                     $count = count($tokens[2]);
@@ -588,17 +603,18 @@ class Imap
                     next($tokens[2]);
                 }
             }
+
             // if we want only one message we can ignore everything else and just return
-            if ($to === null && !is_array($from) && $tokens[0] == $from) {
+            if ($to === null && ! is_array($from) && ($uid ? $tokens[2][$uidKey] == $from : $tokens[0] == $from)) {
                 // we still need to read all lines
-                while (!$this->readLine($tokens, $tag)) {
+                while (! $this->readLine($tokens, $tag)) {
                 }
                 return $data;
             }
             $result[$tokens[0]] = $data;
         }
 
-        if ($to === null && !is_array($from)) {
+        if ($to === null && ! is_array($from)) {
             throw new Exception\RuntimeException('the single id was not found in response');
         }
 
@@ -619,7 +635,7 @@ class Imap
     {
         $result = [];
         $list = $this->requestAndResponse('LIST', $this->escapeString($reference, $mailbox));
-        if (!$list || $list === true) {
+        if (! $list || $list === true) {
             return $result;
         }
 
@@ -804,7 +820,8 @@ class Imap
     {
         $command = ($uid) ? 'UID SEARCH' : 'SEARCH';
         $response = $this->requestAndResponse($command, $params);
-        if (!$response) {
+
+        if (! $response) {
             return $response;
         }
 

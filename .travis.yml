@@ -4,26 +4,50 @@ language: php
 
 branches:
   except:
-    - /^release-.*$/
+    - /^release-\d+\.\d+\.\d+.*$/
     - /^ghgfk-.*$/
 
 cache:
   directories:
     - $HOME/.composer/cache
+    - vendor
+    - $HOME/.local
+    - zf-mkdoc-theme
+
+env:
+  global:
+    - SERVICE_MANAGER_VERSION="^3.0.3"
+    - SITE_URL: https://zendframework.github.io/zend-mail
+    - GH_USER_NAME: "Matthew Weier O'Phinney"
+    - GH_USER_EMAIL: matthew@weierophinney.net
+    - GH_REF: github.com/zendframework/zend-mail.git
+    - secure: "D/LfNRozbXUjssR19Yi+6luLML1XyVhTLaky2FPlFAuWb80viVzTxhlvX1QgWPSxxTH8zLRlPm/71E8wYHTN94UGLwJorOthA/btaWKPtdgJtlHXErSgofVVOUqAObvGFOW9sSSuRZ5gFN0c47uuWJmYbiI3HUQkFMjpGpFatXO1SajzK+dCpN4cuhgHW3T41PNbiG8RRCYeFwGBJdpIXEm3HYN6bAWRbFnnu4uCVnQYZnDn/Rprr8+WIU5JFOJQ7ttCQuq1RMP3EC1fVIr0N5gFL91KYX9EyCYmLpZNMS6kF9cPTRQbMEOcKMXqqfGA031MlhvveeOiVWiap/ScMwpId0ugTq9O+sUvBHZuk4FSRtiURcPTLKAmQfUie8Zb+/dxKI18oOWVLsUU919wAEU/hGeTOvATl0WcjqZ2LmxOLVm6UE8+5kM1FhM04XjQaFSJVWK+Asto9KRrOSd310SMpluATutO2ZSN0r7+a7S65M38RRh63NOtdrtbbYIx7+MdAmfPwH5+wr3gekD0pDgnfQd1zLQNWMF/2idTjoxO6xAxTLvthThf5ANXadz1A2Dwqn1EdGsTJ2QItGO7TFwDE+Wfi1O6vtm2FgEy98vwC0t4D1op+0QSRMPr6lFkzINOv4aVO/SB1NF3zwiB95ZsvqReU/Zj2+aDzltf5tY="
 
 matrix:
-  fast_finish: true
   include:
     - php: 5.5
       env:
-        - EXECUTE_CS_CHECK=true
+        - CS_CHECK=true
+    - php: 5.5
+      env:
+        - SERVICE_MANAGER_VERSION="^2.7.5"
     - php: 5.6
       env:
-        - EXECUTE_TEST_COVERALLS=true
+        - TEST_COVERAGE=true
+        - DEPLOY_DOCS="$(if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then echo -n 'true' ; else echo -n 'false' ; fi)"
+        - PATH="$HOME/.local/bin:$PATH"
+    - php: 5.6
+      env:
+        - SERVICE_MANAGER_VERSION="^2.7.5"
     - php: 7
+    - php: 7
+      env:
+        - SERVICE_MANAGER_VERSION="^2.7.5"
     - php: hhvm 
+    - php: hhvm 
+      env:
+        - SERVICE_MANAGER_VERSION="^2.7.5"
   allow_failures:
-    - php: 7
     - php: hhvm
 
 notifications:
@@ -31,17 +55,21 @@ notifications:
   email: false
 
 before_install:
-  - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
+  - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
   - composer self-update
-  - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then composer require --dev --no-update satooshi/php-coveralls ; fi
+  - if [[ $TEST_COVERAGE == 'true' ]]; then composer require --dev --no-update satooshi/php-coveralls ; fi
+  - composer require --dev --no-update "zendframework/zend-servicemanager:$SERVICE_MANAGER_VERSION"
 
 install:
   - travis_retry composer install --no-interaction --ignore-platform-reqs
 
 script:
-  - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then ./vendor/bin/phpunit --coverage-clover clover.xml ; fi
-  - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then ./vendor/bin/phpunit ; fi
-  - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then ./vendor/bin/php-cs-fixer fix -v --diff --dry-run ; fi
+  - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
+  - if [[ $CS_CHECK == 'true' ]]; then composer cs-check ; fi
+  - if [[ $DEPLOY_DOCS == "true" && "$TRAVIS_TEST_RESULT" == "0" ]]; then wget -O theme-installer.sh "https://raw.githubusercontent.com/zendframework/zf-mkdoc-theme/master/theme-installer.sh" ; chmod 755 theme-installer.sh ; ./theme-installer.sh ; fi
+
+after_success:
+  - if [[ $DEPLOY_DOCS == "true" ]]; then echo "Preparing to build and deploy documentation" ; ./zf-mkdoc-theme/deploy.sh ; echo "Completed deploying documentation" ; fi
 
 after_script:
-  - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then ./vendor/bin/coveralls ; fi
+  - if [[ $TEST_COVERAGE == 'true' ]]; then composer upload-coverage ; fi

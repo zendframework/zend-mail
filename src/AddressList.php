@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -33,7 +33,7 @@ class AddressList implements Countable, Iterator
     {
         if (is_string($emailOrAddress)) {
             $emailOrAddress = $this->createAddress($emailOrAddress, $name);
-        } elseif (!$emailOrAddress instanceof Address\AddressInterface) {
+        } elseif (! $emailOrAddress instanceof Address\AddressInterface) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects an email address or %s\Address object as its first argument; received "%s"',
                 __METHOD__,
@@ -90,7 +90,7 @@ class AddressList implements Countable, Iterator
      */
     public function addFromString($address)
     {
-        if (!preg_match('/^((?P<name>.*?)<(?P<namedEmail>[^>]+)>|(?P<email>.+))$/', $address, $matches)) {
+        if (! preg_match('/^((?P<name>.*?)<(?P<namedEmail>[^>]+)>|(?P<email>.+))$/', $address, $matches)) {
             throw new Exception\InvalidArgumentException('Invalid address format');
         }
 
@@ -148,7 +148,7 @@ class AddressList implements Countable, Iterator
     public function get($email)
     {
         $email = strtolower($email);
-        if (!isset($this->addresses[$email])) {
+        if (! isset($this->addresses[$email])) {
             return false;
         }
 
@@ -164,7 +164,7 @@ class AddressList implements Countable, Iterator
     public function delete($email)
     {
         $email = strtolower($email);
-        if (!isset($this->addresses[$email])) {
+        if (! isset($this->addresses[$email])) {
             return false;
         }
 

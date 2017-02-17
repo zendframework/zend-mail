@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -12,7 +12,6 @@ namespace Zend\Mail\Transport;
 use Traversable;
 use Zend\Mail;
 use Zend\Mail\Address\AddressInterface;
-use Zend\Mail\Exception;
 use Zend\Mail\Header\HeaderInterface;
 
 /**
@@ -64,7 +63,7 @@ class Sendmail implements TransportInterface
      * Used to populate the additional_parameters argument to mail()
      *
      * @param  null|string|array|Traversable $parameters
-     * @throws \Zend\Mail\Exception\InvalidArgumentException
+     * @throws \Zend\Mail\Transport\Exception\InvalidArgumentException
      * @return Sendmail
      */
     public function setParameters($parameters)
@@ -74,7 +73,7 @@ class Sendmail implements TransportInterface
             return $this;
         }
 
-        if (!is_array($parameters) && !$parameters instanceof Traversable) {
+        if (! is_array($parameters) && ! $parameters instanceof Traversable) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects a string, array, or Traversable object of parameters; received "%s"',
                 __METHOD__,
@@ -98,12 +97,12 @@ class Sendmail implements TransportInterface
      * Primarily for testing purposes, but could be used to curry arguments.
      *
      * @param  callable $callable
-     * @throws \Zend\Mail\Exception\InvalidArgumentException
+     * @throws \Zend\Mail\Transport\Exception\InvalidArgumentException
      * @return Sendmail
      */
     public function setCallable($callable)
     {
-        if (!is_callable($callable)) {
+        if (! is_callable($callable)) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects a callable argument; received "%s"',
                 __METHOD__,
@@ -129,7 +128,7 @@ class Sendmail implements TransportInterface
 
         // On *nix platforms, we need to replace \r\n with \n
         // sendmail is not an SMTP server, it is a unix command - it expects LF
-        if (!$this->isWindowsOs()) {
+        if (! $this->isWindowsOs()) {
             $to      = str_replace("\r\n", "\n", $to);
             $subject = str_replace("\r\n", "\n", $subject);
             $body    = str_replace("\r\n", "\n", $body);
@@ -143,14 +142,14 @@ class Sendmail implements TransportInterface
      * Prepare recipients list
      *
      * @param  \Zend\Mail\Message $message
-     * @throws \Zend\Mail\Exception\RuntimeException
+     * @throws \Zend\Mail\Transport\Exception\RuntimeException
      * @return string
      */
     protected function prepareRecipients(Mail\Message $message)
     {
         $headers = $message->getHeaders();
 
-        if (!$headers->has('to')) {
+        if (! $headers->has('to')) {
             throw new Exception\RuntimeException('Invalid email; contains no "To" header');
         }
 
@@ -161,7 +160,7 @@ class Sendmail implements TransportInterface
         }
 
         // If not on Windows, return normal string
-        if (!$this->isWindowsOs()) {
+        if (! $this->isWindowsOs()) {
             return $to->getFieldValue(HeaderInterface::FORMAT_ENCODED);
         }
 
@@ -183,7 +182,7 @@ class Sendmail implements TransportInterface
     protected function prepareSubject(Mail\Message $message)
     {
         $headers = $message->getHeaders();
-        if (!$headers->has('subject')) {
+        if (! $headers->has('subject')) {
             return;
         }
         $header = $headers->get('subject');
@@ -198,7 +197,7 @@ class Sendmail implements TransportInterface
      */
     protected function prepareBody(Mail\Message $message)
     {
-        if (!$this->isWindowsOs()) {
+        if (! $this->isWindowsOs()) {
             // *nix platforms can simply return the body text
             return $message->getBodyText();
         }
@@ -226,6 +225,16 @@ class Sendmail implements TransportInterface
         $headers = clone $message->getHeaders();
         $headers->removeHeader('To');
         $headers->removeHeader('Subject');
+
+        // Sanitize the From header
+        $from = $headers->get('From');
+        if ($from) {
+            foreach ($from->getAddressList() as $address) {
+                if (preg_match('/\\\"/', $address->getEmail())) {
+                    throw new Exception\RuntimeException('Potential code injection in From header');
+                }
+            }
+        }
         return $headers->toString();
     }
 
@@ -271,7 +280,7 @@ class Sendmail implements TransportInterface
      * @param  string $message
      * @param  string $headers
      * @param  $parameters
-     * @throws \Zend\Mail\Exception\RuntimeException
+     * @throws \Zend\Mail\Transport\Exception\RuntimeException
      */
     public function mailHandler($to, $subject, $message, $headers, $parameters)
     {
@@ -283,7 +292,7 @@ class Sendmail implements TransportInterface
         }
         restore_error_handler();
 
-        if ($this->errstr !== null || !$result) {
+        if ($this->errstr !== null || ! $result) {
             $errstr = $this->errstr;
             if (empty($errstr)) {
                 $errstr = 'Unknown error';
@@ -315,7 +324,7 @@ class Sendmail implements TransportInterface
      */
     protected function isWindowsOs()
     {
-        if (!$this->operatingSystem) {
+        if (! $this->operatingSystem) {
             $this->operatingSystem = strtoupper(substr(PHP_OS, 0, 3));
         }
         return ($this->operatingSystem == 'WIN');

@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -21,6 +21,7 @@ use Zend\Mime\Part as MimePart;
 
 /**
  * @group      Zend_Mail
+ * @covers Zend\Mail\Message<extended>
  */
 class MessageTest extends \PHPUnit_Framework_TestCase
 {
@@ -155,6 +156,13 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     public function testSenderIsNullByDefault()
     {
         $this->assertNull($this->message->getSender());
+    }
+
+    public function testNullSenderDoesNotCreateHeader()
+    {
+        $sender = $this->message->getSender();
+        $headers = $this->message->getHeaders();
+        $this->assertFalse($headers->has('sender'));
     }
 
     public function testSettingSenderCreatesAddressObject()
@@ -695,6 +703,21 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @group 45
+     */
+    public function testCanRestoreFromSerializedStringWhenBodyContainsMultipleNewlines()
+    {
+        $this->message->addTo('zf-devteam@example.com', 'ZF DevTeam');
+        $this->message->addFrom('matthew@example.com', "Matthew Weier O'Phinney");
+        $this->message->addCc('zf-contributors@example.com', 'ZF Contributors List');
+        $this->message->setSubject('This is a subject');
+        $this->message->setBody("foo\n\ntest");
+        $serialized      = $this->message->toString();
+        $restoredMessage = Message::fromString($serialized);
+        $this->assertEquals($serialized, $restoredMessage->toString());
+    }
+
+    /**
      * @group ZF2-5962
      */
     public function testPassEmptyArrayIntoSetPartsOfMimeMessageShouldReturnEmptyBodyString()
@@ -789,5 +812,45 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Zend\Mail\Header\ContentType', $contentType);
         $this->assertContains('multipart/alternative', $contentType->getFieldValue());
         $this->assertContains($multipartContent->getMime()->boundary(), $contentType->getFieldValue());
+    }
+
+    /**
+     * @group 19
+     */
+    public function testCanParseMultipartReport()
+    {
+        $raw = file_get_contents(__DIR__ . '/_files/zend-mail-19.txt');
+        $message = Message::fromString($raw);
+        $this->assertInstanceOf(Message::class, $message);
+        $this->assertInternalType('string', $message->getBody());
+
+        $headers = $message->getHeaders();
+        $this->assertCount(8, $headers);
+        $this->assertTrue($headers->has('Date'));
+        $this->assertTrue($headers->has('From'));
+        $this->assertTrue($headers->has('Message-Id'));
+        $this->assertTrue($headers->has('To'));
+        $this->assertTrue($headers->has('MIME-Version'));
+        $this->assertTrue($headers->has('Content-Type'));
+        $this->assertTrue($headers->has('Subject'));
+        $this->assertTrue($headers->has('Auto-Submitted'));
+
+        $contentType = $headers->get('Content-Type');
+        $this->assertEquals('multipart/report', $contentType->getType());
+    }
+
+    public function testMailHeaderContainsZeroValue()
+    {
+        $message =
+            "From: someone@example.com\r\n"
+            ."To: someone@example.com\r\n"
+            ."Subject: plain text email example\r\n"
+            ."X-Spam-Score: 0\r\n"
+            ."X-Some-Value: 1\r\n"
+            ."\r\n"
+            ."I am a test message\r\n";
+
+        $msg = Message::fromString($message);
+        $this->assertContains('X-Spam-Score: 0', $msg->toString());
     }
 }

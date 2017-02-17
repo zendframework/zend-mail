@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -28,18 +28,18 @@ final class HeaderValue
     public static function filter($value)
     {
         $result = '';
-        $tot    = strlen($value);
+        $total  = strlen($value);
 
         // Filter for CR and LF characters, leaving CRLF + WSP sequences for
         // Long Header Fields (section 2.2.3 of RFC 2822)
-        for ($i = 0; $i < $tot; $i += 1) {
+        for ($i = 0; $i < $total; $i += 1) {
             $ord = ord($value[$i]);
             if ($ord === 10 || $ord > 127) {
                 continue;
             }
 
             if ($ord === 13) {
-                if ($i + 2 >= $tot) {
+                if ($i + 2 >= $total) {
                     continue;
                 }
 
@@ -70,26 +70,28 @@ final class HeaderValue
      */
     public static function isValid($value)
     {
-        $tot = strlen($value);
-        for ($i = 0; $i < $tot; $i += 1) {
+        $total = strlen($value);
+        for ($i = 0; $i < $total; $i += 1) {
             $ord = ord($value[$i]);
+
             // bare LF means we aren't valid
             if ($ord === 10 || $ord > 127) {
                 return false;
             }
 
             if ($ord === 13) {
-                if ($i + 2 >= $tot) {
+                if ($i + 2 >= $total) {
                     return false;
                 }
 
                 $lf = ord($value[$i + 1]);
                 $sp = ord($value[$i + 2]);
 
-                if ($lf !== 10 || $sp !== 32) {
+                if ($lf !== 10 || ! in_array($sp, [9, 32], true)) {
                     return false;
                 }
 
+                // skip over the LF following this
                 $i += 2;
             }
         }

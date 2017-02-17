@@ -3,17 +3,19 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
 namespace ZendTest\Mail\Transport;
 
 use Zend\Mail\Message;
+use Zend\Mail\Transport\Exception\RuntimeException;
 use Zend\Mail\Transport\Sendmail;
 
 /**
  * @group      Zend_Mail
+ * @covers Zend\Mail\Transport\Sendmail<extended>
  */
 class SendmailTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,13 +29,15 @@ class SendmailTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->transport = new Sendmail();
-        $this->transport->setCallable(function ($to, $subject, $message, $additional_headers, $additional_parameters = null) {
-            $this->to                    = $to;
-            $this->subject               = $subject;
-            $this->message               = $message;
-            $this->additional_headers    = $additional_headers;
-            $this->additional_parameters = $additional_parameters;
-        });
+        $this->transport->setCallable(
+            function ($to, $subject, $message, $additional_headers, $additional_parameters = null) {
+                $this->to                    = $to;
+                $this->subject               = $subject;
+                $this->message               = $message;
+                $this->additional_headers    = $additional_headers;
+                $this->additional_parameters = $additional_parameters;
+            }
+        );
         $this->operating_system      = strtoupper(substr(PHP_OS, 0, 3));
     }
 
@@ -102,7 +106,10 @@ class SendmailTest extends \PHPUnit_Framework_TestCase
         $this->assertContains("To: ZF DevTeam <zf-devteam@zend.com>\r\n", $this->additional_headers);
         $this->assertContains("Cc: matthew@zend.com\r\n", $this->additional_headers);
         $this->assertContains("Bcc: \"CR-Team, ZF Project\" <zf-crteam@lists.zend.com>\r\n", $this->additional_headers);
-        $this->assertContains("From: zf-devteam@zend.com,\r\n Matthew <matthew@zend.com>\r\n", $this->additional_headers);
+        $this->assertContains(
+            "From: zf-devteam@zend.com,\r\n Matthew <matthew@zend.com>\r\n",
+            $this->additional_headers
+        );
         $this->assertContains("X-Foo-Bar: Matthew\r\n", $this->additional_headers);
         $this->assertContains("Sender: Ralph Schindler <ralph.schindler@zend.com>\r\n", $this->additional_headers);
         $this->assertNull($this->additional_parameters);
@@ -126,5 +133,29 @@ class SendmailTest extends \PHPUnit_Framework_TestCase
         $message->setEncoding('UTF-8');
         $this->transport->send($message);
         $this->assertEquals('=?UTF-8?Q?Testing=20Zend\Mail\Transport\Sendmail?=', $this->subject);
+    }
+
+    public function testCodeInjectionInFromHeader()
+    {
+        $message = $this->getMessage();
+        $message->setBody('This is the text of the email.');
+        $message->setFrom('"AAA\" code injection"@domain', 'Sender\'s name');
+        $message->addTo('hacker@localhost', 'Name of recipient');
+        $message->setSubject('TestSubject');
+
+        $this->setExpectedException(RuntimeException::class);
+        $this->transport->send($message);
+    }
+
+    public function testValidEmailLocaDomainInFromHeader()
+    {
+        $message = $this->getMessage();
+        $message->setBody('This is the text of the email.');
+        $message->setFrom('"foo-bar"@domain', 'Foo Bar');
+        $message->addTo('hacker@localhost', 'Name of recipient');
+        $message->setSubject('TestSubject');
+
+        $this->transport->send($message);
+        $this->assertContains('From: Foo Bar <"foo-bar"@domain>', $this->additional_headers);
     }
 }
