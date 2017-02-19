@@ -22,7 +22,7 @@ class MimeVersion implements HeaderInterface
         $value = HeaderWrap::mimeDecodeValue($value);
 
         // check to ensure proper header type for this factory
-        if (strtolower($name) !== 'mime-version') {
+        if (strtolower($name) !== 'mime-version' && strtolower($name) !== 'mimeversion') {
             throw new Exception\InvalidArgumentException('Invalid header line for MIME-Version string');
         }
 
