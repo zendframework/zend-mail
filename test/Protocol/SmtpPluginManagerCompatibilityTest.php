@@ -16,6 +16,9 @@ use Zend\Mail\Protocol\Exception\InvalidArgumentException;
 use Zend\ServiceManager\ServiceManager;
 use Zend\ServiceManager\Test\CommonPluginManagerTrait;
 
+/**
+ * @requires PHPUnit 5.2
+ */
 class SmtpPluginManagerCompatibilityTest extends TestCase
 {
     use CommonPluginManagerTrait;
