@@ -9,15 +9,15 @@
 
 namespace ZendTest\Mail\Header;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\Address;
-use Zend\Mail\Header;
 use Zend\Mail\Exception;
+use Zend\Mail\Header;
 
 /**
- * @group      Zend_Mail
  * @covers Zend\Mail\Header\Sender<extended>
  */
-class SenderTest extends \PHPUnit_Framework_TestCase
+class SenderTest extends TestCase
 {
     public function testFromStringCreatesValidReceivedHeader()
     {
@@ -61,7 +61,10 @@ class SenderTest extends \PHPUnit_Framework_TestCase
         $expectedException,
         $expectedExceptionMessage
     ) {
-        $this->setExpectedException($expectedException, $expectedExceptionMessage);
+        $this->expectException($expectedException);
+        if (! empty($expectedExceptionMessage)) {
+            $this->expectExceptionMessage($expectedExceptionMessage);
+        }
         Header\Sender::fromString('Sender:' . $decodedValue);
     }
 
@@ -93,7 +96,7 @@ class SenderTest extends \PHPUnit_Framework_TestCase
     public function testSetAddressInvalidValue($email, $name)
     {
         $header = new Header\Sender();
-        $this->setExpectedException('Zend\Mail\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $header->setAddress($email, $name);
     }
 
@@ -247,7 +250,8 @@ class SenderTest extends \PHPUnit_Framework_TestCase
      */
     public function testFromStringWithInvalidInput($headerString, $expectedException, $expectedMessagePart = '')
     {
-        $this->setExpectedException($expectedException, $expectedMessagePart);
+        $this->expectException($expectedException);
+        $this->expectExceptionMessage($expectedMessagePart);
 
         Header\Sender::fromString($headerString);
     }

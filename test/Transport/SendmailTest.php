@@ -9,15 +9,15 @@
 
 namespace ZendTest\Mail\Transport;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\Exception\RuntimeException;
 use Zend\Mail\Transport\Sendmail;
 
 /**
- * @group      Zend_Mail
  * @covers Zend\Mail\Transport\Sendmail<extended>
  */
-class SendmailTest extends \PHPUnit_Framework_TestCase
+class SendmailTest extends TestCase
 {
     public $transport;
     public $to;
@@ -143,7 +143,7 @@ class SendmailTest extends \PHPUnit_Framework_TestCase
         $message->addTo('hacker@localhost', 'Name of recipient');
         $message->setSubject('TestSubject');
 
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->transport->send($message);
     }
 

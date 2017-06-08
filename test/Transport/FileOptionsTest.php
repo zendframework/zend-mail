@@ -9,13 +9,13 @@
 
 namespace ZendTest\Mail\Transport;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\Transport\FileOptions;
 
 /**
- * @group      Zend_Mail
  * @covers Zend\Mail\Transport\FileOptions<extended>
  */
-class FileOptionsTest extends \PHPUnit_Framework_TestCase
+class FileOptionsTest extends TestCase
 {
     public function setUp()
     {

@@ -9,6 +9,7 @@
 
 namespace ZendTest\Mail\Storage;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\Exception as MailException;
 use Zend\Mail\Storage;
 use Zend\Mail\Storage\Exception;
@@ -17,10 +18,9 @@ use Zend\Mime;
 use Zend\Mime\Exception as MimeException;
 
 /**
- * @group      Zend_Mail
  * @covers Zend\Mail\Storage\Message<extended>
  */
-class MessageTest extends \PHPUnit_Framework_TestCase
+class MessageTest extends TestCase
 {
     protected $file;
     protected $file2;
@@ -273,7 +273,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $message = new Message([]);
         $subject = null;
 
-        $this->setExpectedException('Zend\\Mail\\Exception\\InvalidArgumentException');
+        $this->expectException(MailException\InvalidArgumentException::class);
         $message->subject;
     }
 
@@ -431,7 +431,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
      */
     public function testStrictParseMessage()
     {
-        $this->setExpectedException('Zend\\Mail\\Exception\\RuntimeException');
+        $this->expectException(MailException\RuntimeException::class);
 
         $raw = file_get_contents($this->file);
         $raw = "From foo@example.com  Sun Jan 01 00:00:00 2000\n" . $raw;

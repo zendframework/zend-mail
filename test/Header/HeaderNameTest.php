@@ -9,7 +9,8 @@
 
 namespace ZendTest\Mail\Header;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
+use Zend\Mail\Header\Exception;
 use Zend\Mail\Header\HeaderName;
 
 /**
@@ -80,7 +81,8 @@ class HeaderNameTest extends TestCase
      */
     public function testAssertValidRaisesExceptionForInvalidNames($name)
     {
-        $this->setExpectedException('Zend\Mail\Header\Exception\RuntimeException', 'Invalid');
+        $this->expectException(Exception\RuntimeException::class);
+        $this->expectExceptionMessage('Invalid');
         HeaderName::assertValid($name);
     }
 }

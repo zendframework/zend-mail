@@ -9,9 +9,11 @@
 
 namespace ZendTest\Mail;
 
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use Zend\Mail\Address;
 use Zend\Mail\AddressList;
+use Zend\Mail\Exception;
 use Zend\Mail\Header;
 use Zend\Mail\Headers;
 use Zend\Mail\Message;
@@ -20,10 +22,9 @@ use Zend\Mime\Mime;
 use Zend\Mime\Part as MimePart;
 
 /**
- * @group      Zend_Mail
  * @covers Zend\Mail\Message<extended>
  */
-class MessageTest extends \PHPUnit_Framework_TestCase
+class MessageTest extends TestCase
 {
     /** @var Message */
     public $message;
@@ -532,7 +533,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingNonScalarNonMimeNonStringSerializableValueForBodyRaisesException($body)
     {
-        $this->setExpectedException('Zend\Mail\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->message->setBody($body);
     }
 
@@ -757,7 +758,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
             '',
             '<html><body><iframe src="http://example.com/"></iframe></body></html> <!--',
         ];
-        $this->setExpectedException('Zend\Mail\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->message->{$recipientMethod}(implode(Headers::EOL, $subject));
     }
 

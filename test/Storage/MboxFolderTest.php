@@ -9,14 +9,13 @@
 
 namespace ZendTest\Mail\Storage;
 
+use PHPUnit\Framework\TestCase;
 use RecursiveIteratorIterator;
 use Zend\Config;
+use Zend\Mail\Storage\Exception;
 use Zend\Mail\Storage\Folder;
 
-/**
- * @group      Zend_Mail
- */
-class MboxFolderTest extends \PHPUnit_Framework_TestCase
+class MboxFolderTest extends TestCase
 {
     protected $params;
     protected $originalDir;
@@ -98,20 +97,20 @@ class MboxFolderTest extends \PHPUnit_Framework_TestCase
 
     public function testNoParams()
     {
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         new Folder\Mbox([]);
     }
 
     public function testFilenameParam()
     {
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         // filename is not allowed in this subclass
         new Folder\Mbox(['filename' => 'foobar']);
     }
 
     public function testLoadFailure()
     {
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         new Folder\Mbox(['dirname' => 'This/Folder/Does/Not/Exist']);
     }
 
@@ -119,7 +118,7 @@ class MboxFolderTest extends \PHPUnit_Framework_TestCase
     {
         $this->params['folder'] = 'UnknownFolder';
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         new Folder\Mbox($this->params);
     }
 
@@ -138,14 +137,14 @@ class MboxFolderTest extends \PHPUnit_Framework_TestCase
     public function testChangeFolderUnselectable()
     {
         $mail = new Folder\Mbox($this->params);
-        $this->setExpectedException('Zend\Mail\Storage\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $mail->selectFolder(DIRECTORY_SEPARATOR . 'subfolder');
     }
 
     public function testUnknownFolder()
     {
         $mail = new Folder\Mbox($this->params);
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $mail->selectFolder('/Unknown/Folder/');
     }
 
@@ -285,7 +284,7 @@ class MboxFolderTest extends \PHPUnit_Framework_TestCase
         touch($this->params['dirname'] . 'foobar');
         $mail = new Folder\Mbox($this->params);
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $mail->getFolders()->foobar;
     }
 
@@ -328,7 +327,7 @@ class MboxFolderTest extends \PHPUnit_Framework_TestCase
         $mail = new Folder\Mbox($this->params);
         $root = $mail->getFolders();
         $root->foobar = new Folder('x', 'x');
-        $this->setExpectedException('Zend\Mail\Storage\Exception\InvalidArgumentException');
+        $this->expectException(Exception\InvalidArgumentException::class);
         $mail->getFolders('foobar');
     }
 
@@ -338,7 +337,7 @@ class MboxFolderTest extends \PHPUnit_Framework_TestCase
         $root = $mail->getFolders();
         $root->foobar = new Folder('foobar', DIRECTORY_SEPARATOR . 'foobar');
 
-        $this->setExpectedException('Zend\Mail\Storage\Exception\RuntimeException');
+        $this->expectException(Exception\RuntimeException::class);
         $mail->selectFolder('foobar');
     }
 }
