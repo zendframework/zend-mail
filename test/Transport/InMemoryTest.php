@@ -9,14 +9,14 @@
 
 namespace ZendTest\Mail\Transport;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\InMemory;
 
 /**
- * @group      Zend_Mail
  * @covers Zend\Mail\Transport\InMemory<extended>
  */
-class InMemoryTest extends \PHPUnit_Framework_TestCase
+class InMemoryTest extends TestCase
 {
     public function getMessage()
     {

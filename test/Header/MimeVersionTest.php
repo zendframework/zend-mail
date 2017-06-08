@@ -9,13 +9,13 @@
 
 namespace ZendTest\Mail\Header;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\Header;
 
 /**
- * @group      Zend_Mail
  * @covers Zend\Mail\Header\MimeVersion<extended>
  */
-class MimeVersionTest extends \PHPUnit_Framework_TestCase
+class MimeVersionTest extends TestCase
 {
     public function testSettingManually()
     {
@@ -47,7 +47,7 @@ class MimeVersionTest extends \PHPUnit_Framework_TestCase
      */
     public function testFromStringRaisesExceptionOnDetectionOfCrlfInjection($header)
     {
-        $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Header\Exception\InvalidArgumentException::class);
         $mime = Header\MimeVersion::fromString($header);
     }
 
@@ -68,7 +68,7 @@ class MimeVersionTest extends \PHPUnit_Framework_TestCase
     public function testRaisesExceptionOnInvalidVersionFromSetVersion($value)
     {
         $header = new Header\MimeVersion();
-        $this->setExpectedException('Zend\Mail\Header\Exception\InvalidArgumentException');
+        $this->expectException(Header\Exception\InvalidArgumentException::class);
         $header->setVersion($value);
     }
 }

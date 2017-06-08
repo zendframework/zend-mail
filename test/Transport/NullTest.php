@@ -9,12 +9,11 @@
 
 namespace ZendTest\Mail\Transport;
 
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Error\Deprecated;
 use Zend\Mail\Transport\Null as NullTransport;
 
-/**
- * @group      Zend_Mail
- */
-class NullTest extends \PHPUnit_Framework_TestCase
+class NullTest extends TestCase
 {
     public function setUp()
     {
@@ -25,7 +24,7 @@ class NullTest extends \PHPUnit_Framework_TestCase
 
     public function testRaisesNoticeOnInstantiation()
     {
-        $this->setExpectedException('PHPUnit_Framework_Error_Deprecated');
+        $this->expectException(Deprecated::class);
         new NullTransport();
     }
 }

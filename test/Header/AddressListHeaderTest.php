@@ -9,6 +9,7 @@
 
 namespace ZendTest\Mail\Header;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Mail\Address;
 use Zend\Mail\AddressList;
 use Zend\Mail\Header\Bcc;
@@ -17,10 +18,7 @@ use Zend\Mail\Header\From;
 use Zend\Mail\Header\ReplyTo;
 use Zend\Mail\Header\To;
 
-/**
- * @group      Zend_Mail
- */
-class AddressListHeaderTest extends \PHPUnit_Framework_TestCase
+class AddressListHeaderTest extends TestCase
 {
     public static function getHeaderInstances()
     {
