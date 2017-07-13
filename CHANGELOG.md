@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.4.13 - 2017-07-13
+
+### Added
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Fixes issues caused by using PHP 5.4+ short-array notation within the
+  `HeaderValue` class.
+
 ## 2.4.11 - 2016-12-20
 
 ### Added
