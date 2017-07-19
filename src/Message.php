@@ -398,8 +398,10 @@ class Message
         if ($this->body->isMultiPart()) {
             $mime   = $this->body->getMime();
             $header = $this->getHeaderByName('content-type', __NAMESPACE__ . '\Header\ContentType');
-            $header->setType('multipart/mixed');
-            $header->addParameter('boundary', $mime->boundary());
+            if ($header instanceof Header\ContentType) {
+                $header->setType('multipart/mixed');
+                $header->addParameter('boundary', $mime->boundary());
+            }
             return $this;
         }
 
