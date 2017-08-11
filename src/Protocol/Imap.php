@@ -445,7 +445,7 @@ class Imap
         $response = $this->requestAndResponse('CAPABILITY');
 
         if (! $response) {
-            return $response;
+            return [];
         }
 
         $capabilities = [];
