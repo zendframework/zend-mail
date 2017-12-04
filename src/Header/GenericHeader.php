@@ -46,7 +46,7 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
      * @return string[] `name` in the first index and `value` in the second.
      * @throws Exception\InvalidArgumentException If header does not match with the format ``name:value``
      */
-    public static function splitHeaderLine($headerLine)
+    public static function splitHeaderLine($headerLine, $throwExceptionOnInvalid = false)
     {
         $parts = explode(':', $headerLine, 2);
         if (count($parts) !== 2) {
@@ -54,11 +54,17 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
         }
 
         if (! HeaderName::isValid($parts[0])) {
-            throw new Exception\InvalidArgumentException('Invalid header name detected');
+            if ( $throwExceptionOnInvalid === true) {
+                throw new Exception\InvalidArgumentException('Invalid header name detected');
+            }
+            $parts[0] = HeaderName::filter($parts[0]);
         }
 
         if (! HeaderValue::isValid($parts[1])) {
-            throw new Exception\InvalidArgumentException('Invalid header value detected');
+            if ($throwExceptionOnInvalid === true) {
+                throw new Exception\InvalidArgumentException('Invalid header value detected');
+            }
+            $parts[1] = HeaderValue::filter($parts[1]);
         }
 
         $parts[1] = ltrim($parts[1]);

@@ -42,6 +42,8 @@ abstract class AbstractAddressList implements HeaderInterface
     public static function fromString($headerLine)
     {
         list($fieldName, $fieldValue) = GenericHeader::splitHeaderLine($headerLine);
+        // clean up acceptable values
+        $fieldName = static::cleanFieldName($fieldName);
         if (strtolower($fieldName) !== static::$type) {
             throw new Exception\InvalidArgumentException(sprintf(
                 'Invalid header line for "%s" string',
@@ -205,5 +207,11 @@ abstract class AbstractAddressList implements HeaderInterface
             '',
             $value
         );
+    }
+
+    // Implemented in sub-classes
+    protected static function cleanFieldName($fieldName)
+    {
+        return $fieldName;
     }
 }

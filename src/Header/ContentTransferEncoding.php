@@ -91,6 +91,8 @@ class ContentTransferEncoding implements HeaderInterface
     {
         // Per RFC 1521, the value of the header is not case sensitive
         $transferEncoding = strtolower($transferEncoding);
+        // Remove trailing semicolon
+        $transferEncoding = rtrim($transferEncoding, ';');
 
         if (! in_array($transferEncoding, static::$allowedTransferEncodings)) {
             throw new Exception\InvalidArgumentException(sprintf(

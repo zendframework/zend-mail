@@ -13,4 +13,19 @@ class ReplyTo extends AbstractAddressList
 {
     protected $fieldName = 'Reply-To';
     protected static $type = 'reply-to';
+
+    protected static function cleanFieldName($fieldName)
+    {
+        $allowed = [
+            'replyto', 'reply_to'
+        ];
+
+        foreach ($allowed as $name) {
+            if (strtolower($fieldName) === $name) {
+                return static::$type;
+            }
+        }
+
+        return $fieldName;
+    }
 }

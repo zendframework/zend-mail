@@ -27,7 +27,11 @@ class Address implements Address\AddressInterface
      */
     public function __construct($email, $name = null)
     {
-        $emailAddressValidator = new EmailAddressValidator(Hostname::ALLOW_DNS | Hostname::ALLOW_LOCAL);
+        $emailAddressValidator = new EmailAddressValidator([
+            'allow' => Hostname::ALLOW_DNS | Hostname::ALLOW_LOCAL,
+            'strict' => false
+        ]);
+
         if (! is_string($email) || empty($email)) {
             throw new Exception\InvalidArgumentException('Email must be a valid email address');
         }
@@ -36,10 +40,12 @@ class Address implements Address\AddressInterface
             throw new Exception\InvalidArgumentException('CRLF injection detected');
         }
 
+        /* Ignoring this check
         if (! $emailAddressValidator->isValid($email)) {
             $invalidMessages = $emailAddressValidator->getMessages();
             throw new Exception\InvalidArgumentException(array_shift($invalidMessages));
         }
+        */
 
         if (null !== $name) {
             if (! is_string($name)) {

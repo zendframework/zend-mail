@@ -554,6 +554,9 @@ class Imap
         $tag = null;  // define $tag variable before first use
         $this->sendRequest(($uid ? 'UID ' : '') . 'FETCH', [$set, $itemList], $tag);
 
+        // remove any peek lines since the response doesn't return this
+        $items[0] = str_replace('.PEEK', '', $items[0]);
+
         $result = [];
         $tokens = null; // define $tokens variable before first use
         while (! $this->readLine($tokens, $tag)) {
@@ -810,13 +813,16 @@ class Imap
      *
      * This method is currently marked as internal as the API might change and is not
      * safe if you don't take precautions.
-     *
+     * If $uid is true then this will return UIDs instead of message IDs.
      * @param array $params
-     * @return array message ids
+     * @param bool $uid
+     * @return array message ids|unique ids
      */
-    public function search(array $params)
+    public function search(array $params, $uid = true)
     {
-        $response = $this->requestAndResponse('SEARCH', $params);
+        $command = ($uid) ? 'UID SEARCH' : 'SEARCH';
+        $response = $this->requestAndResponse($command, $params);
+
         if (! $response) {
             return $response;
         }

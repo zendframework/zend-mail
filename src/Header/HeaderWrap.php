@@ -124,13 +124,16 @@ abstract class HeaderWrap
         $lineLength = strlen($value) * 4 + strlen($charset) + 16;
 
         $preferences = [
-            'scheme' => 'Q',
+            'scheme' => 'B',
             'input-charset' => $charset,
             'output-charset' => $charset,
             'line-length' => $lineLength,
         ];
 
-        $encoded = iconv_mime_encode('x-test', $value, $preferences);
+        $encodedB = @iconv_mime_encode('x-test', $value, $preferences);
+        $preferences['scheme'] = 'Q';
+        $encodedQ = @iconv_mime_encode('x-test', $value, $preferences);
+        $encoded = $encodedB || $encodedQ;
 
         return (false !== $encoded);
     }
