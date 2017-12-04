@@ -19,7 +19,8 @@
         }
     ],
     "require": {
-        "php": "^5.5 || ^7.0",
+        "php": "^7.0 || ^5.6",
+        "ext-iconv": "*",
         "zendframework/zend-loader": "^2.5",
         "particlebits/zend-mime": "~2.5",
         "zendframework/zend-stdlib": "^2.7 || ^3.0",
@@ -29,17 +30,18 @@
         "zendframework/zend-config": "^2.6",
         "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3",
         "zendframework/zend-crypt": "^2.6",
-        "phpunit/phpunit": "^4.8",
+        "phpunit/phpunit": "^6.0.8 || ^5.7.15",
         "zendframework/zend-coding-standard": "~1.0.0"
     },
     "suggest": {
+        "ext-intl": "Handle IDN in AddressList hostnames",
         "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3 when using SMTP to deliver messages",
         "zendframework/zend-crypt": "Crammd5 support in SMTP Auth"
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.7-dev",
-            "dev-develop": "2.8-dev"
+            "dev-master": "2.8-dev",
+            "dev-develop": "2.9-dev"
         },
         "zf": {
             "component": "Zend\\Mail",

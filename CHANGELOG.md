@@ -2,6 +2,69 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.8.1 - TBD
+
+### Added
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
+## 2.8.0 - TBD
+
+### Added
+
+- [#117](https://github.com/zendframework/zend-mail/pull/117) adds support
+  configuring whether or not an SMTP transport should issue a `QUIT` at
+  `__destruct()` and/or end of script execution. Use the `use_complete_quit`
+  configuration flag and/or the `setuseCompleteQuit($flag)` method to change
+  the setting (default is to enable this behavior, which was the previous
+  behavior).
+- [#128](https://github.com/zendframework/zend-mail/pull/128) adds a
+  requirement on ext/iconv, as it is used internally.
+- [#132](https://github.com/zendframework/zend-mail/pull/132) bumps minimum
+  php version to 5.6
+- [#144](https://github.com/zendframework/zend-mail/pull/144) adds support
+  for TLS versions 1.1 and 1.2 for all protocols supporting TLS operations.
+
+### Changed
+
+- [#140](https://github.com/zendframework/zend-mail/pull/140) updates the
+  `Sendmail` transport such that `From` and `Sender` addresses are passed to
+  `escapeshellarg()` when forming the `-f` argument for the `sendmail` binary.
+  While malformed addresses should never reach this class, this extra hardening
+  helps ensure safety in cases where a developer codes their own
+  `AddressInterface` implementations for these types of addresses.
+- [#141](https://github.com/zendframework/zend-mail/pull/141) updates
+  `Zend\Mail\Message::getHeaders()` to throw an exception in a case where the
+  `$headers` property is not a `Headers` instance.
+- [#150](https://github.com/zendframework/zend-mail/pull/150) updates the
+  `Smtp` protocol to allow an empty or `none` value for the SSL configuration
+  value.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#151](https://github.com/zendframework/zend-mail/pull/151) fixes a condition
+  in the `Sendmail` transport whereby CLI parameters were not properly trimmed.
+
 ## 2.7.3 - 2017-02-14
 
 ### Added

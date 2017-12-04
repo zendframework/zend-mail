@@ -67,7 +67,6 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
             $parts[1] = HeaderValue::filter($parts[1]);
         }
 
-        $parts[0] = $parts[0];
         $parts[1] = ltrim($parts[1]);
 
         return $parts;

@@ -9,9 +9,11 @@
 
 namespace ZendTest\Mail;
 
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use Zend\Mail\Address;
 use Zend\Mail\AddressList;
+use Zend\Mail\Exception;
 use Zend\Mail\Header;
 use Zend\Mail\Headers;
 use Zend\Mail\Message;
@@ -23,7 +25,7 @@ use Zend\Mime\Part as MimePart;
  * @group      Zend_Mail
  * @covers Zend\Mail\Message<extended>
  */
-class MessageTest extends \PHPUnit_Framework_TestCase
+class MessageTest extends TestCase
 {
     /** @var Message */
     public $message;
@@ -532,7 +534,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingNonScalarNonMimeNonStringSerializableValueForBodyRaisesException($body)
     {
-        $this->setExpectedException('Zend\Mail\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Exception\InvalidArgumentException');
         $this->message->setBody($body);
     }
 
@@ -757,7 +759,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
             '',
             '<html><body><iframe src="http://example.com/"></iframe></body></html> <!--',
         ];
-        $this->setExpectedException('Zend\Mail\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Mail\Exception\InvalidArgumentException');
         $this->message->{$recipientMethod}(implode(Headers::EOL, $subject));
     }
 
@@ -852,5 +854,17 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
         $msg = Message::fromString($message);
         $this->assertContains('X-Spam-Score: 0', $msg->toString());
+    }
+
+    /**
+     * @ref CVE-2016-10033 which targeted WordPress
+     */
+    public function testSecondCodeInjectionInFromHeader()
+    {
+        $message = new Message();
+        $this->expectException(Exception\InvalidArgumentException::class);
+        // @codingStandardsIgnoreStart
+        $message->setFrom('user@xenial(tmp1 -be ${run{${substr{0}{1}{$spool_directory}}usr${substr{0}{1}{$spool_directory}}bin${substr{0}{1}{$spool_directory}}touch${substr{10}{1}{$tod_log}}${substr{0}{1}{$spool_directory}}tmp${substr{0}{1}{$spool_directory}}test}}  tmp2)', 'Sender\'s name');
+        // @codingStandardsIgnoreEnd
     }
 }
