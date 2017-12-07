@@ -102,7 +102,11 @@ abstract class AbstractAddressList implements HeaderInterface
     protected function idnToAscii($domainName)
     {
         if (extension_loaded('intl')) {
-            return (idn_to_ascii($domainName, 0, INTL_IDNA_VARIANT_UTS46) ?: $domainName);
+            if (defined('INTL_IDNA_VARIANT_UTS46')) {
+                return (idn_to_ascii($domainName, 0, INTL_IDNA_VARIANT_UTS46) ?: $domainName);
+            } else {
+                return (idn_to_ascii($domainName) ?: $domainName);                
+            }
         }
         return $domainName;
     }
