@@ -28,6 +28,30 @@ class Headers implements Countable, Iterator
     /** @var string Start of Line when folding */
     const FOLDING = "\r\n ";
 
+    const HEADERS_MAP = [
+        'bcc'                       => Header\Bcc::class,
+        'cc'                        => Header\Cc::class,
+        'contenttype'               => Header\ContentType::class,
+        'content_type'              => Header\ContentType::class,
+        'content-type'              => Header\ContentType::class,
+        'contenttransferencoding'   => Header\ContentTransferEncoding::class,
+        'content_transfer_encoding' => Header\ContentTransferEncoding::class,
+        'content-transfer-encoding' => Header\ContentTransferEncoding::class,
+        'date'                      => Header\Date::class,
+        'from'                      => Header\From::class,
+        'message-id'                => Header\MessageId::class,
+        'mimeversion'               => Header\MimeVersion::class,
+        'mime_version'              => Header\MimeVersion::class,
+        'mime-version'              => Header\MimeVersion::class,
+        'received'                  => Header\Received::class,
+        'replyto'                   => Header\ReplyTo::class,
+        'reply_to'                  => Header\ReplyTo::class,
+        'reply-to'                  => Header\ReplyTo::class,
+        'sender'                    => Header\Sender::class,
+        'subject'                   => Header\Subject::class,
+        'to'                        => Header\To::class,
+    ];
+
     /**
      * @var \Zend\Loader\PluginClassLoader
      */
@@ -478,7 +502,7 @@ class Headers implements Countable, Iterator
     public function loadHeader($headerLine)
     {
         list($name, ) = Header\GenericHeader::splitHeaderLine($headerLine);
-        $class = $this->getPluginClassLoader()->load($name) ?: Header\GenericHeader::class;
+        $class = $this->resolveHeaderClass($name);
         return $class::fromString($headerLine);
     }
 
@@ -491,7 +515,7 @@ class Headers implements Countable, Iterator
         $current = $this->headers[$index];
 
         $key   = $this->headersKeys[$index];
-        $class = ($this->getPluginClassLoader()->load($key)) ?: 'Zend\Mail\Header\GenericHeader';
+        $class = $this->resolveHeaderClass($key);
 
         $encoding = $current->getEncoding();
         $headers  = $class::fromString($current->toString());
@@ -522,5 +546,14 @@ class Headers implements Countable, Iterator
     protected function normalizeFieldName($fieldName)
     {
         return str_replace(['-', '_', ' ', '.'], '', strtolower($fieldName));
+    }
+
+    /**
+     * @param string $key
+     * @return string
+     */
+    private function resolveHeaderClass($key)
+    {
+        return isset(self::HEADERS_MAP[$key]) ? self::HEADERS_MAP[$key] : Header\GenericHeader::class;
     }
 }

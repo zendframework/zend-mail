@@ -99,10 +99,7 @@ class HeadersTest extends TestCase
     public function testHeadersFromStringMultiHeaderWillAggregateLazyLoadedHeaders()
     {
         $headers = new Mail\Headers();
-        /* @var $pcl \Zend\Loader\PluginClassLoader */
-        $pcl = $headers->getPluginClassLoader();
-        $pcl->registerPlugin('foo', 'Zend\Mail\Header\GenericMultiHeader');
-        $headers->addHeaderLine('foo: bar1,bar2,bar3');
+        $headers->addHeaderLine('foo', ['bar1@domain.com', 'bar2@domain.com', 'bar3@domain.com']);
         $headers->forceLoading();
         $this->assertEquals(3, $headers->count());
     }
