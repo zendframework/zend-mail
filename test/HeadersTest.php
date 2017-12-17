@@ -379,12 +379,9 @@ class HeadersTest extends TestCase
     /**
      * @dataProvider expectedHeaders
      */
-    public function testDefaultPluginLoaderIsSeededWithHeaders($plugin, $class)
+    public function testHeadersMapResolvesProperHeader($plugin, $class)
     {
-        $headers = new Mail\Headers();
-        $loader  = $headers->getPluginClassLoader();
-        $test    = $loader->load($plugin);
-        $this->assertEquals($class, $test);
+        $this->assertEquals(Mail\Headers::HEADERS_MAP[$plugin], $class);
     }
 
     public function testClone()

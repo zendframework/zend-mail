@@ -13,7 +13,6 @@ use ArrayIterator;
 use Countable;
 use Iterator;
 use Traversable;
-use Zend\Loader\PluginClassLocator;
 
 /**
  * Basic mail headers collection functionality
@@ -51,11 +50,6 @@ class Headers implements Countable, Iterator
         'subject'                   => Header\Subject::class,
         'to'                        => Header\To::class,
     ];
-
-    /**
-     * @var \Zend\Loader\PluginClassLoader
-     */
-    protected $pluginClassLoader = null;
 
     /**
      * @var array key names for $headers array
@@ -139,31 +133,6 @@ class Headers implements Countable, Iterator
             $headers->addHeaderLine($currentLine);
         }
         return $headers;
-    }
-
-    /**
-     * Set an alternate implementation for the PluginClassLoader
-     *
-     * @param  PluginClassLocator $pluginClassLoader
-     * @return Headers
-     */
-    public function setPluginClassLoader(PluginClassLocator $pluginClassLoader)
-    {
-        $this->pluginClassLoader = $pluginClassLoader;
-        return $this;
-    }
-
-    /**
-     * Return an instance of a PluginClassLocator, lazyload and inject map if necessary
-     *
-     * @return PluginClassLocator
-     */
-    public function getPluginClassLoader()
-    {
-        if ($this->pluginClassLoader === null) {
-            $this->pluginClassLoader = new Header\HeaderLoader();
-        }
-        return $this->pluginClassLoader;
     }
 
     /**
