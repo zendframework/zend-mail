@@ -15,7 +15,6 @@
     "require": {
         "php": "^7.0 || ^5.6",
         "ext-iconv": "*",
-        "zendframework/zend-loader": "^2.5",
         "zendframework/zend-mime": "^2.5",
         "zendframework/zend-stdlib": "^2.7 || ^3.0",
         "zendframework/zend-validator": "^2.6"
