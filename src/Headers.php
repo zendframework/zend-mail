@@ -523,6 +523,7 @@ class Headers implements Countable, Iterator
      */
     private function resolveHeaderClass($key)
     {
+        $key = strtolower($key);
         return isset(self::HEADERS_MAP[$key]) ? self::HEADERS_MAP[$key] : Header\GenericHeader::class;
     }
 }
