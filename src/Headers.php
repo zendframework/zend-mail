@@ -27,7 +27,7 @@ class Headers implements Countable, Iterator
     /** @var string Start of Line when folding */
     const FOLDING = "\r\n ";
 
-    const HEADERS_MAP = [
+    const HEADERS_CLASS_MAP = [
         'bcc'                       => Header\Bcc::class,
         'cc'                        => Header\Cc::class,
         'contenttype'               => Header\ContentType::class,
@@ -524,6 +524,6 @@ class Headers implements Countable, Iterator
     private function resolveHeaderClass($key)
     {
         $key = strtolower($key);
-        return isset(self::HEADERS_MAP[$key]) ? self::HEADERS_MAP[$key] : Header\GenericHeader::class;
+        return isset(self::HEADERS_CLASS_MAP[$key]) ? self::HEADERS_CLASS_MAP[$key] : Header\GenericHeader::class;
     }
 }

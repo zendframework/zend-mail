@@ -381,7 +381,7 @@ class HeadersTest extends TestCase
      */
     public function testHeadersMapResolvesProperHeader($plugin, $class)
     {
-        $this->assertEquals(Mail\Headers::HEADERS_MAP[$plugin], $class);
+        $this->assertEquals(Mail\Headers::HEADERS_CLASS_MAP[$plugin], $class);
     }
 
     public function testClone()
