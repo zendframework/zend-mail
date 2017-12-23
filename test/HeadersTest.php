@@ -353,37 +353,6 @@ class HeadersTest extends TestCase
         $this->assertEquals($expected, $array);
     }
 
-    public static function expectedHeaders()
-    {
-        return [
-            ['bcc', 'Zend\Mail\Header\Bcc'],
-            ['cc', 'Zend\Mail\Header\Cc'],
-            ['contenttype', 'Zend\Mail\Header\ContentType'],
-            ['content_type', 'Zend\Mail\Header\ContentType'],
-            ['content-type', 'Zend\Mail\Header\ContentType'],
-            ['date', 'Zend\Mail\Header\Date'],
-            ['from', 'Zend\Mail\Header\From'],
-            ['mimeversion', 'Zend\Mail\Header\MimeVersion'],
-            ['mime_version', 'Zend\Mail\Header\MimeVersion'],
-            ['mime-version', 'Zend\Mail\Header\MimeVersion'],
-            ['received', 'Zend\Mail\Header\Received'],
-            ['replyto', 'Zend\Mail\Header\ReplyTo'],
-            ['reply_to', 'Zend\Mail\Header\ReplyTo'],
-            ['reply-to', 'Zend\Mail\Header\ReplyTo'],
-            ['sender', 'Zend\Mail\Header\Sender'],
-            ['subject', 'Zend\Mail\Header\Subject'],
-            ['to', 'Zend\Mail\Header\To'],
-        ];
-    }
-
-    /**
-     * @dataProvider expectedHeaders
-     */
-    public function testHeadersMapResolvesProperHeader($plugin, $class)
-    {
-        $this->assertEquals(Mail\Headers::HEADERS_CLASS_MAP[$plugin], $class);
-    }
-
     public function testClone()
     {
         $headers = new Mail\Headers();

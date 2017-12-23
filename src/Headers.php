@@ -27,29 +27,10 @@ class Headers implements Countable, Iterator
     /** @var string Start of Line when folding */
     const FOLDING = "\r\n ";
 
-    const HEADERS_CLASS_MAP = [
-        'bcc'                       => Header\Bcc::class,
-        'cc'                        => Header\Cc::class,
-        'contenttype'               => Header\ContentType::class,
-        'content_type'              => Header\ContentType::class,
-        'content-type'              => Header\ContentType::class,
-        'contenttransferencoding'   => Header\ContentTransferEncoding::class,
-        'content_transfer_encoding' => Header\ContentTransferEncoding::class,
-        'content-transfer-encoding' => Header\ContentTransferEncoding::class,
-        'date'                      => Header\Date::class,
-        'from'                      => Header\From::class,
-        'message-id'                => Header\MessageId::class,
-        'mimeversion'               => Header\MimeVersion::class,
-        'mime_version'              => Header\MimeVersion::class,
-        'mime-version'              => Header\MimeVersion::class,
-        'received'                  => Header\Received::class,
-        'replyto'                   => Header\ReplyTo::class,
-        'reply_to'                  => Header\ReplyTo::class,
-        'reply-to'                  => Header\ReplyTo::class,
-        'sender'                    => Header\Sender::class,
-        'subject'                   => Header\Subject::class,
-        'to'                        => Header\To::class,
-    ];
+    /**
+     * @var Header\HeaderLoader
+     */
+    protected $headerLoader;
 
     /**
      * @var array key names for $headers array
@@ -523,8 +504,10 @@ class Headers implements Countable, Iterator
      */
     private function resolveHeaderClass($key)
     {
-        $key = strtolower($key);
-        $headerExists = array_key_exists($key, self::HEADERS_CLASS_MAP);
-        return $headerExists ? self::HEADERS_CLASS_MAP[$key] : Header\GenericHeader::class;
+        if ($this->headerLoader === null) {
+            $this->headerLoader = new Header\HeaderLoader();
+        }
+
+        return $this->headerLoader->get($key, Header\GenericHeader::class);
     }
 }
