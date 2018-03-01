@@ -21,7 +21,6 @@ abstract class Factory
         'file'      => 'Zend\Mail\Transport\File',
         'inmemory'  => 'Zend\Mail\Transport\InMemory',
         'memory'    => 'Zend\Mail\Transport\InMemory',
-        'null'      => 'Zend\Mail\Transport\InMemory',
         'sendmail'  => 'Zend\Mail\Transport\Sendmail',
         'smtp'      => 'Zend\Mail\Transport\Smtp',
     ];
