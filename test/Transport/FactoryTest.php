@@ -71,10 +71,6 @@ class FactoryTest extends TestCase
             ['Zend\Mail\Transport\Smtp'],
         ];
 
-        if (version_compare(PHP_VERSION, '7.0', '<')) {
-            $types[] = ['Zend\Mail\Transport\Null'];
-        }
-
         return $types;
     }
 
@@ -96,15 +92,12 @@ class FactoryTest extends TestCase
     {
         return [
             ['file', 'Zend\Mail\Transport\File'],
-            ['null', 'Zend\Mail\Transport\InMemory'],
             ['memory', 'Zend\Mail\Transport\InMemory'],
             ['inmemory', 'Zend\Mail\Transport\InMemory'],
             ['InMemory', 'Zend\Mail\Transport\InMemory'],
             ['sendmail', 'Zend\Mail\Transport\Sendmail'],
             ['smtp', 'Zend\Mail\Transport\Smtp'],
             ['File', 'Zend\Mail\Transport\File'],
-            ['Null', 'Zend\Mail\Transport\InMemory'],
-            ['NULL', 'Zend\Mail\Transport\InMemory'],
             ['Sendmail', 'Zend\Mail\Transport\Sendmail'],
             ['SendMail', 'Zend\Mail\Transport\Sendmail'],
             ['Smtp', 'Zend\Mail\Transport\Smtp'],
@@ -118,7 +111,7 @@ class FactoryTest extends TestCase
     public function testCanUseTraversableAsSpec()
     {
         $spec = new ArrayObject([
-            'type' => 'null'
+            'type' => 'inMemory'
         ]);
 
         $transport = Factory::create($spec);
