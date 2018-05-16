@@ -45,6 +45,12 @@ class ContentTypeTest extends TestCase
         $this->assertEquals($header->getParameters(), ['name' => 'foo.pdf']);
     }
 
+    public function testHandlesSemiColonInLiterals()
+    {
+        $header = ContentType::fromString('Content-Type: text/plain; name="foo; bar.txt"');
+        $this->assertEquals($header->getParameters(), ['name' => 'foo; bar.txt']);
+    }
+
     /**
      * @dataProvider setTypeProvider
      */
