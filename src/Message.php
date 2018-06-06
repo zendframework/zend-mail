@@ -403,8 +403,10 @@ class Message
 
             /** @var ContentType $header */
             $header = $this->getHeaderByName('content-type', __NAMESPACE__ . '\Header\ContentType');
-            $header->setType('multipart/mixed');
-            $header->addParameter('boundary', $mime->boundary());
+            if ($header instanceof Header\ContentType) {
+                $header->setType('multipart/mixed');
+                $header->addParameter('boundary', $mime->boundary());
+            }
             return $this;
         }
 
