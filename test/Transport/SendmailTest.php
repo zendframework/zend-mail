@@ -27,7 +27,7 @@ class SendmailTest extends TestCase
     public $message;
     public $additional_headers;
     public $additional_parameters;
-    public $operating_system = '';
+    public $operating_system;
 
     public function setUp()
     {
