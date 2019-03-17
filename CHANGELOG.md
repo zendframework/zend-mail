@@ -22,7 +22,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#226](https://github.com/zendframework/zend-mail/pull/226) fixes how `Zend\Mail\Header\ListParser::parse()` parses the string if a different quote delimiter
+  is found when already in quote.
 
 ## 2.10.0 - 2018-06-07
 
