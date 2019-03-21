@@ -148,7 +148,8 @@ class AddressListTest extends TestCase
     /**
      * If name-field is quoted with "", then ' inside it should not treated as terminator, but as value.
      */
-    public function testMixedQuotesInName() {
+    public function testMixedQuotesInName()
+    {
         $header = '"Bob O\'Reilly" <bob@example.com>,blah@example.com';
 
         // In previous versions, this throws:
