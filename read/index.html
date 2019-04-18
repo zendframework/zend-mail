@@ -12,6 +12,7 @@
     <title>Reading and Storing Mail - zend-mail</title>
 
     <link rel="stylesheet" href="../css/styles-18b942728f.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.2.0/anchor.min.js"></script>
 </head>
 <body id="page-top">
 
@@ -66,7 +67,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="..">zend-mail</a>
+            <a href="">zend-mail</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -75,13 +76,13 @@
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href=".." class="subnavigation__link">zend-mail</a>
+                        <a href="" class="subnavigation__link">zend-mail</a>
                     </li>
                 
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../intro/" class="subnavigation__link">Intro</a>
+                        <a href="intro/" class="subnavigation__link">Intro</a>
                     </li>
                 
             
@@ -97,19 +98,19 @@
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../message/intro/" class="subnavigation__link">Intro and Usage</a>
+        <a href="message/intro/" class="subnavigation__link">Intro and Usage</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../message/attachments/" class="subnavigation__link">Attachments</a>
+        <a href="message/attachments/" class="subnavigation__link">Attachments</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../message/character-sets/" class="subnavigation__link">Character Sets</a>
+        <a href="message/character-sets/" class="subnavigation__link">Character Sets</a>
     </li>
 
             
@@ -124,7 +125,7 @@
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../transport/intro/" class="subnavigation__link">Usage</a>
+        <a href="transport/intro/" class="subnavigation__link">Usage</a>
     </li>
 
             
@@ -135,19 +136,19 @@
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../transport/smtp-options/" class="subnavigation__link">SMTP Options</a>
+        <a href="transport/smtp-options/" class="subnavigation__link">SMTP Options</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../transport/smtp-multiple-send/" class="subnavigation__link">Sending multiple messages</a>
+        <a href="transport/smtp-multiple-send/" class="subnavigation__link">Sending multiple messages</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../transport/smtp-authentication/" class="subnavigation__link">Authentication</a>
+        <a href="transport/smtp-authentication/" class="subnavigation__link">Authentication</a>
     </li>
 
             
@@ -157,7 +158,7 @@
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../transport/file-options/" class="subnavigation__link">File Transport Options</a>
+        <a href="transport/file-options/" class="subnavigation__link">File Transport Options</a>
     </li>
 
             
@@ -167,7 +168,7 @@
                             
                                 
     <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Reading and Storing Mail</a>
+        <a href="read/" class="subnavigation__link">Reading and Storing Mail</a>
     </li>
 
                             
@@ -251,7 +252,7 @@
         <li><a href="https://docs.zendframework.com/">Documentation</a></li>
 
         
-            <li><a href="..">zend-mail</a></li>
+            <li><a href="">zend-mail</a></li>
 
             
                 
@@ -390,9 +391,9 @@ $mail = new Pop3([
     'password' =&gt; 'test',
 ]);
 
-echo $mail-&gt;countMessages() . &quot; messages found\n&quot;;
+echo $mail-&gt;countMessages() . " messages found\n";
 foreach ($mail as $message) {
-    printf(&quot;Mail from '%s': %s\n&quot;, $message-&gt;from, $message-&gt;subject);
+    printf("Mail from '%s': %s\n", $message-&gt;from, $message-&gt;subject);
 }</code></pre>
 
 <h2 id="using-local-storage-via-mbox-and-maildir">Using local storage via mbox and maildir</h2>
@@ -514,7 +515,7 @@ existence prior to retrieval.</p>
 $message = $mail-&gt;getMessage(1);
 
 // output subject of message
-echo $message-&gt;subject . &quot;\n&quot;;
+echo $message-&gt;subject . "\n";
 
 // get content-type header
 $type = $message-&gt;contentType;
@@ -553,11 +554,11 @@ single headers.</p>
 <pre class="codehilite"><code class="language-php">// dump all headers
 foreach ($message-&gt;getHeaders() as $name =&gt; $value) {
     if (is_string($value)) {
-        echo &quot;$name: $value\n&quot;;
+        echo "$name: $value\n";
         continue;
     }
     foreach ($value as $entry) {
-        echo &quot;$name: $entry\n&quot;;
+        echo "$name: $entry\n";
     }
 }</code></pre>
 
@@ -580,8 +581,8 @@ $part = $message;
 while ($part-&gt;isMultipart()) {
     $part = $message-&gt;getPart(1);
 }
-echo 'Type of this part is ' . strtok($part-&gt;contentType, ';') . &quot;\n&quot;;
-echo &quot;Content:\n&quot;;
+echo 'Type of this part is ' . strtok($part-&gt;contentType, ';') . "\n";
+echo "Content:\n";
 echo $part-&gt;getContent();</code></pre>
 
 <p><code>Zend\Mail\Storage\Part</code> also implements <code>RecursiveIterator</code>, which allows iterating
@@ -605,7 +606,7 @@ foreach (new RecursiveIteratorIterator($mail-&gt;getMessage(1)) as $part) {
 if (! $foundPart) {
     echo 'no plain text part found';
 } else {
-    echo &quot;plain text part: \n&quot; . $foundPart;
+    echo "plain text part: \n" . $foundPart;
 }</code></pre>
 
 <h2 id="checking-for-flags">Checking for flags</h2>
@@ -616,7 +617,7 @@ a method called <code>hasFlag()</code>. With <code>getFlags()</code> you'll get 
 <pre class="codehilite"><code class="language-php">use Zend\Mail\Storage;
 
 // Find unread messages:
-echo &quot;Unread mails:\n&quot;;
+echo "Unread mails:\n";
 foreach ($mail as $message) {
     if ($message-&gt;hasFlag(Storage::FLAG_SEEN)) {
         continue;
@@ -627,7 +628,7 @@ foreach ($mail as $message) {
         ? '! '
         : '  ';
 
-    echo $message-&gt;subject . &quot;\n&quot;;
+    echo $message-&gt;subject . "\n";
 }
 
 // Check for known flags
@@ -727,18 +728,18 @@ $folders = new RecursiveIteratorIterator(
     RecursiveIteratorIterator::SELF_FIRST
 );
 
-echo '&lt;select name=&quot;folder&quot;&gt;';
+echo '&lt;select name="folder"&gt;';
 foreach ($folders as $localName =&gt; $folder) {
     $localName = str_pad('', $folders-&gt;getDepth(), '-', STR_PAD_LEFT)
         .  $localName;
     echo '&lt;option';
 
     if (! $folder-&gt;isSelectable()) {
-        echo ' disabled=&quot;disabled&quot;';
+        echo ' disabled="disabled"';
     }
 
     printf(
-        ' value=&quot;%s&quot;&gt;%s&lt;/option&gt;',
+        ' value="%s"&gt;%s&lt;/option&gt;',
         htmlspecialchars($folder),
         htmlspecialchars($localName)
     );
@@ -756,7 +757,7 @@ also use the properties of a <code>Folder</code> instance:</p>
 //  INBOX.Archive.2005
 //  ...
 $folder = $mail-&gt;getFolders()-&gt;Archive-&gt;2005;
-printf(&quot;Last folder was %s; new folder is %s\n&quot;, $mail-&gt;getSelectedFolder(), $folder);
+printf("Last folder was %s; new folder is %s\n", $mail-&gt;getSelectedFolder(), $folder);
 $mail-&gt;selectFolder($folder);</code></pre>
 
 <h2 id="advanced-use">Advanced Use</h2>
@@ -887,7 +888,7 @@ namespace Example\Mail\Pop3
             // ... check $params here! ...
             $protocol = new KnockProtocol($params['host']);
 
-            // do our &quot;special&quot; thing
+            // do our "special" thing
             foreach ((array) $params['knock_ports'] as $port) {
                 $protocol-&gt;knock($port);
             }
@@ -927,17 +928,17 @@ already over quota.</p>
 $mail = new Maildir(['dirname' =&gt; '/home/test/mail/']);
 $mail-&gt;setQuota(true); // true to enable, false to disable
 
-printf(&quot;Quota check is now %s\n&quot;, $mail-&gt;getQuota() ? 'enabled' : 'disabled');
+printf("Quota check is now %s\n", $mail-&gt;getQuota() ? 'enabled' : 'disabled');
 
 // Check quota can be used even if quota checks are disabled:
-printf(&quot;You are %sover quota\n&quot;, $mail-&gt;checkQuota() ? '' : 'not ');</code></pre>
+printf("You are %sover quota\n", $mail-&gt;checkQuota() ? '' : 'not ');</code></pre>
 
 <p><code>checkQuota()</code> can also return a more detailed response by passing a boolean
 <code>true</code> argument:</p>
 <pre class="codehilite"><code class="language-php">$quota = $mail-&gt;checkQuota(true);
-printf(&quot;You are %sover quota\n&quot;, $quota['over_quota'] ? '' : 'not ');
+printf("You are %sover quota\n", $quota['over_quota'] ? '' : 'not ');
 printf(
-    &quot;You have %d of %d messages and use %d of %d octets\n&quot;,
+    "You have %d of %d messages and use %d of %d octets\n",
     $quota['count'],
     $quota['quota']['count'],
     $quota['size'],
@@ -990,7 +991,7 @@ class Maildir extends BaseMaildir
         
         <li class="page-nav__item">
             
-                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../transport/file-options/">
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="transport/file-options/">
                     <i class="fa fa-chevron-left"></i> Previous
                 </a>
             
@@ -1030,7 +1031,7 @@ class Maildir extends BaseMaildir
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="..">zend-mail</a>
+            <a href="">zend-mail</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -1039,13 +1040,13 @@ class Maildir extends BaseMaildir
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href=".." class="subnavigation__link">zend-mail</a>
+                        <a href="" class="subnavigation__link">zend-mail</a>
                     </li>
                 
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../intro/" class="subnavigation__link">Intro</a>
+                        <a href="intro/" class="subnavigation__link">Intro</a>
                     </li>
                 
             
@@ -1061,19 +1062,19 @@ class Maildir extends BaseMaildir
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../message/intro/" class="subnavigation__link">Intro and Usage</a>
+        <a href="message/intro/" class="subnavigation__link">Intro and Usage</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../message/attachments/" class="subnavigation__link">Attachments</a>
+        <a href="message/attachments/" class="subnavigation__link">Attachments</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../message/character-sets/" class="subnavigation__link">Character Sets</a>
+        <a href="message/character-sets/" class="subnavigation__link">Character Sets</a>
     </li>
 
             
@@ -1088,7 +1089,7 @@ class Maildir extends BaseMaildir
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../transport/intro/" class="subnavigation__link">Usage</a>
+        <a href="transport/intro/" class="subnavigation__link">Usage</a>
     </li>
 
             
@@ -1099,19 +1100,19 @@ class Maildir extends BaseMaildir
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../transport/smtp-options/" class="subnavigation__link">SMTP Options</a>
+        <a href="transport/smtp-options/" class="subnavigation__link">SMTP Options</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../transport/smtp-multiple-send/" class="subnavigation__link">Sending multiple messages</a>
+        <a href="transport/smtp-multiple-send/" class="subnavigation__link">Sending multiple messages</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../transport/smtp-authentication/" class="subnavigation__link">Authentication</a>
+        <a href="transport/smtp-authentication/" class="subnavigation__link">Authentication</a>
     </li>
 
             
@@ -1121,7 +1122,7 @@ class Maildir extends BaseMaildir
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../transport/file-options/" class="subnavigation__link">File Transport Options</a>
+        <a href="transport/file-options/" class="subnavigation__link">File Transport Options</a>
     </li>
 
             
@@ -1131,7 +1132,7 @@ class Maildir extends BaseMaildir
                             
                                 
     <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Reading and Storing Mail</a>
+        <a href="read/" class="subnavigation__link">Reading and Storing Mail</a>
     </li>
 
                             
@@ -1213,9 +1214,8 @@ class Maildir extends BaseMaildir
         var base_url = '..',
             siteName = 'zend-mail';
     </script>
-    <script src="../js/"></script>
-        <script src="../search/require.js"></script>
-        <script src="../search/search.js"></script>
+    <script src="../js/scripts-edc4cfa790.js"></script>
+        <script src="../search/main.js"></script>
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
@@ -1244,6 +1244,14 @@ class Maildir extends BaseMaildir
             </div>
         </div>
     </div>
+
+<script>
+// Anchors
+anchors.options.placement = 'left';
+anchors.add(
+    '.content h1:not(.content__title), .content h2, .content > h3, .content h4, .content h5'
+);
+</script>
 
 
 
