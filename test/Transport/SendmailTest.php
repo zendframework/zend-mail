@@ -27,6 +27,7 @@ class SendmailTest extends TestCase
     public $message;
     public $additional_headers;
     public $additional_parameters;
+    public $operating_system;
 
     public function setUp()
     {
@@ -251,5 +252,31 @@ class SendmailTest extends TestCase
 
         $this->expectException(RuntimeException::class);
         $this->transport->send($message);
+    }
+
+    public function testNotSetOptionAutomaticallyOnLeadingF()
+    {
+        if ($this->operating_system == 'WIN') {
+            $this->markTestSkipped('This test is *nix-specific');
+        }
+
+        $message = $this->getMessage();
+        $this->transport->setParameters('-f\'foo@example.com\'');
+
+        $this->transport->send($message);
+        $this->assertEquals('-f\'foo@example.com\'', $this->additional_parameters);
+    }
+
+    public function testNotSetOptionAutomaticallyOnMiddleF()
+    {
+        if ($this->operating_system == 'WIN') {
+            $this->markTestSkipped('This test is *nix-specific');
+        }
+
+        $message = $this->getMessage();
+        $this->transport->setParameters('-bs -f\'foo@example.com\'');
+
+        $this->transport->send($message);
+        $this->assertEquals('-bs -f\'foo@example.com\'', $this->additional_parameters);
     }
 }
