@@ -289,16 +289,14 @@ class Sendmail implements TransportInterface
      */
     public function mailHandler($to, $subject, $message, $headers, $parameters)
     {
-        set_error_handler([$this, 'handleMailErrors']);
         if ($parameters === null) {
             $result = mail($to, $subject, $message, $headers);
         } else {
             $result = mail($to, $subject, $message, $headers, $parameters);
         }
-        restore_error_handler();
 
-        if ($this->errstr !== null || ! $result) {
-            $errstr = $this->errstr;
+        if (!$result) {
+            $errstr = error_get_last()['message'];
             if (empty($errstr)) {
                 $errstr = 'Unknown error';
             }
