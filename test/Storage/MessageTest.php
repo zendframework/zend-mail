@@ -10,6 +10,7 @@ namespace ZendTest\Mail\Storage;
 use Exception as GeneralException;
 use PHPUnit\Framework\TestCase;
 use Zend\Mail\Exception as MailException;
+use Zend\Mail\Headers;
 use Zend\Mail\Storage;
 use Zend\Mail\Storage\Exception;
 use Zend\Mail\Storage\Message;
@@ -24,6 +25,7 @@ use Zend\Mime\Exception as MimeException;
 class MessageTest extends TestCase
 {
     protected $file;
+
     protected $file2;
 
     public function setUp()
@@ -430,6 +432,31 @@ class MessageTest extends TestCase
         $header = 'test; foo =bar; baz      =42';
         $this->assertEquals(Mime\Decode::splitHeaderField($header, 'foo'), 'bar');
         $this->assertEquals(Mime\Decode::splitHeaderField($header, 'baz'), 42);
+    }
+
+    /**
+     * splitMessage with Headers as input fails to process AddressList with semicolons
+     *
+     * @see https://github.com/zendframework/zend-mail/pull/230
+     */
+    public function testHeadersLosesNameQuoting()
+    {
+        $headerList = [
+            'From: "Famous bearings |;" <skf@example.com>',
+            'Reply-To: "Famous bearings |:" <skf@example.com>',
+        ];
+
+        // create Headers object from array
+        Mime\Decode::splitMessage(implode("\r\n", $headerList), $headers1, $body);
+        $this->assertInstanceOf(Headers::class, $headers1);
+        // create Headers object from Headers object
+        Mime\Decode::splitMessage($headers1, $headers2, $body);
+        $this->assertInstanceOf(Headers::class, $headers2);
+
+        // test that same problem does not happen with Storage\Message internally
+        $message = new Message(['headers' => $headers2, 'content' => (string)$body]);
+        $this->assertEquals('"Famous bearings |;" <skf@example.com>', $message->from);
+        $this->assertEquals('Famous bearings |: <skf@example.com>', $message->replyTo);
     }
 
     /**
