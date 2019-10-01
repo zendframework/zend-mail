@@ -322,10 +322,6 @@
             <ul class="toc__list">
                 
                     <li class="toc__entry">
-                        <a href="#only-in-text-format" class="toc__link">Only in text format</a>
-                    </li>
-                
-                    <li class="toc__entry">
                         <a href="#example" class="toc__link">Example</a>
                     </li>
                 
@@ -346,13 +342,13 @@ sets, you will need to:</p>
 <li>In multipart messages, set the character set per-part.</li>
 </ul>
 <blockquote>
-<h3 id="only-in-text-format">Only in text format</h3>
+<h3>Only in text format</h3>
 <p>Character sets are only applicable for message parts in text format.</p>
 </blockquote>
 <h2 id="example">Example</h2>
 <p>The following example is how to use <code>Zend\Mail\Message</code> to send a message in
 Japanese.</p>
-<pre class="codehilite"><code class="language-php">use Zend\Mail\Message;
+<p> <pre class=codehilite><code class=language-php>use Zend\Mail\Message;
 use Zend\Mime\Message as MimeMessage;
 use Zend\Mime\Mime;
 use Zend\Mime\Part as MimePart;
@@ -383,7 +379,7 @@ $part-&gt;encoding = Mime::ENCODING_7BIT;
 // Create a MIME message, add the part, and attach it to the mail message:
 $body = new MimeMessage();
 $body-&gt;addPart($part);
-$mail-&gt;setBody($body);</code></pre>
+$mail-&gt;setBody($body);</code></pre></p>
 
 
 
@@ -417,7 +413,7 @@ $mail-&gt;setBody($body);</code></pre>
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-mail/edit/master/docs/message/character-sets.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-mail/edit/master/docs/book/message/character-sets.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>

@@ -343,7 +343,7 @@
 <p>This document details the various options available to the
 <code>Zend\Mail\Transport\File</code> mail transport.</p>
 <h2 id="quick-start">Quick Start</h2>
-<pre class="codehilite"><code class="language-php">use Zend\Mail\Transport\File as FileTransport;
+<p> <pre class=codehilite><code class=language-php>use Zend\Mail\Transport\File as FileTransport;
 use Zend\Mail\Transport\FileOptions;
 
 // Setup File transport
@@ -354,8 +354,7 @@ $options   = new FileOptions([
         return 'Message_' . microtime(true) . '_' . mt_rand() . '.txt';
     },
 ]);
-$transport-&gt;setOptions($options);</code></pre>
-
+$transport-&gt;setOptions($options);</code></pre></p>
 <h2 id="configuration-options">Configuration Options</h2>
 <div class="table-responsive"><table>
 <thead>
@@ -376,33 +375,27 @@ $transport-&gt;setOptions($options);</code></pre>
 </tbody>
 </table></div>
 <p>The default callback used is:</p>
-<pre class="codehilite"><code class="language-php">function (Zend\Mail\FileTransport $transport) {
+<p> <pre class=codehilite><code class=language-php>function (Zend\Mail\FileTransport $transport) {
     return 'ZendMail_' . time() . '_' . mt_rand() . '.tmp';
-}</code></pre>
-
+}</code></pre></p>
 <h2 id="available-methods">Available Methods</h2>
 <p><code>Zend\Mail\Transport\FileOptions</code> extends <code>Zend\Stdlib\AbstractOptions</code>, and
 inherits all functionality from that class; this includes property overloading.
 Additionally, the following explicit setters and getters are provided.</p>
-<h3 id="setpath">setPath</h3>
-<pre class="codehilite"><code class="language-php">setPath(string $path) : void</code></pre>
-
+<h3>setPath</h3>
+<p> <pre class=codehilite><code class=language-php>setPath(string $path) : void</code></pre></p>
 <p>Set the path under which mail files will be written.</p>
-<h3 id="getpath">getPath</h3>
-<pre class="codehilite"><code class="language-php">getPath() : string</code></pre>
-
+<h3>getPath</h3>
+<p> <pre class=codehilite><code class=language-php>getPath() : string</code></pre></p>
 <p>Get the path under which mail files will be written.</p>
-<h3 id="setcallback">setCallback</h3>
-<pre class="codehilite"><code class="language-php">setCallback(callable $callback) : void</code></pre>
-
+<h3>setCallback</h3>
+<p> <pre class=codehilite><code class=language-php>setCallback(callable $callback) : void</code></pre></p>
 <p>Set the callback used to generate unique filenames for messages.</p>
-<h3 id="getcallback">getCallback</h3>
-<pre class="codehilite"><code class="language-php">getCallback() : callable</code></pre>
-
+<h3>getCallback</h3>
+<p> <pre class=codehilite><code class=language-php>getCallback() : callable</code></pre></p>
 <p>Get the callback used to generate unique filenames for messages.</p>
-<h3 id="9595construct">__construct</h3>
-<pre class="codehilite"><code class="language-php">__construct(null|array|Traversable $config) : void</code></pre>
-
+<h3>__construct</h3>
+<p> <pre class=codehilite><code class=language-php>__construct(null|array|Traversable $config) : void</code></pre></p>
 <p>Initialize the object. Allows passing a PHP array or <code>Traversable</code> object with
 which to populate the instance.</p>
 
@@ -438,7 +431,7 @@ which to populate the instance.</p>
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-mail/edit/master/docs/transport/file-options.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-mail/edit/master/docs/book/transport/file-options.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>

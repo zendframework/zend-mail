@@ -353,21 +353,20 @@ serializes in order to send.</p>
 <h2 id="quick-start">Quick Start</h2>
 <p>Using a mail transport involves instantiating it, optionally configuring it, and
 then passing a message to it.</p>
-<h3 id="sendmail-transport-usage">Sendmail Transport Usage</h3>
-<pre class="codehilite"><code class="language-php">use Zend\Mail\Message;
+<h3>Sendmail Transport Usage</h3>
+<p> <pre class=codehilite><code class=language-php>use Zend\Mail\Message;
 use Zend\Mail\Transport\Sendmail as SendmailTransport;
 
 $message = new Message();
 $message-&gt;addTo('matthew@example.org');
 $message-&gt;addFrom('ralph@example.org');
 $message-&gt;setSubject('Greetings and Salutations!');
-$message-&gt;setBody("Sorry, I'm going to be late today!");
+$message-&gt;setBody(&quot;Sorry, I'm going to be late today!&quot;);
 
 $transport = new SendmailTransport();
-$transport-&gt;send($message);</code></pre>
-
-<h3 id="smtp-transport-usage">SMTP Transport Usage</h3>
-<pre class="codehilite"><code class="language-php">use Zend\Mail\Message;
+$transport-&gt;send($message);</code></pre></p>
+<h3>SMTP Transport Usage</h3>
+<p> <pre class=codehilite><code class=language-php>use Zend\Mail\Message;
 use Zend\Mail\Transport\Smtp as SmtpTransport;
 use Zend\Mail\Transport\SmtpOptions;
 
@@ -375,7 +374,7 @@ $message = new Message();
 $message-&gt;addTo('matthew@example.org');
 $message-&gt;addFrom('ralph@example.org');
 $message-&gt;setSubject('Greetings and Salutations!');
-$message-&gt;setBody("Sorry, I'm going to be late today!");
+$message-&gt;setBody(&quot;Sorry, I'm going to be late today!&quot;);
 
 // Setup SMTP transport using LOGIN authentication
 $transport = new SmtpTransport();
@@ -389,10 +388,9 @@ $options   = new SmtpOptions([
     ],
 ]);
 $transport-&gt;setOptions($options);
-$transport-&gt;send($message);</code></pre>
-
-<h3 id="file-transport-usage">File Transport Usage</h3>
-<pre class="codehilite"><code class="language-php">use Zend\Mail\Message;
+$transport-&gt;send($message);</code></pre></p>
+<h3>File Transport Usage</h3>
+<p> <pre class=codehilite><code class=language-php>use Zend\Mail\Message;
 use Zend\Mail\Transport\File as FileTransport;
 use Zend\Mail\Transport\FileOptions;
 use Zend\Math\Rand;
@@ -401,7 +399,7 @@ $message = new Message();
 $message-&gt;addTo('matthew@example.org');
 $message-&gt;addFrom('ralph@example.org');
 $message-&gt;setSubject('Greetings and Salutations!');
-$message-&gt;setBody("Sorry, I'm going to be late today!");
+$message-&gt;setBody(&quot;Sorry, I'm going to be late today!&quot;);
 
 // Setup File transport
 $transport = new FileTransport();
@@ -416,28 +414,26 @@ $options   = new FileOptions([
     },
 ]);
 $transport-&gt;setOptions($options);
-$transport-&gt;send($message);</code></pre>
-
-<h3 id="inmemory-transport-usage">InMemory Transport Usage</h3>
-<pre class="codehilite"><code class="language-php">use Zend\Mail\Message;
+$transport-&gt;send($message);</code></pre></p>
+<h3>InMemory Transport Usage</h3>
+<p> <pre class=codehilite><code class=language-php>use Zend\Mail\Message;
 use Zend\Mail\Transport\InMemory as InMemoryTransport;
 
 $message = new Message();
 $message-&gt;addTo('matthew@example.org');
 $message-&gt;addFrom('ralph@example.org');
 $message-&gt;setSubject('Greetings and Salutations!');
-$message-&gt;setBody("Sorry, I'm going to be late today!");
+$message-&gt;setBody(&quot;Sorry, I'm going to be late today!&quot;);
 
 // Setup InMemory transport
 $transport = new InMemoryTransport();
 $transport-&gt;send($message);
 
 // Verify the message:
-$received = $transport-&gt;getLastMessage();</code></pre>
-
+$received = $transport-&gt;getLastMessage();</code></pre></p>
 <p>The <code>InMemory</code> transport is primarily of interest when in development or when
 testing.</p>
-<h3 id="migration-from-20-23-to-24">Migration from 2.0-2.3 to 2.4+</h3>
+<h3>Migration from 2.0-2.3 to 2.4+</h3>
 <p>Version 2.4 adds support for PHP 7. In PHP 7, <code>null</code> is a reserved keyword,
 which required renaming the <code>Null</code> transport. If you were using the <code>Null</code>
 transport directly previously, you will now receive an <code>E_USER_DEPRECATED</code>
@@ -454,9 +450,8 @@ transport-specific options.</p>
 <li><a href="../file-options/">File Transport Options</a></li>
 </ul>
 <h2 id="available-methods">Available Methods</h2>
-<h3 id="send">send</h3>
-<pre class="codehilite"><code class="language-php">send(Zend\Mail\Message $message) : void</code></pre>
-
+<h3>send</h3>
+<p> <pre class=codehilite><code class=language-php>send(Zend\Mail\Message $message) : void</code></pre></p>
 <p>Send a mail message.</p>
 
 
@@ -491,7 +486,7 @@ transport-specific options.</p>
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-mail/edit/master/docs/transport/intro.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-mail/edit/master/docs/book/transport/intro.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>

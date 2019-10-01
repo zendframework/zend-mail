@@ -352,51 +352,44 @@ those purposes, you will need to use, respectively, a <a href="../../transport/i
 a <a href="../../read/">Storage adapter</a>.</p>
 <h2 id="quick-start">Quick Start</h2>
 <p>Creating a <code>Message</code> by instantiating it:</p>
-<pre class="codehilite"><code class="language-php">use Zend\Mail\Message;
+<p> <pre class=codehilite><code class=language-php>use Zend\Mail\Message;
 
-$message = new Message();</code></pre>
-
+$message = new Message();</code></pre></p>
 <p>Once you have your <code>Message</code> instance, you can start adding content or headers.
 Let's set who the mail is from, who it's addressed to, a subject, and some
 content:</p>
-<pre class="codehilite"><code class="language-php">$message-&gt;addFrom('matthew@example.org', 'Matthew Somelli');
+<p> <pre class=codehilite><code class=language-php>$message-&gt;addFrom('matthew@example.org', 'Matthew Somelli');
 $message-&gt;addTo('foobar@example.com');
 $message-&gt;setSubject('Sending an email from Zend\Mail!');
-$message-&gt;setBody('This is the message body.');</code></pre>
-
+$message-&gt;setBody('This is the message body.');</code></pre></p>
 <p>You can also add recipients to carbon-copy ("Cc:") or blind carbon-copy
 ("Bcc:").</p>
-<pre class="codehilite"><code class="language-php">$message-&gt;addCc('ralph@example.org');
-$message-&gt;addBcc('enrico@example.org');</code></pre>
-
+<p> <pre class=codehilite><code class=language-php>$message-&gt;addCc('ralph@example.org');
+$message-&gt;addBcc('enrico@example.org');</code></pre></p>
 <p>If you want to specify an alternate address to which replies may be sent, that
 can be done, too.</p>
-<pre class="codehilite"><code class="language-php">$message-&gt;addReplyTo('matthew@example.com', 'Matthew');</code></pre>
-
+<p> <pre class=codehilite><code class=language-php>$message-&gt;addReplyTo('matthew@example.com', 'Matthew');</code></pre></p>
 <p>Interestingly, RFC-822 allows for multiple "From:" addresses. When you do this,
 the first one will be used as the sender, <strong>unless</strong> you specify a "Sender:"
 header. The <code>Message</code> class allows for this.</p>
-<pre class="codehilite"><code class="language-php">/*
+<p> <pre class=codehilite><code class=language-php>/*
  * Mail headers created:
  * From: Ralph Nader &lt;ralph@example.org&gt;, Enrico Volante &lt;enrico@example.org&gt;
  * Sender: Matthew Sommeli &lt;matthew@example.org&gt;
  */
 $message-&gt;addFrom('ralph@example.org', 'Ralph Nader');
 $message-&gt;addFrom('enrico@example.org', 'Enrico Volante');
-$message-&gt;setSender('matthew@example.org', 'Matthew Sommeli');</code></pre>
-
+$message-&gt;setSender('matthew@example.org', 'Matthew Sommeli');</code></pre></p>
 <p>By default, the <code>Message</code> class assumes ASCII encoding for your email. If you
 wish to use another encoding, you can do so; setting this will ensure all
 headers and body content are properly encoded using quoted-printable encoding.</p>
-<pre class="codehilite"><code class="language-php">$message-&gt;setEncoding('UTF-8');</code></pre>
-
+<p> <pre class=codehilite><code class=language-php>$message-&gt;setEncoding('UTF-8');</code></pre></p>
 <p>If you wish to set other headers, you can do that as well.</p>
-<pre class="codehilite"><code class="language-php">/*
+<p> <pre class=codehilite><code class=language-php>/*
  * Mail headers created:
  * X-API-Key: FOO-BAR-BAZ-BAT
  */
-$message-&gt;getHeaders()-&gt;addHeaderLine('X-API-Key', 'FOO-BAR-BAZ-BAT');</code></pre>
-
+$message-&gt;getHeaders()-&gt;addHeaderLine('X-API-Key', 'FOO-BAR-BAZ-BAT');</code></pre></p>
 <p>Sometimes you may want to provide HTML content, or multi-part content. To do
 that, you'll first create a MIME message object, and then set it as the body of
 your mail message object. When you do so, the <code>Message</code> class will automatically
@@ -404,11 +397,10 @@ set a "MIME-Version" header, as well as an appropriate "Content-Type" header.</p
 <p>If you are interested in multipart emails or using attachments, read the chapter
 on <a href="../attachments/">Adding Attachments</a>.</p>
 <p>If you want a string representation of your email, you can get that:</p>
-<pre class="codehilite"><code class="language-php">echo $message-&gt;toString();</code></pre>
-
+<p> <pre class=codehilite><code class=language-php>echo $message-&gt;toString();</code></pre></p>
 <p>Finally, you can fully introspect the message, including getting all addresses
 of recipients and senders, all headers, and the message body.</p>
-<pre class="codehilite"><code class="language-php">// Headers
+<p> <pre class=codehilite><code class=language-php>// Headers
 // Note: this will also grab all headers for which accessors/mutators exist in
 // the Message object itself.
 foreach ($message-&gt;getHeaders() as $header) {
@@ -418,203 +410,173 @@ foreach ($message-&gt;getHeaders() as $header) {
 
 // The logic below also works for the methods cc(), bcc(), to(), and replyTo()
 foreach ($message-&gt;getFrom() as $address) {
-    printf("%s: %s\n", $address-&gt;getEmail(), $address-&gt;getName());
+    printf(&quot;%s: %s\n&quot;, $address-&gt;getEmail(), $address-&gt;getName());
 }
 
 // Sender
 $address = $message-&gt;getSender();
 if (! is_null($address)) {
-   printf("%s: %s\n", $address-&gt;getEmail(), $address-&gt;getName());
+   printf(&quot;%s: %s\n&quot;, $address-&gt;getEmail(), $address-&gt;getName());
 }
 
 // Subject
-echo "Subject: ", $message-&gt;getSubject(), "\n";
+echo &quot;Subject: &quot;, $message-&gt;getSubject(), &quot;\n&quot;;
 
 // Encoding
-echo "Encoding: ", $message-&gt;getEncoding(), "\n";
+echo &quot;Encoding: &quot;, $message-&gt;getEncoding(), &quot;\n&quot;;
 
 // Message body:
 echo $message-&gt;getBody();     // raw body, or MIME object
-echo $message-&gt;getBodyText(); // body as it will be sent</code></pre>
-
+echo $message-&gt;getBodyText(); // body as it will be sent</code></pre></p>
 <p>Once your message is shaped to your liking, pass it to a
 <a href="../../transport/intro/">mail transport</a> in order to send it!</p>
-<pre class="codehilite"><code class="language-php">$transport-&gt;send($message);</code></pre>
-
+<p> <pre class=codehilite><code class=language-php>$transport-&gt;send($message);</code></pre></p>
 <h2 id="configuration-options">Configuration Options</h2>
 <p>The <code>Message</code> class has no configuration options, and is instead a value object.</p>
 <h2 id="available-methods">Available Methods</h2>
-<h3 id="isvalid">isValid</h3>
-<pre class="codehilite"><code class="language-php">isValid() : bool</code></pre>
-
+<h3>isValid</h3>
+<p> <pre class=codehilite><code class=language-php>isValid() : bool</code></pre></p>
 <p>Messages without a <code>From</code> address are invalid, per RFC-2822.</p>
-<h3 id="setencoding">setEncoding</h3>
-<pre class="codehilite"><code class="language-php">setEncoding(string $encoding) : void</code></pre>
-
+<h3>setEncoding</h3>
+<p> <pre class=codehilite><code class=language-php>setEncoding(string $encoding) : void</code></pre></p>
 <p>Set the message encoding.</p>
-<h3 id="getencoding">getEncoding</h3>
-<pre class="codehilite"><code class="language-php">getEncoding() : string</code></pre>
-
+<h3>getEncoding</h3>
+<p> <pre class=codehilite><code class=language-php>getEncoding() : string</code></pre></p>
 <p>Get the message encoding.</p>
-<h3 id="setheaders">setHeaders</h3>
-<pre class="codehilite"><code class="language-php">setHeaders(Zend\Mail\Headers $headers) : void</code></pre>
-
+<h3>setHeaders</h3>
+<p> <pre class=codehilite><code class=language-php>setHeaders(Zend\Mail\Headers $headers) : void</code></pre></p>
 <p>Compose headers.</p>
-<h3 id="getheaders">getHeaders</h3>
-<pre class="codehilite"><code class="language-php">getHeaders() : Zend\Mail\Headers</code></pre>
-
+<h3>getHeaders</h3>
+<p> <pre class=codehilite><code class=language-php>getHeaders() : Zend\Mail\Headers</code></pre></p>
 <p>Access headers collection, lazy-loading a <code>Headers</code> instance if none was
 previously attached.</p>
-<h3 id="setfrom">setFrom</h3>
-<pre class="codehilite"><code class="language-php">setFrom(
+<h3>setFrom</h3>
+<p> <pre class=codehilite><code class=language-php>setFrom(
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressList,
     string|null $name
-) : void</code></pre>
-
+) : void</code></pre></p>
 <p>Set (overwrite) <code>From</code> addresses. If an associative array is provided, it must
 be a set of key/value pairs where the key is the human readable name, and the
 value is the email address.</p>
-<h3 id="addfrom">addFrom</h3>
-<pre class="codehilite"><code class="language-php">addFrom(
+<h3>addFrom</h3>
+<p> <pre class=codehilite><code class=language-php>addFrom(
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressOrList,
     string|null $name
-) : void</code></pre>
-
+) : void</code></pre></p>
 <p>Add a <code>From</code> address. If an associative array is provided, it must be a set of
 key/value pairs where the key is the human readable name, and the value is the
 email address.</p>
-<h3 id="getfrom">getFrom</h3>
-<pre class="codehilite"><code class="language-php">getFrom() : AddressList</code></pre>
-
+<h3>getFrom</h3>
+<p> <pre class=codehilite><code class=language-php>getFrom() : AddressList</code></pre></p>
 <p>Retrieve list of <code>From</code> senders.</p>
-<h3 id="setto">setTo</h3>
-<pre class="codehilite"><code class="language-php">setTo(
+<h3>setTo</h3>
+<p> <pre class=codehilite><code class=language-php>setTo(
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressList,
     null|string $name
-) : void</code></pre>
-
+) : void</code></pre></p>
 <p>Overwrite the address list in the <code>To</code> recipients. If an associative array is
 provided, it must be a set of key/value pairs where the key is the human
 readable name, and the value is the email address.</p>
-<h3 id="addto">addTo</h3>
-<pre class="codehilite"><code class="language-php">addTo(
+<h3>addTo</h3>
+<p> <pre class=codehilite><code class=language-php>addTo(
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressOrList,
     null|string $name
-) : void</code></pre>
-
+) : void</code></pre></p>
 <p>Add one or more addresses to the <code>To</code> recipients; appends to the list. If an
 associative array is provided, it must be a set of key/value pairs where the key
 is the human readable name, and the value is the email address.</p>
-<h3 id="getto">getTo</h3>
-<pre class="codehilite"><code class="language-php">getTo() : AddressList</code></pre>
-
+<h3>getTo</h3>
+<p> <pre class=codehilite><code class=language-php>getTo() : AddressList</code></pre></p>
 <p>Access the address list of the <code>To</code> header.  Lazy-loads an <code>AddressList</code> and
 populates the <code>To</code> header if not previously done.</p>
-<h3 id="setcc">setCc</h3>
-<pre class="codehilite"><code class="language-php">setCc(
+<h3>setCc</h3>
+<p> <pre class=codehilite><code class=language-php>setCc(
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressList,
     string|null $name
-) : void</code></pre>
-
+) : void</code></pre></p>
 <p>Set (overwrite) <code>Cc</code> addresses. If an associative array is provided, it must be
 a set of key/value pairs where the key is the human readable name, and the value
 is the email address.</p>
-<h3 id="addcc">addCc</h3>
-<pre class="codehilite"><code class="language-php">addCc(
+<h3>addCc</h3>
+<p> <pre class=codehilite><code class=language-php>addCc(
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressList,
     string|null $name
-) : void</code></pre>
-
+) : void</code></pre></p>
 <p>Add a <code>Cc</code> address. If an associative array is provided, it must be a set of
 key/value pairs where the key is the human readable name, and the value is the
 email address.</p>
-<h3 id="getcc">getCc</h3>
-<pre class="codehilite"><code class="language-php">getCc() : AddressList</code></pre>
-
+<h3>getCc</h3>
+<p> <pre class=codehilite><code class=language-php>getCc() : AddressList</code></pre></p>
 <p>Retrieve list of <code>Cc</code> recipients.  Lazy-loads an <code>AddressList</code> and populates the
 <code>Cc</code> header if not previously done.</p>
-<h3 id="setbcc">setBcc</h3>
-<pre class="codehilite"><code class="language-php">setBcc(
+<h3>setBcc</h3>
+<p> <pre class=codehilite><code class=language-php>setBcc(
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressList,
     string|null $name
-) : void</code></pre>
-
+) : void</code></pre></p>
 <p>Set (overwrite) <code>Bcc</code> addresses. If an associative array is provided, it must be
 a set of key/value pairs where the key is the human readable name, and the value
 is the email address.</p>
-<h3 id="addbcc">addBcc</h3>
-<pre class="codehilite"><code class="language-php">addBcc(
+<h3>addBcc</h3>
+<p> <pre class=codehilite><code class=language-php>addBcc(
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressList,
     string|null $name
-) : void</code></pre>
-
+) : void</code></pre></p>
 <p>Add a <code>Bcc</code> address. If an associative array is provided, it must be a set of
 key/value pairs where the key is the human readable name, and the value is the
 email address.</p>
-<h3 id="getbcc">getBcc</h3>
-<pre class="codehilite"><code class="language-php">getBcc() : AddressList</code></pre>
-
+<h3>getBcc</h3>
+<p> <pre class=codehilite><code class=language-php>getBcc() : AddressList</code></pre></p>
 <p>Retrieve list of <code>Bcc</code> recipients.  Lazy-loads an <code>AddressList</code> and populates
 the <code>Bcc</code> header if not previously done.</p>
-<h3 id="setreplyto">setReplyTo</h3>
-<pre class="codehilite"><code class="language-php">setReplyTo(
+<h3>setReplyTo</h3>
+<p> <pre class=codehilite><code class=language-php>setReplyTo(
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressList,
     string|null $name
-) : void</code></pre>
-
+) : void</code></pre></p>
 <p>Overwrite the address list in the <code>Reply-To</code> recipients. If an associative array
 is provided, it must be a set of key/value pairs where the key is the human
 readable name, and the value is the email address.</p>
-<h3 id="addreplyto">addReplyTo</h3>
-<pre class="codehilite"><code class="language-php">addReplyTo(
+<h3>addReplyTo</h3>
+<p> <pre class=codehilite><code class=language-php>addReplyTo(
     string|AddressInterface|array|AddressList|Traversable $emailOrAddressList,
     string|null $name
-) : void</code></pre>
-
+) : void</code></pre></p>
 <p>Add one or more addresses to the <code>Reply-To</code> recipients. If an associative array
 is provided, it must be a set of key/value pairs where the key is the human
 readable name, and the value is the email address.</p>
-<h3 id="getreplyto">getReplyTo</h3>
-<pre class="codehilite"><code class="language-php">getReplyTo() : AddressList</code></pre>
-
+<h3>getReplyTo</h3>
+<p> <pre class=codehilite><code class=language-php>getReplyTo() : AddressList</code></pre></p>
 <p>Access the address list of the <code>Reply-To</code> header.  Lazy-loads an <code>AddressList</code>
 and populates the <code>Reply-To</code> header if not previously done.</p>
-<h3 id="setsender">setSender</h3>
-<pre class="codehilite"><code class="language-php">setSender(
+<h3>setSender</h3>
+<p> <pre class=codehilite><code class=language-php>setSender(
     string|AddressInterface $emailOrAddress,
     null|string $name
-) : void</code></pre>
-
+) : void</code></pre></p>
 <p>Set the message envelope <code>Sender</code> header.</p>
-<h3 id="getsender">getSender</h3>
-<pre class="codehilite"><code class="language-php">getSender() : null|AddressInterface</code></pre>
-
+<h3>getSender</h3>
+<p> <pre class=codehilite><code class=language-php>getSender() : null|AddressInterface</code></pre></p>
 <p>Retrieve the sender address, if any.</p>
-<h3 id="setsubject">setSubject</h3>
-<pre class="codehilite"><code class="language-php">setSubject(string $subject) :void</code></pre>
-
+<h3>setSubject</h3>
+<p> <pre class=codehilite><code class=language-php>setSubject(string $subject) :void</code></pre></p>
 <p>Set the message subject header value.</p>
-<h3 id="getsubject">getSubject</h3>
-<pre class="codehilite"><code class="language-php">getSubject() : null|string</code></pre>
-
+<h3>getSubject</h3>
+<p> <pre class=codehilite><code class=language-php>getSubject() : null|string</code></pre></p>
 <p>Get the message subject header value.</p>
-<h3 id="setbody">setBody</h3>
-<pre class="codehilite"><code class="language-php">setBody(null|string|Zend\Mime\Message|object $body) : void</code></pre>
-
+<h3>setBody</h3>
+<p> <pre class=codehilite><code class=language-php>setBody(null|string|Zend\Mime\Message|object $body) : void</code></pre></p>
 <p>Set the message body. If a generic object is provided, it must implement
 <code>__toString()</code>.</p>
-<h3 id="getbody">getBody</h3>
-<pre class="codehilite"><code class="language-php">getBody() : null|string|object</code></pre>
-
+<h3>getBody</h3>
+<p> <pre class=codehilite><code class=language-php>getBody() : null|string|object</code></pre></p>
 <p>Return the currently set message body. Object return values include
 <code>Zend\Mime\Message</code> instances or objects implementing <code>__toString()</code>.</p>
-<h3 id="getbodytext">getBodyText</h3>
-<pre class="codehilite"><code class="language-php">getBodyText() : null|string</code></pre>
-
+<h3>getBodyText</h3>
+<p> <pre class=codehilite><code class=language-php>getBodyText() : null|string</code></pre></p>
 <p>Get the string-serialized message body text.</p>
-<h3 id="tostring">toString</h3>
-<pre class="codehilite"><code class="language-php">toString() : string</code></pre>
-
+<h3>toString</h3>
+<p> <pre class=codehilite><code class=language-php>toString() : string</code></pre></p>
 <p>Serialize to string.</p>
 
 
@@ -649,7 +611,7 @@ and populates the <code>Reply-To</code> header if not previously done.</p>
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-mail/edit/master/docs/message/intro.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-mail/edit/master/docs/book/message/intro.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>
