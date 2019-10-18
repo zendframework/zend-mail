@@ -116,7 +116,8 @@ $content = new MimeMessage();
 // This order is important for email clients to properly display the correct version of the content
 $content->setParts([$text, $html]);
 
-$contentPart = new MimePart($content->generateMessage());
+$contentPart       = new MimePart($content->generateMessage());
+$contentPart->type = 'multipart/alternative; boundary="' . $contentPart->getMime()->boundary() . '"';
 
 $image              = new MimePart(fopen($pathToImage, 'r'));
 $image->type        = 'image/jpeg';
