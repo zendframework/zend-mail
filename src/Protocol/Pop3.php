@@ -25,6 +25,12 @@ class Pop3
     public $hasTop = null;
 
     /**
+     * Do not validate the SSL certificate if set to true
+     * @var null|bool
+     */
+    public $novalidatecert;
+    
+    /**
      * socket to pop3
      * @var null|resource
      */
@@ -67,7 +73,7 @@ class Pop3
      * @throws Exception\RuntimeException
      * @return string welcome message
      */
-    public function connect($host, $port = null, $ssl = false, $novalidatecert = false)
+    public function connect($host, $port = null, $ssl = false)
     {
         $isTls = false;
 
@@ -93,7 +99,7 @@ class Pop3
         
         $socket_options = [];
         
-        if ($novalidatecert) {
+        if ($this->novalidatecert) {
 	        $socket_options = [
 	        	'ssl' => [
 	        		'verify_peer_name' => false,

@@ -19,6 +19,12 @@ class Imap
     const TIMEOUT_CONNECTION = 30;
 
     /**
+     * Do not validate the SSL certificate if set to true
+     * @var null|bool
+     */
+    public $novalidatecert;
+    
+    /**
      * socket to imap server
      * @var resource|null
      */
@@ -62,7 +68,7 @@ class Imap
      * @throws Exception\RuntimeException
      * @return string welcome message
      */
-    public function connect($host, $port = null, $ssl = false, $novalidatecert = false)
+    public function connect($host, $port = null, $ssl = false)
     {
         $isTls = false;
 
@@ -88,7 +94,7 @@ class Imap
         
         $socket_options = [];
         
-        if ($novalidatecert) {
+        if ($this->novalidatecert) {
         	$socket_options = [
         		'ssl' => [
         			'verify_peer_name' => false,
