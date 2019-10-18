@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="zend-mail">  
+    <meta name="description" content="Parse, create, store, and send email messages, using a variety of storage and transport protocols.">  
     <link rel="canonical" href="https://docs.zendframework.com/zend-mail/transport/smtp-authentication/">
     <link rel="shortcut icon" href="../../img/favicon.ico">
 
@@ -82,21 +82,7 @@
                     
                         
                             <li class="subnavigation__list-item ">
-                                <a href="../.." class="subnavigation__link">zend-mail</a>
-                            </li>
-                        
-                    
-                
-            
-
-                
-                
-
-                    
-                    
-                        
-                            <li class="subnavigation__list-item ">
-                                <a href="../../intro/" class="subnavigation__link">Intro</a>
+                                <a href="../../intro/" class="subnavigation__link">Introduction</a>
                             </li>
                         
                     
@@ -412,6 +398,13 @@ $options   = new SmtpOptions([
 ]);
 $transport-&gt;setOptions($options);</code></pre></p>
 <h3>SMTP Transport Usage with CRAM-MD5 AUTH</h3>
+<blockquote>
+<h3>Installation requirements</h3>
+<p>The CRAM-MD5 authentication depends on the zend-crypt component, so be sure to
+have it installed before getting started:</p>
+<p><code>bash
+$ composer require zendframework/zend-crypt</code></p>
+</blockquote>
 <p> <pre class=codehilite><code class=language-php>use Zend\Mail\Transport\Smtp as SmtpTransport;
 use Zend\Mail\Transport\SmtpOptions;
 
@@ -565,21 +558,7 @@ long-running scripts, you SHOULD use the flag along with the
                     
                         
                             <li class="subnavigation__list-item ">
-                                <a href="../.." class="subnavigation__link">zend-mail</a>
-                            </li>
-                        
-                    
-                
-            
-
-                
-                
-
-                    
-                    
-                        
-                            <li class="subnavigation__list-item ">
-                                <a href="../../intro/" class="subnavigation__link">Intro</a>
+                                <a href="../../intro/" class="subnavigation__link">Introduction</a>
                             </li>
                         
                     
