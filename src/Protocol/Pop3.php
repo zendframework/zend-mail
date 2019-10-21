@@ -25,10 +25,10 @@ class Pop3
     public $hasTop = null;
 
     /**
-     * Do not validate the SSL certificate if set to true
+     * If set to true, do not validate the SSL certificate
      * @var null|bool
      */
-    public $novalidatecert;
+    protected $novalidatecert;
     
     /**
      * socket to pop3
@@ -45,12 +45,15 @@ class Pop3
     /**
      * Public constructor
      *
-     * @param  string      $host  hostname or IP address of POP3 server, if given connect() is called
-     * @param  int|null    $port  port of POP3 server, null for default (110 or 995 for ssl)
-     * @param  bool|string $ssl   use ssl? 'SSL', 'TLS' or false
+     * @param  string      $host            hostname or IP address of POP3 server, if given connect() is called
+     * @param  int|null    $port            port of POP3 server, null for default (110 or 995 for ssl)
+     * @param  bool|string $ssl             use ssl? 'SSL', 'TLS' or false
+     * @param  bool        $novalidatecert  set to true to skip SSL certificate validation
      */
-    public function __construct($host = '', $port = null, $ssl = false)
+    public function __construct($host = '', $port = null, $ssl = false, $novalidatecert = false)
     {
+        $this->novalidatecert = $novalidatecert;
+
         if ($host) {
             $this->connect($host, $port, $ssl);
         }
@@ -64,6 +67,14 @@ class Pop3
         $this->logout();
     }
 
+    
+    public function setNoValidateCert($novalidatecert) {
+
+        if (is_bool($novalidatecert)) {
+            $this->novalidatecert = $novalidatecert;
+        }
+    }
+    
     /**
      * Open connection to POP3 server
      *
@@ -100,18 +111,18 @@ class Pop3
         $socket_options = [];
         
         if ($this->novalidatecert) {
-	        $socket_options = [
-	        	'ssl' => [
-	        		'verify_peer_name' => false,
-	        		'verify_peer'      => false,
-	        	]
-	        ];
+            $socket_options = [
+                'ssl' => [
+                    'verify_peer_name' => false,
+                    'verify_peer'      => false,
+                ]
+            ];
         }
         
         $socket_context = stream_context_create($socket_options);
         
         ErrorHandler::start();
-        $this->socket = @stream_socket_client($host . ":" . $port, $errno, $errstr, self::TIMEOUT_CONNECTION, STREAM_CLIENT_CONNECT, $socket_context);
+        $this->socket = stream_socket_client($host . ":" . $port, $errno, $errstr, self::TIMEOUT_CONNECTION, STREAM_CLIENT_CONNECT, $socket_context);
 
         $error = ErrorHandler::stop();
         if (! $this->socket) {

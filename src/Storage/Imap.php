@@ -214,7 +214,7 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
         $this->protocol = new Protocol\Imap();
         
         if (isset($params->novalidatecert)) {
-        	$this->protocol->novalidatecert = $params->novalidatecert;
+            $this->protocol->setNoValidateCert(true);
         }
         
         $this->protocol->connect($host, $port, $ssl);
