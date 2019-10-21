@@ -62,7 +62,7 @@ class Imap
         $this->logout();
     }
 
-    public function setNoValidateCert($novalidatecert) 
+    public function setNoValidateCert($novalidatecert)
     {
 
         if (is_bool($novalidatecert)) {
@@ -118,8 +118,14 @@ class Imap
         $socket_context = stream_context_create($socket_options);
 
         ErrorHandler::start();
-        $this->socket = stream_socket_client($host . ":" . $port, $errno, $errstr, self::TIMEOUT_CONNECTION,
-        STREAM_CLIENT_CONNECT, $socket_context);
+        $this->socket = stream_socket_client(
+            $host . ":" . $port,
+            $errno,
+            $errstr,
+            self::TIMEOUT_CONNECTION,
+            STREAM_CLIENT_CONNECT,
+            $socket_context
+            );
 
         $error = ErrorHandler::stop();
         if (! $this->socket) {
