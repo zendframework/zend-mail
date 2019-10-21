@@ -117,6 +117,10 @@ $mail = new Pop3([
 ]);
 ```
 
+If you are connecting to a mail server with a self-signed certificate and want to
+skip the SSL verification, you can also pass an additional argument `novalidatecert` 
+with the value `true`.
+
 Both constructors throw `Zend\Mail\Exception` or `Zend\Mail\Protocol\Exception`
 (extends `Zend\Mail\Exception`) for connection errors, depending on the type of
 error encountered.
