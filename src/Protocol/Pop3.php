@@ -129,7 +129,7 @@ class Pop3
             self::TIMEOUT_CONNECTION,
             STREAM_CLIENT_CONNECT,
             $socket_context
-            );
+        );
 
         $error = ErrorHandler::stop();
         if (! $this->socket) {
