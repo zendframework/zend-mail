@@ -23,7 +23,7 @@ class Imap
      * @var null|bool
      */
     protected $novalidatecert;
-    
+
     /**
      * socket to imap server
      * @var resource|null
@@ -62,12 +62,12 @@ class Imap
         $this->logout();
     }
 
-    public function setNoValidateCert($novalidatecert) {
+    public function setNoValidateCert($novalidatecert) 
+    {
 
         if (is_bool($novalidatecert)) {
             $this->novalidatecert = $novalidatecert;
         }
-
     }
 
     /**
@@ -103,9 +103,9 @@ class Imap
                     $port = 143;
                 }
         }
-        
+
         $socket_options = [];
-        
+
         if ($this->novalidatecert) {
             $socket_options = [
                 'ssl' => [
@@ -114,11 +114,12 @@ class Imap
                 ]
             ];
         }
-        
+
         $socket_context = stream_context_create($socket_options);
-        
+
         ErrorHandler::start();
-        $this->socket = stream_socket_client($host . ":" . $port, $errno, $errstr, self::TIMEOUT_CONNECTION, STREAM_CLIENT_CONNECT, $socket_context);
+        $this->socket = stream_socket_client($host . ":" . $port, $errno, $errstr, self::TIMEOUT_CONNECTION,
+        STREAM_CLIENT_CONNECT, $socket_context);
 
         $error = ErrorHandler::stop();
         if (! $this->socket) {

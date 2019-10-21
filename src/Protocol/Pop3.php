@@ -29,7 +29,7 @@ class Pop3
      * @var null|bool
      */
     protected $novalidatecert;
-    
+
     /**
      * socket to pop3
      * @var null|resource
@@ -67,14 +67,14 @@ class Pop3
         $this->logout();
     }
 
-    
-    public function setNoValidateCert($novalidatecert) {
+    public function setNoValidateCert($novalidatecert)
+    {
 
         if (is_bool($novalidatecert)) {
             $this->novalidatecert = $novalidatecert;
         }
     }
-    
+
     /**
      * Open connection to POP3 server
      *
@@ -107,9 +107,9 @@ class Pop3
                     $port = 110;
                 }
         }
-        
+
         $socket_options = [];
-        
+
         if ($this->novalidatecert) {
             $socket_options = [
                 'ssl' => [
@@ -118,11 +118,12 @@ class Pop3
                 ]
             ];
         }
-        
+
         $socket_context = stream_context_create($socket_options);
-        
+
         ErrorHandler::start();
-        $this->socket = stream_socket_client($host . ":" . $port, $errno, $errstr, self::TIMEOUT_CONNECTION, STREAM_CLIENT_CONNECT, $socket_context);
+        $this->socket = stream_socket_client($host . ":" . $port, $errno, $errstr, self::TIMEOUT_CONNECTION,
+        STREAM_CLIENT_CONNECT, $socket_context);
 
         $error = ErrorHandler::stop();
         if (! $this->socket) {
