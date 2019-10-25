@@ -2,57 +2,57 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
      <loc>https://docs.zendframework.com/zend-mail/</loc>
-     <lastmod>2019-10-24</lastmod>
+     <lastmod>2019-10-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.zendframework.com/zend-mail/intro/</loc>
-     <lastmod>2019-10-24</lastmod>
+     <lastmod>2019-10-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.zendframework.com/zend-mail/message/intro/</loc>
-     <lastmod>2019-10-24</lastmod>
+     <lastmod>2019-10-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.zendframework.com/zend-mail/message/attachments/</loc>
-     <lastmod>2019-10-24</lastmod>
+     <lastmod>2019-10-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.zendframework.com/zend-mail/message/character-sets/</loc>
-     <lastmod>2019-10-24</lastmod>
+     <lastmod>2019-10-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.zendframework.com/zend-mail/transport/intro/</loc>
-     <lastmod>2019-10-24</lastmod>
+     <lastmod>2019-10-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.zendframework.com/zend-mail/transport/smtp-options/</loc>
-     <lastmod>2019-10-24</lastmod>
+     <lastmod>2019-10-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.zendframework.com/zend-mail/transport/smtp-multiple-send/</loc>
-     <lastmod>2019-10-24</lastmod>
+     <lastmod>2019-10-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.zendframework.com/zend-mail/transport/smtp-authentication/</loc>
-     <lastmod>2019-10-24</lastmod>
+     <lastmod>2019-10-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.zendframework.com/zend-mail/transport/file-options/</loc>
-     <lastmod>2019-10-24</lastmod>
+     <lastmod>2019-10-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.zendframework.com/zend-mail/read/</loc>
-     <lastmod>2019-10-24</lastmod>
+     <lastmod>2019-10-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
