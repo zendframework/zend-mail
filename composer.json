@@ -20,7 +20,7 @@
         "ext-iconv": "*",
         "zendframework/zend-loader": "^2.5",
         "zendframework/zend-mime": "^2.5",
-        "zendframework/zend-stdlib": "^2.7 || ^3.0",
+        "zendframework/zend-stdlib": "^3.2.1",
         "zendframework/zend-validator": "^2.10.2",
         "true/punycode": "^2.1"
     },
