@@ -1,7 +1,7 @@
 # zend-mail
 
-[![Build Status](https://secure.travis-ci.org/zendframework/zend-mail.svg?branch=master)](https://secure.travis-ci.org/zendframework/zend-mail)
-[![Coverage Status](https://coveralls.io/repos/github/zendframework/zend-mail/badge.svg?branch=master)](https://coveralls.io/github/zendframework/zend-mail?branch=master)
+[![Build Status](https://secure.travis-ci.org/plesk/zend-mail.svg?branch=master)](https://secure.travis-ci.org/plesk/zend-mail)
+[![Coverage Status](https://coveralls.io/repos/github/plesk/zend-mail/badge.svg?branch=master)](https://coveralls.io/github/plesk/zend-mail?branch=master)
 
 `Zend\Mail` provides generalized functionality to compose and send both text and
 MIME-compliant multipart email messages. Mail can be sent with `Zend\Mail` via

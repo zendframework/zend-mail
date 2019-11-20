@@ -1,5 +1,5 @@
 {
-    "name": "zendframework/zend-mail",
+    "name": "plesk/zend-mail",
     "description": "Provides generalized functionality to compose and send both text and MIME-compliant multipart e-mail messages",
     "license": "BSD-3-Clause",
     "keywords": [
