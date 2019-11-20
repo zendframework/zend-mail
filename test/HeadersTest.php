@@ -97,10 +97,7 @@ class HeadersTest extends TestCase
     public function testHeadersFromStringMultiHeaderWillAggregateLazyLoadedHeaders()
     {
         $headers = new Mail\Headers();
-        /* @var $pcl \Zend\Loader\PluginClassLoader */
-        $pcl = $headers->getPluginClassLoader();
-        $pcl->registerPlugin('foo', 'Zend\Mail\Header\GenericMultiHeader');
-        $headers->addHeaderLine('foo: bar1,bar2,bar3');
+        $headers->addHeaderLine('foo', ['bar1@domain.com', 'bar2@domain.com', 'bar3@domain.com']);
         $headers->forceLoading();
         $this->assertEquals(3, $headers->count());
     }
@@ -352,40 +349,6 @@ class HeadersTest extends TestCase
             'Subject' => '=?UTF-8?Q?PD:=20My:=20Go=C5=82blahblah?=',
         ];
         $this->assertEquals($expected, $array);
-    }
-
-    public static function expectedHeaders()
-    {
-        return [
-            ['bcc', 'Zend\Mail\Header\Bcc'],
-            ['cc', 'Zend\Mail\Header\Cc'],
-            ['contenttype', 'Zend\Mail\Header\ContentType'],
-            ['content_type', 'Zend\Mail\Header\ContentType'],
-            ['content-type', 'Zend\Mail\Header\ContentType'],
-            ['date', 'Zend\Mail\Header\Date'],
-            ['from', 'Zend\Mail\Header\From'],
-            ['mimeversion', 'Zend\Mail\Header\MimeVersion'],
-            ['mime_version', 'Zend\Mail\Header\MimeVersion'],
-            ['mime-version', 'Zend\Mail\Header\MimeVersion'],
-            ['received', 'Zend\Mail\Header\Received'],
-            ['replyto', 'Zend\Mail\Header\ReplyTo'],
-            ['reply_to', 'Zend\Mail\Header\ReplyTo'],
-            ['reply-to', 'Zend\Mail\Header\ReplyTo'],
-            ['sender', 'Zend\Mail\Header\Sender'],
-            ['subject', 'Zend\Mail\Header\Subject'],
-            ['to', 'Zend\Mail\Header\To'],
-        ];
-    }
-
-    /**
-     * @dataProvider expectedHeaders
-     */
-    public function testDefaultPluginLoaderIsSeededWithHeaders($plugin, $class)
-    {
-        $headers = new Mail\Headers();
-        $loader  = $headers->getPluginClassLoader();
-        $test    = $loader->load($plugin);
-        $this->assertEquals($class, $test);
     }
 
     public function testClone()

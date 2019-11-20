@@ -7,39 +7,67 @@
 
 namespace Zend\Mail\Header;
 
-use Zend\Loader\PluginClassLoader;
-
-/**
- * Plugin Class Loader implementation for HTTP headers
- */
-class HeaderLoader extends PluginClassLoader
+class HeaderLoader
 {
     /**
-     * @var array Pre-aliased Header plugins
+     * @var array Pre-aliased Header classes
      */
-    protected $plugins = [
-        'bcc'                       => 'Zend\Mail\Header\Bcc',
-        'cc'                        => 'Zend\Mail\Header\Cc',
-        'contenttype'               => 'Zend\Mail\Header\ContentType',
-        'content_type'              => 'Zend\Mail\Header\ContentType',
-        'content-type'              => 'Zend\Mail\Header\ContentType',
-        'contenttransferencoding'   => 'Zend\Mail\Header\ContentTransferEncoding',
-        'content_transfer_encoding' => 'Zend\Mail\Header\ContentTransferEncoding',
-        'content-transfer-encoding' => 'Zend\Mail\Header\ContentTransferEncoding',
-        'date'                      => 'Zend\Mail\Header\Date',
-        'from'                      => 'Zend\Mail\Header\From',
-        'in-reply-to'               => 'Zend\Mail\Header\InReplyTo',
-        'message-id'                => 'Zend\Mail\Header\MessageId',
-        'mimeversion'               => 'Zend\Mail\Header\MimeVersion',
-        'mime_version'              => 'Zend\Mail\Header\MimeVersion',
-        'mime-version'              => 'Zend\Mail\Header\MimeVersion',
-        'received'                  => 'Zend\Mail\Header\Received',
-        'references'                => 'Zend\Mail\Header\References',
-        'replyto'                   => 'Zend\Mail\Header\ReplyTo',
-        'reply_to'                  => 'Zend\Mail\Header\ReplyTo',
-        'reply-to'                  => 'Zend\Mail\Header\ReplyTo',
-        'sender'                    => 'Zend\Mail\Header\Sender',
-        'subject'                   => 'Zend\Mail\Header\Subject',
-        'to'                        => 'Zend\Mail\Header\To',
+    private $headerClassMap = [
+        'bcc'                       => Bcc::class,
+        'cc'                        => Cc::class,
+        'contenttype'               => ContentType::class,
+        'content_type'              => ContentType::class,
+        'content-type'              => ContentType::class,
+        'contenttransferencoding'   => ContentTransferEncoding::class,
+        'content_transfer_encoding' => ContentTransferEncoding::class,
+        'content-transfer-encoding' => ContentTransferEncoding::class,
+        'date'                      => Date::class,
+        'from'                      => From::class,
+        'message-id'                => MessageId::class,
+        'mimeversion'               => MimeVersion::class,
+        'mime_version'              => MimeVersion::class,
+        'mime-version'              => MimeVersion::class,
+        'received'                  => Received::class,
+        'replyto'                   => ReplyTo::class,
+        'reply_to'                  => ReplyTo::class,
+        'reply-to'                  => ReplyTo::class,
+        'sender'                    => Sender::class,
+        'subject'                   => Subject::class,
+        'to'                        => To::class,
     ];
+
+    /**
+     * @param string $name
+     * @param string|null $default
+     * @return string|null
+     */
+    public function get($name, $default = null)
+    {
+        $name = $this->normalizeName($name);
+        return isset($this->headerClassMap[$name]) ? $this->headerClassMap[$name] : $default;
+    }
+
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function has($name)
+    {
+        return isset($this->headerClassMap[$this->normalizeName($name)]);
+    }
+
+    public function add($name, $class)
+    {
+        $this->headerClassMap[$this->normalizeName($name)] = $class;
+    }
+
+    public function remove($name)
+    {
+        unset($this->headerClassMap[$this->normalizeName($name)]);
+    }
+
+    private function normalizeName($name)
+    {
+        return strtolower($name);
+    }
 }
