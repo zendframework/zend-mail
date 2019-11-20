@@ -28,12 +28,10 @@
         "phpunit/phpunit": "^5.7.25 || ^6.4.4 || ^7.1.4",
         "zendframework/zend-coding-standard": "~1.0.0",
         "zendframework/zend-config": "^2.6",
-        "zendframework/zend-crypt": "^2.6 || ^3.0",
-        "zendframework/zend-servicemanager": "^2.7.10 || ^3.3.1"
+        "zendframework/zend-crypt": "^2.6 || ^3.0"
     },
     "suggest": {
-        "zendframework/zend-crypt": "Crammd5 support in SMTP Auth",
-        "zendframework/zend-servicemanager": "^2.7.10 || ^3.3.1 when using SMTP to deliver messages"
+        "zendframework/zend-crypt": "Crammd5 support in SMTP Auth"
     },
     "autoload": {
         "psr-4": {
@@ -52,10 +50,6 @@
         "branch-alias": {
             "dev-master": "2.10.x-dev",
             "dev-develop": "2.11.x-dev"
-        },
-        "zf": {
-            "component": "Zend\\Mail",
-            "config-provider": "Zend\\Mail\\ConfigProvider"
         }
     },
     "scripts": {
