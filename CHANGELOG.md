@@ -22,7 +22,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- Force encoding for `content-disposition` header to ASCII.
 
 ## 2.10.0 - 2018-06-07
 
