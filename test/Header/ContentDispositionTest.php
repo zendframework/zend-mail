@@ -162,6 +162,7 @@ class ContentDispositionTest extends TestCase
 
     public function setDispositionProvider()
     {
+        // @codingStandardsIgnoreStart
         $foldingFieldValue = "attachment;\r\n filename=\"this-test-filename-is-long-enough-to-flow-to-two-lines.txt\"";
         $foldingHeaderLine = "Content-Disposition: $foldingFieldValue";
         $continuationFieldValue = "attachment;\r\n filename*0=\"this-file-name-is-so-long-that-it-does-not-even\";\r\n filename*1=\"-fit-on-a-whole-line-by-itself-so-we-need-to-sp\";\r\n filename*2=\"lit-it-with-value-continuation.txt\"";
@@ -170,7 +171,6 @@ class ContentDispositionTest extends TestCase
         $encodedHeaderLine = 'Content-Disposition: attachment; filename="=?UTF-8?Q?=C3=93?="';
         $encodedFieldValue = 'attachment; filename="Ó"';
 
-        // @codingStandardsIgnoreStart
         return [
             // Description => [$disposition, $parameters, $fieldValue, toString()]
             'inline with no parameters' => ['inline', [], 'inline', 'Content-Disposition: inline'],

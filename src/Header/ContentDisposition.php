@@ -67,7 +67,7 @@ class ContentDisposition implements UnstructuredInterface
 
                 if (strpos($name, '*')) {
                     list($name, $count) = explode('*', $name);
-                    if (!isset($continuedValues[$name])) {
+                    if (! isset($continuedValues[$name])) {
                         $continuedValues[$name] = [];
                     }
                     $continuedValues[$name][$count] = $value;
@@ -79,7 +79,7 @@ class ContentDisposition implements UnstructuredInterface
             foreach ($continuedValues as $name => $values) {
                 $value = '';
                 for ($i = 0; $i < count($values); $i++) {
-                    if (!isset($values[$i])) {
+                    if (! isset($values[$i])) {
                         throw new Exception\InvalidArgumentException(
                             'Invalid header line for Content-Disposition string - incomplete continuation'
                         );
