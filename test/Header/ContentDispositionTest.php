@@ -57,7 +57,7 @@ class ContentDispositionTest extends TestCase
     /**
      * @dataProvider getLiteralData
      */
-    public function testHandlesLiterals(array $expected, $header)
+    public function testHandlesLiterals($expected, $header)
     {
         $header = ContentDisposition::fromString('Content-Disposition: ' . $header);
         $this->assertEquals($expected, $header->getParameters());
