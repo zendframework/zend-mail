@@ -2,7 +2,7 @@
 
 > ## Repository abandoned 2019-12-31
 >
-> This repository has moved to laminas/laminas-mail.
+> This repository has moved to [laminas/laminas-mail](https://github.com/laminas/laminas-mail).
 
 [![Build Status](https://secure.travis-ci.org/zendframework/zend-mail.svg?branch=master)](https://secure.travis-ci.org/zendframework/zend-mail)
 [![Coverage Status](https://coveralls.io/repos/github/zendframework/zend-mail/badge.svg?branch=master)](https://coveralls.io/github/zendframework/zend-mail?branch=master)
