@@ -20,6 +20,9 @@ class HeaderLoader extends PluginClassLoader
     protected $plugins = [
         'bcc'                       => 'Zend\Mail\Header\Bcc',
         'cc'                        => 'Zend\Mail\Header\Cc',
+        'contentdisposition'        => 'Zend\Mail\Header\ContentDisposition',
+        'content_disposition'       => 'Zend\Mail\Header\ContentDisposition',
+        'content-disposition'       => 'Zend\Mail\Header\ContentDisposition',
         'contenttype'               => 'Zend\Mail\Header\ContentType',
         'content_type'              => 'Zend\Mail\Header\ContentType',
         'content-type'              => 'Zend\Mail\Header\ContentType',
