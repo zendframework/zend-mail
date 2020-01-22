@@ -116,7 +116,7 @@ class AddressListHeaderTest extends TestCase
     public function testDeserializationFromString($headerLine, $class)
     {
         $callback = sprintf('%s::fromString', $class);
-        $header   = call_user_func($callback, $headerLine);
+        $header   = $callback($headerLine);
         $this->assertInstanceOf($class, $header);
         $list = $header->getAddressList();
         $this->assertEquals(4, count($list));
@@ -173,7 +173,7 @@ class AddressListHeaderTest extends TestCase
     public function testAllowsNoWhitespaceBetweenHeaderAndValue($headerLine, $class)
     {
         $callback = sprintf('%s::fromString', $class);
-        $header   = call_user_func($callback, $headerLine);
+        $header   = $callback($headerLine);
         $this->assertInstanceOf($class, $header);
         $list = $header->getAddressList();
         $this->assertEquals(4, count($list));
