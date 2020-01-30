@@ -7,12 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Parse, create, store, and send email messages, using a variety of storage and transport protocols.">  
-    <link rel="canonical" href="https://docs.zendframework.com/zend-mail/message/attachments/">
+    <link rel="canonical" href="https://docs.zendframework.com/message/attachments/">
     <link rel="shortcut icon" href="../../img/favicon.ico">
 
     <title>Attachments - zend-mail - Zend Framework Docs</title>
 
-    <link rel="stylesheet" href="../../css/styles-5cfabd53ee.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body id="page-top">
 
@@ -244,9 +244,9 @@
     <div class="laminas-announcement">
     <div class="container">
         <div class="row">
-            <div class="col-xs-12">
-                Zend Framework transitions to the Linux Foundation. <a href="https://getlaminas.org">Learn More.</a>
-            </div>
+            <div class="col-xs-12"><strong>
+                This package has moved. Visit its replacement, <a href="https://docs.laminas.dev/laminas-mail/">laminas/laminas-mail.</a>
+            </strong></div>
         </div>
     </div>
 </div>
@@ -337,7 +337,7 @@ bodies, allowing you to create multipart emails.</p>
 <h2 id="basic-multipart-content">Basic multipart content</h2>
 <p>The following example creates an email with two parts, HTML content and an
 image.</p>
-<p> <pre class=codehilite><code class=language-php>use Zend\Mail\Message;
+<pre><code class="language-php">use Zend\Mail\Message;
 use Zend\Mime\Message as MimeMessage;
 use Zend\Mime\Mime;
 use Zend\Mime\Part as MimePart;
@@ -360,14 +360,16 @@ $message = new Message();
 $message-&gt;setBody($body);
 
 $contentTypeHeader = $message-&gt;getHeaders()-&gt;get('Content-Type');
-$contentTypeHeader-&gt;setType('multipart/related');</code></pre></p>
+$contentTypeHeader-&gt;setType('multipart/related');
+</code></pre>
+
 <p>Note that the above code requires us to manually specify the message content
 type; zend-mime does not automatically select the multipart type for us, nor
 does zend-mail populate it by default.</p>
 <h2 id="multipartalternative-content">multipart/alternative content</h2>
 <p>One of the most common email types sent by web applications is
 <code>multipart/alternative</code> messages with both text and HTML parts.</p>
-<p> <pre class=codehilite><code class=language-php>use Zend\Mail\Message;
+<pre><code class="language-php">use Zend\Mail\Message;
 use Zend\Mime\Message as MimeMessage;
 use Zend\Mime\Mime;
 use Zend\Mime\Part as MimePart;
@@ -389,7 +391,9 @@ $message = new Message();
 $message-&gt;setBody($body);
 
 $contentTypeHeader = $message-&gt;getHeaders()-&gt;get('Content-Type');
-$contentTypeHeader-&gt;setType('multipart/alternative');</code></pre></p>
+$contentTypeHeader-&gt;setType('multipart/alternative');
+</code></pre>
+
 <p>The only differences from the first example are:</p>
 <ul>
 <li>We have text and HTML parts instead of an HTML and image part.</li>
@@ -409,7 +413,7 @@ content refers to assets attachments (images, CSS, etc.).</p>
 </ul>
 <p>The following example creates a MIME message with three parts: text and HTML
 alternative versions of an email, and an image attachment.</p>
-<p> <pre class=codehilite><code class=language-php>use Zend\Mail\Message;
+<pre><code class="language-php">use Zend\Mail\Message;
 use Zend\Mime\Message as MimeMessage;
 use Zend\Mime\Mime;
 use Zend\Mime\Part as MimePart;
@@ -445,15 +449,18 @@ $message = new Message();
 $message-&gt;setBody($body);
 
 $contentTypeHeader = $message-&gt;getHeaders()-&gt;get('Content-Type');
-$contentTypeHeader-&gt;setType('multipart/related');</code></pre></p>
+$contentTypeHeader-&gt;setType('multipart/related');
+</code></pre>
+
 <h2 id="setting-custom-mime-boundaries">Setting custom MIME boundaries</h2>
 <p>In a multipart message, a MIME boundary for separating the different parts of
 the message is normally generated at random. In some cases, however, you might
 want to specify the MIME boundary that is used. This can be done by injecting a
 new <code>Zend\Mime\Mime</code> instance into the MIME message.</p>
-<p> <pre class=codehilite><code class=language-php>use Zend\Mime\Mime;
+<pre><code class="language-php">use Zend\Mime\Mime;
 
-$mimeMessage-&gt;setMime(new Mime($customBoundary));</code></pre></p>
+$mimeMessage-&gt;setMime(new Mime($customBoundary));
+</code></pre>
 
 
 
@@ -664,7 +671,7 @@ $mimeMessage-&gt;setMime(new Mime($customBoundary));</code></pre></p>
             
             <div class="col-md-9">
                 <h4 class="footer__headline">Copyright</h4>
-                <p>&copy; 2006-2019 by <a href="https://www.zend.com/">Zend</a>, a <a href="https://www.roguewave.com/">Rogue Wave Company</a>.</p>
+                <p>&copy; 2006-2020 by <a href="https://www.zend.com/">Zend</a> by <a href="https://www.perforce.com/">Perforce</a>.</p>
             </div>
 
             
@@ -672,10 +679,10 @@ $mimeMessage-&gt;setMime(new Mime($customBoundary));</code></pre></p>
                 <h4 class="footer__headline">Support</h4>
                 <ul class="support__list">
                     <li class="support__list-item">
-                        <a href="https://discourse.zendframework.com" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
+                        <a href="https://discourse.laminas.dev" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
                     </li>
                     <li class="support__list-item">
-                        <a href="https://zendframework-slack.herokuapp.com" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
+                        <a href="https://laminas.dev/chat/" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
                     </li>
                     <li class="support__list-item">
                         <a href="https://github.com/zendframework" class="support__link" title="Github"><i class="fa fa-github"></i></a>
@@ -683,27 +690,28 @@ $mimeMessage-&gt;setMime(new Mime($customBoundary));</code></pre></p>
                     <li class="support__list-item">
                         <a href="https://twitter.com/zfdevteam" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
                     </li>
-                    <li class="support__list-item">
-                        <a href="https://tinyletter.com/mwopzend" class="support__link" title="Newsletter"><i class="fa fa-envelope"></i></a>
-                    </li>
-                    <li class="support__list-item">
-                        <a href="https://framework.zend.com/blog/feed-rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
-                    </li>
-                    <li class="support__list-item">
-                        <a href="https://framework.zend.com/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
-                    </li>
                 </ul>
             </div>
         </div>
     </div>
 </footer>
 
+<nav class="cookie-bar navbar navbar-fixed-bottom navbar-default hidden">
+    <div class="container">
+        <p class="navbar-text">
+            We use cookies to allow you to dismiss dialogs such as the Laminas
+            Project notification.
+        </p>
+        <button type="button" class="cookie-button btn btn-default navbar-btn">Allow Cookies</button>
+    </div>
+</nav>
+
     <script>
         var base_url = '../..',
             siteName = 'zend-mail';
     </script>
-    <script src="../../js/scripts-8d7ae56abf.js"></script>
-        <script src="../../search/main.js"></script>
+    <script src="/js/scripts.js"></script>
+    <script src="../../search/main.js"></script>
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">

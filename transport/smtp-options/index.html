@@ -7,12 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Parse, create, store, and send email messages, using a variety of storage and transport protocols.">  
-    <link rel="canonical" href="https://docs.zendframework.com/zend-mail/transport/smtp-options/">
+    <link rel="canonical" href="https://docs.zendframework.com/transport/smtp-options/">
     <link rel="shortcut icon" href="../../img/favicon.ico">
 
     <title>SMTP Options - zend-mail - Zend Framework Docs</title>
 
-    <link rel="stylesheet" href="../../css/styles-5cfabd53ee.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body id="page-top">
 
@@ -244,9 +244,9 @@
     <div class="laminas-announcement">
     <div class="container">
         <div class="row">
-            <div class="col-xs-12">
-                Zend Framework transitions to the Linux Foundation. <a href="https://getlaminas.org">Learn More.</a>
-            </div>
+            <div class="col-xs-12"><strong>
+                This package has moved. Visit its replacement, <a href="https://docs.laminas.dev/laminas-mail/">laminas/laminas-mail.</a>
+            </strong></div>
         </div>
     </div>
 </div>
@@ -337,7 +337,7 @@
 <code>Zend\Mail\Transport\Smtp</code> mail transport.</p>
 <h2 id="quick-start">Quick Start</h2>
 <h3>Basic SMTP Transport Usage</h3>
-<p> <pre class=codehilite><code class=language-php>use Zend\Mail\Transport\Smtp as SmtpTransport;
+<pre><code class="language-php">use Zend\Mail\Transport\Smtp as SmtpTransport;
 use Zend\Mail\Transport\SmtpOptions;
 
 // Setup SMTP transport
@@ -347,7 +347,9 @@ $options   = new SmtpOptions([
     'host' =&gt; '127.0.0.1',
     'port' =&gt; 25,
 ]);
-$transport-&gt;setOptions($options);</code></pre></p>
+$transport-&gt;setOptions($options);
+</code></pre>
+
 <p>If you require authentication, see the section on <a href="../smtp-authentication/#examples">SMTP authentication</a>
 for examples of configuring authentication credentials.</p>
 <h2 id="configuration-options">Configuration Options</h2>
@@ -383,40 +385,62 @@ for examples of configuring authentication credentials.</p>
 </table></div>
 <h2 id="available-methods">Available Methods</h2>
 <h3>getName</h3>
-<p> <pre class=codehilite><code class=language-php>getName() : string</code></pre></p>
+<pre><code class="language-php">getName() : string
+</code></pre>
+
 <p>Returns the string name of the local client hostname.</p>
 <h3>setName</h3>
-<p> <pre class=codehilite><code class=language-php>setName(string $name) : void</code></pre></p>
+<pre><code class="language-php">setName(string $name) : void
+</code></pre>
+
 <p>Set the string name of the local client hostname.</p>
 <h3>getConnectionClass</h3>
-<p> <pre class=codehilite><code class=language-php>getConnectionClass() : string</code></pre></p>
+<pre><code class="language-php">getConnectionClass() : string
+</code></pre>
+
 <p>Returns a string indicating the connection class name to use.</p>
 <h3>setConnectionClass</h3>
-<p> <pre class=codehilite><code class=language-php>setConnectionClass(string $connectionClass) : void</code></pre></p>
+<pre><code class="language-php">setConnectionClass(string $connectionClass) : void
+</code></pre>
+
 <p>Set the connection class to use.</p>
 <h3>getConnectionConfig</h3>
-<p> <pre class=codehilite><code class=language-php>getConnectionConfig() : array</code></pre></p>
+<pre><code class="language-php">getConnectionConfig() : array
+</code></pre>
+
 <p>Get configuration for the connection class.</p>
 <h3>setConnectionConfig</h3>
-<p> <pre class=codehilite><code class=language-php>setConnectionConfig(array $config) : void</code></pre></p>
+<pre><code class="language-php">setConnectionConfig(array $config) : void
+</code></pre>
+
 <p>Set configuration for the connection class. Typically, if using anything other
 than the default connection class, this will be an associative array with the
 keys "username" and "password".</p>
 <h3>getHost</h3>
-<p> <pre class=codehilite><code class=language-php>getHost() : string</code></pre></p>
+<pre><code class="language-php">getHost() : string
+</code></pre>
+
 <p>Returns a string indicating the IP address or host name of the SMTP server via
 which to send messages.</p>
 <h3>setHost</h3>
-<p> <pre class=codehilite><code class=language-php>setHost(string $host) : void</code></pre></p>
+<pre><code class="language-php">setHost(string $host) : void
+</code></pre>
+
 <p>Set the SMTP host name or IP address.</p>
 <h3>getPort</h3>
-<p> <pre class=codehilite><code class=language-php>getPort() : int</code></pre></p>
+<pre><code class="language-php">getPort() : int
+</code></pre>
+
 <p>Retrieve the integer port on which the SMTP host is listening.</p>
 <h3>setPort</h3>
-<p> <pre class=codehilite><code class=language-php>setPort(int $port) : void</code></pre></p>
+<pre><code class="language-php">setPort(int $port) : void
+</code></pre>
+
 <p>Set the port on which the SMTP host is listening.</p>
 <h3>__construct</h3>
-<p> <pre class=codehilite><code class=language-php>__construct(null|array|Traversable $config) : void</code></pre></p>
+<pre><code class="language-php">__construct(null|array|Traversable $config) : void
+</code></pre>
+
 <p>Instantiate the class, and optionally configure it with values provided.</p>
 
 
@@ -628,7 +652,7 @@ which to send messages.</p>
             
             <div class="col-md-9">
                 <h4 class="footer__headline">Copyright</h4>
-                <p>&copy; 2006-2019 by <a href="https://www.zend.com/">Zend</a>, a <a href="https://www.roguewave.com/">Rogue Wave Company</a>.</p>
+                <p>&copy; 2006-2020 by <a href="https://www.zend.com/">Zend</a> by <a href="https://www.perforce.com/">Perforce</a>.</p>
             </div>
 
             
@@ -636,10 +660,10 @@ which to send messages.</p>
                 <h4 class="footer__headline">Support</h4>
                 <ul class="support__list">
                     <li class="support__list-item">
-                        <a href="https://discourse.zendframework.com" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
+                        <a href="https://discourse.laminas.dev" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
                     </li>
                     <li class="support__list-item">
-                        <a href="https://zendframework-slack.herokuapp.com" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
+                        <a href="https://laminas.dev/chat/" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
                     </li>
                     <li class="support__list-item">
                         <a href="https://github.com/zendframework" class="support__link" title="Github"><i class="fa fa-github"></i></a>
@@ -647,27 +671,28 @@ which to send messages.</p>
                     <li class="support__list-item">
                         <a href="https://twitter.com/zfdevteam" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
                     </li>
-                    <li class="support__list-item">
-                        <a href="https://tinyletter.com/mwopzend" class="support__link" title="Newsletter"><i class="fa fa-envelope"></i></a>
-                    </li>
-                    <li class="support__list-item">
-                        <a href="https://framework.zend.com/blog/feed-rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
-                    </li>
-                    <li class="support__list-item">
-                        <a href="https://framework.zend.com/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
-                    </li>
                 </ul>
             </div>
         </div>
     </div>
 </footer>
 
+<nav class="cookie-bar navbar navbar-fixed-bottom navbar-default hidden">
+    <div class="container">
+        <p class="navbar-text">
+            We use cookies to allow you to dismiss dialogs such as the Laminas
+            Project notification.
+        </p>
+        <button type="button" class="cookie-button btn btn-default navbar-btn">Allow Cookies</button>
+    </div>
+</nav>
+
     <script>
         var base_url = '../..',
             siteName = 'zend-mail';
     </script>
-    <script src="../../js/scripts-8d7ae56abf.js"></script>
-        <script src="../../search/main.js"></script>
+    <script src="/js/scripts.js"></script>
+    <script src="../../search/main.js"></script>
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
