@@ -216,8 +216,8 @@ class Mbox extends AbstractStorage
      */
     protected function isMboxFile($file, $fileIsString = true)
     {
+        ErrorHandler::start(E_NOTICE);
         if ($fileIsString) {
-            ErrorHandler::start(E_WARNING);
             $file = fopen($file, 'r');
             ErrorHandler::stop();
             if (! $file) {
@@ -230,15 +230,15 @@ class Mbox extends AbstractStorage
         $result = false;
 
         $line = fgets($file) ?: '';
+
         if (strpos($line, 'From ') === 0) {
             $result = true;
         }
 
         if ($fileIsString) {
-            ErrorHandler::start(E_WARNING);
             fclose($file);
-            ErrorHandler::stop();
         }
+        ErrorHandler::stop();
 
         return $result;
     }
