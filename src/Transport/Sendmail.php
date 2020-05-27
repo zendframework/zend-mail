@@ -258,12 +258,16 @@ class Sendmail implements TransportInterface
             return;
         }
 
-        $parameters = (string) $this->parameters;
+        $parameters = null;
+        $priorityParameters = null;
+
+        if ($this->parameters)
+            $priorityParameters = (string) $this->parameters;
 
         $sender = $message->getSender();
         if ($sender instanceof AddressInterface) {
             $parameters .= ' -f' . \escapeshellarg($sender->getEmail());
-            return $parameters;
+            return trim($parameters . $priorityParameters);
         }
 
         $from = $message->getFrom();
@@ -271,10 +275,10 @@ class Sendmail implements TransportInterface
             $from->rewind();
             $sender      = $from->current();
             $parameters .= ' -f' . \escapeshellarg($sender->getEmail());
-            return $parameters;
+            return trim($parameters . $priorityParameters);
         }
 
-        return $parameters;
+        return trim($parameters . $priorityParameters);
     }
 
     /**
