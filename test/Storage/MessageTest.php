@@ -15,6 +15,7 @@ use Zend\Mail\Storage\Exception;
 use Zend\Mail\Storage\Message;
 use Zend\Mime;
 use Zend\Mime\Exception as MimeException;
+use Zend\Mail;
 
 /**
  * @group      Zend_Mail
@@ -452,6 +453,35 @@ class MessageTest extends TestCase
         $addressList = $header->getAddressList();
         $this->assertEquals(2, $addressList->count());
         $this->assertEquals('nicpoń', $addressList->get('bar@example.pl')->getName());
+    }
+
+    /**
+     * Test case for creating mail with Mail\Message containing \n\n,
+     * serializing it to text and loading with Storage\Message.
+     *
+     * Testcase showing that if mail is created with text body
+     * that is \n separated, loading such mail with Storage\Message
+     * causes parse error because it goes into mail body to find headers.
+     */
+    public function testDogFood() {
+        $text = "Hello, bödi tekst\n\nBye";
+
+        $part = new Mime\Part($text);
+        $part->type = 'text/plain';
+        $part->charset = 'UTF-8';
+
+        $mime = new Mime\Message();
+        $mime->addPart($part);
+
+        $message = new Mail\Message();
+        $message->setEncoding('UTF-8');
+        $message->setBody($text);
+
+        $raw = $message->toString();
+        $this->assertContains($text, $raw, "original text is preserved");
+
+        $message = new Storage\Message(['raw' => $raw]);
+        $this->assertNotNull($message);
     }
 
     public function filesProvider()
