@@ -22,7 +22,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#230](https://github.com/zendframework/zend-mail/pull/230) Fix AddressList toString method to quote semicolon
 
 ## 2.10.0 - 2018-06-07
 
