@@ -22,7 +22,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#225](https://github.com/zendframework/zend-mail/pull/225) fixes duplicate `to` and `subject` headers on Windows reported in
+  [#22](https://github.com/zendframework/zend-mail/issues/22)
 
 ## 2.10.0 - 2018-06-07
 
