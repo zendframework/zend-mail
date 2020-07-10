@@ -400,6 +400,29 @@ class HeadersTest extends TestCase
     }
 
     /**
+     * Problem:
+     * 1. GenericHeader loads the header in file, decodes it to utf-8
+     * 2. the Headers::get attempts to Lazy-Load "To" header class
+     * Lazyload does stringify and load in from string
+     *    $encoding = $current->getEncoding();
+     *    $headers  = $class::fromString($current->toString());
+     * However, toString does not encode comma
+     * AND To header class does split on comma!
+     *
+     * @see \Zend\Mail\Header\AbstractAddressList::fromString
+     */
+    public function testDogFood() {
+        $headers = new Mail\Headers();
+
+        $genericHeader = Mail\Header\GenericHeader::fromString('To: "=?iso-8859-1?Q?W=2C_bj=F8rn?=" <user@example.org>');
+        $this->assertEquals('"W, bjørn" <user@example.org>', $genericHeader->getFieldValue());
+
+        $headers->addHeader($genericHeader);
+        $toHeader = $headers->get('To');
+        $this->assertEquals('To: =?UTF-8?Q?W,=20bj=C3=B8rn?= <user@example.org>', $toHeader->toString());
+    }
+
+    /**
      * @group ZF2015-04
      */
     public function testHeaderCrLfAttackFromString()
